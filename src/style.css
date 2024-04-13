@@ -1,3 +1,11 @@
+/** Reusable, style utilities */
+.horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/** Specific styling */
 body {
     margin: 0;
     padding: 0;
@@ -18,20 +26,14 @@ body {
     margin: auto;
 }
 
-.horizontal {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
 .head-banner {
     font-size: 3em;
 }
 
+/** Side Menu */
 .side-menu {
     border: 1px solid #000;
-    border-radius: 10px;
+    border-radius: 30px;
     font-size: 3em;
 }
 
@@ -42,4 +44,16 @@ body {
 
 .side-menu--ul li {
     margin: 3px;
+    text-align: center;
+}
+
+.side-menu button {
+    background-color: #ffebb8;
+    border: 1px solid #efcb98;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.side-menu button:hover {
+    background-color: #efcb98;
 }

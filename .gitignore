@@ -4,6 +4,7 @@ node_modules/
 dist/
 
 !/src/
+!/script/
 !/asset/
 
 !.gitignore

@@ -1,5 +1,15 @@
 # ESB - Extended Sim Brothel
 
+## Downloading the game images
+
+The game images are held in a separate repository: esbpic. To build the game,
+you'll need to clone the esbpic repository in the root folder of the extended-sim-brothel repository.
+
+```bash
+# cd extended-sim-brothel/
+git clone git@github.com:loxaxs/esbpic.git
+```
+
 ## Description
 
 This just one more sim brothel management game. It is heavily inspired from the well known Sim Brothel flash game (SBFG), with more girls, more images and the with an improved usability of the UI.
@@ -49,7 +59,7 @@ The charisma of a girl is the sum of her natural **beauty** and her acquired **p
 
 The libido inflences the number of customers a girl can work with each day. However, if her health or constitution is too low, the number of customers she can work with can be limited. The constitution also influences how much health a girl earn when resting for a day. If the health of a girl goes too low, she may become completely unable to work.
 
-Furthermore, low health girls will quicly loose libido. Very healthy girls slowly gain libido over time. It is possible to increase libido temporarily and permanently by using drugs, but low commitment girls are more likely to refuse to take drugs.
+Furthermore, low health girls will quickly loose libido. Very healthy girls slowly gain libido over time. It is possible to increase libido temporarily and permanently by using drugs, but low commitment girls are more likely to refuse to take drugs.
 
 ### Character, integralism and commitment
 
@@ -59,9 +69,11 @@ Girls with low commitment are likely to refuse to work. Girls with high characte
 
 The ability of a girl to provide customers with satisfactory sexual services depends on the "Sex" characteristic. Together with the charisma, it influences the satisfaction of the customer, and thus the reputation of the girl.
 
-### Reputation
+### Reputation and fame
 
-The reputation of a girl is aquired throught time and through experience she has with customers. The reputation tracks the sum of the charisma and sex characteristics.
+The recognition of a girl is aquired throught time and through experience she has with customers. It is composed of the fame and the reputation. The reputation tracks the sum of the charisma and sex characteristics. The fame describes how many customers know her or have heard about her. The fame simply grows with experience. The reputation of a girl varies a bit more slowly when she is famous, be it positively or negatively.
+
+The price that can be charged for a girl depends a lot on her reputation famous girls will also attract more customers.
 
 ## Other girl-related mechanisms
 
