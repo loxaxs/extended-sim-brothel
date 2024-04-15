@@ -91,7 +91,7 @@ async function generateGirlAssetLoader() {
   // Compile the remote image list into code
   let remoteImageListCode = girlFileArray
     .map(({ girlName, data }) => {
-      return data
+      return Object.values(data)
         .map(
           (piece) => `
   {

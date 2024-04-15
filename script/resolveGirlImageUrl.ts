@@ -35,26 +35,52 @@ function main() {
     let [extA, extB] = fileNameParts.slice(-2)
     if (extA === "girl" && ["yaml", "yml"].includes(extB)) {
       let fileStem = fileNameParts.slice(0, -2).join(".")
+      let destinationPath =
+        fullPath.slice(0, -file.length) + fileStem + ".girl.pictureUrl.json"
+      console.log("Processing", fullPath)
       let content = await fsp.readFile(fullPath, "utf-8")
-      let dataContent = await Promise.all(
+      let existingResultContent: any
+      try {
+        existingResultContent = JSON.parse(
+          await fsp.readFile(destinationPath, "utf-8"),
+        )
+        console.log(
+          "Found",
+          Object.keys(existingResultContent).length,
+          "existing entries in",
+          destinationPath,
+        )
+      } catch {
+        existingResultContent = {}
+      }
+      let entryList = await Promise.all(
         content.split("\n").map(async (line) => {
           let [_dash, pageUrl, ...tagList] = line.split(" ")
+          let existing = existingResultContent[pageUrl]
+          if (existing) {
+            return [pageUrl, existing]
+          }
           let response = await fetch(pageUrl + ".json")
           let data: any = await response.json()
           let media: Record<string, string> = {}
           data.media_asset.variants.forEach((variant: any) => {
             media[variant.type] = variant.url
           })
-          return { media, tagList }
+          return [pageUrl, { media, tagList }]
         }),
       )
-      let destinationPath =
-        fullPath.slice(0, -file.length) + fileStem + ".girl.pictureUrl.json"
+      let dataContent = Object.fromEntries(entryList)
 
       fsp.writeFile(
         destinationPath,
         JSON.stringify(dataContent, null, 2),
         "utf-8",
+      )
+      console.log(
+        "Wrote",
+        Object.keys(dataContent).length,
+        "entries to",
+        destinationPath,
       )
     }
   })
