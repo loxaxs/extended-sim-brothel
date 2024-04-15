@@ -120,12 +120,12 @@ Using a full fledged tag system makes sense. So far I've identified the followin
       - Vaginal insertion
         - vibrator (inserted vaginally)
         - dildo (inserted vaginally)
-        - vaginal_insertion (other)
+        - other_vaginal_insertion
       - Anal insertion
         - plug (inserted anally)
         - anal_beads (inserted)
         - anal_tail (inserted)
-        - anal_insertion (other)
+        - other_anal_insertion
     - tentacle
   - Display
     - Sexy
