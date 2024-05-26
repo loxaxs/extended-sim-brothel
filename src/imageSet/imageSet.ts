@@ -60,6 +60,11 @@ function uniqueOrderedInsert<T>(
 export function createImageSet(imageSetInfo: GirlImageSetInfo) {
   let tagTree: ImageTagTree = JSON.parse(emptyTagTreeString)
   Object.entries(imageSetInfo.tagMapping).forEach(([tag, images]) => {
+    if (!tagTree[tag]) {
+      throw new Error(
+        `Tag ${JSON.stringify(tag)} not found in the category system`,
+      )
+    }
     tagTree[tag].imageList = images
     let parent = tag
     let stop = 10_000
@@ -69,7 +74,9 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
       })
       parent = tagTree[parent].parent
       if (--stop < 0) {
-        throw new Error(`Infinite loop detected in category system with parent "${parent}"`)
+        throw new Error(
+          `Infinite loop detected in category system with parent "${parent}"`,
+        )
       }
     }
   })
