@@ -76,10 +76,10 @@ async function generateGirlAssetLoader() {
   {
     girlName: "${girlName}",
     tagList: ${JSON.stringify(tagList)},
-    src: new URL(
+    src: String(new URL(
       "${assetRelativePath}?width=720",
       import.meta.url,
-    ),
+    )),
   },`
     })
     .join("")

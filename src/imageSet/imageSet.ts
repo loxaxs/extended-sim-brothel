@@ -24,13 +24,12 @@ function walkCategorySystem(
 
 let emptyTagTree: ImageTagTree = {}
 walkCategorySystem(categorySystem, "", emptyTagTree)
-console.log("emptyTagTree", emptyTagTree)
 let emptyTagTreeString = JSON.stringify(emptyTagTree)
 
 function uniqueOrderedInsert<T>(
   item: T,
   array: T[],
-  keyFunction: (a: T) => string | URL,
+  keyFunction: (a: T) => string,
 ) {
   if (array.length === 0) {
     array.push(item)
@@ -76,6 +75,8 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
     }
   })
 
+  console.log('tagTree', tagTree)
+
   return {
     tagMapping: imageSetInfo.tagMapping,
     getByTag(...tags: string[]): GirlImage {
@@ -86,7 +87,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
       ...tagArray: [string, ...string[]]
     ): GirlImage[] {
       let imageList: GirlImage[] = []
-      let imageUrlList: (string | URL)[] = []
+      let imageUrlList: string[] = []
       let tagIndex = 0
       let parent = tagArray[0]
       let filteredImageList: GirlImage[]

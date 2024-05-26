@@ -1,5 +1,5 @@
 export interface GirlImage {
-  src: string | URL
+  src: string
   girlName: string
   tagList: string[]
 }
