@@ -54,7 +54,7 @@ function main() {
         existingResultContent = {}
       }
       let entryList = await Promise.all(
-        content.split("\n").map(async (line) => {
+        content.split("\n").filter(x => x).map(async (line) => {
           let [_dash, pageUrl, ...tagList] = line.split(" ")
           let existing = existingResultContent[pageUrl]
           if (existing) {

@@ -12,13 +12,13 @@ git clone git@github.com:loxaxs/esbpic.git
 
 ## Description
 
-This just one more sim brothel management game. It is heavily inspired from the well known Sim Brothel flash game (SBFG), with more girls, more images and the with an improved usability of the UI.
+This just one more sim brothel management game. It is heavily inspired from the well known Hentai Sim Brothel flash game (HSB), with more girls, more images and the with an improved usability of the UI.
 
 I might also make a pony version of it if I find the time to.
 
 ## Detailed description
 
-Here is a more in-depth description of the game mechanics which differ from SBFG or not:
+Here is a more in-depth description of the game mechanics which differ from HSB or not:
 
 - The game time step is still the day: You plan what each girl will do and validate the day to see the results. It is still possible to save the game before or after spending a day.
 - The girl aquisition mechanic has been simplified: There's now only one way to obtain new girls, not four. You can only get them from the market.
@@ -27,7 +27,7 @@ Here is a more in-depth description of the game mechanics which differ from SBFG
 
 Girl-related mechanics:
 
-- In SBFG, girls have two distinct sex-related characteristics. These are Fuck and Blowjob. I plan on merging them into a single one "Sex" characteristic. Still, there would be a history of how many times a girl has had which kind of activity while working in the Brothel. The activity chart would be extremely detailed, distinguishing up to the positions in which they had sex. The exact span of that chart is to be determined. Practicallity matters.
+- In HSB, girls have two distinct sex-related characteristics. These are Fuck and Blowjob. I plan on merging them into a single one "Sex" characteristic. Still, there would be a history of how many times a girl has had which kind of activity while working in the Brothel. The activity chart would be extremely detailed, distinguishing up to the positions in which they had sex. The exact span of that chart is to be determined. Practicallity matters.
 
 - Some activities would be impressive to the girls, so they might refuse to practice them if they have never done it before. This would be the case with:
   - Possibly vaginal sex for some very shy girls
@@ -40,7 +40,7 @@ Note: the game would keep track of vaginal, anal and throat virginity and also r
 
 ## Girl characteristics
 
-In SBFG, the girls have the has the following ten characteristics: **Charisma, Constitution, Character, Reputation, Joy, Fuck, Blowjob, Libido, Health, Refinement**
+In HSB, the girls have the has the following ten characteristics: **Charisma, Constitution, Character, Reputation, Joy, Fuck, Blowjob, Libido, Health, Refinement**
 
 - **Charisma** is a better word for Beauty, so I think I'll keep it
 - **Constitution**, or strength relates well to the number of customer a girl can take care of. I think I'll keep it
@@ -49,7 +49,7 @@ In SBFG, the girls have the has the following ten characteristics: **Charisma, C
 - **Joy** is interesting, but it might be superfluous. I might remove it
 - **Libido** is interesting, ~~but it might be superfluous as well. I might remove it as well~~ I've decided I'll keep it
 - **Health** is interesting and a very common stat in sex management games. I'll keep it.
-- **Refinement** is unique to SBFG and is interesting. I think I'll take some inspiration from it, but it won't be kept as-is.
+- **Refinement** is unique to HSB and is interesting. I think I'll take some inspiration from it, but it won't be kept as-is.
 
 ### Charisma, beauty and prominence
 
@@ -77,7 +77,7 @@ The price that can be charged for a girl depends a lot on her reputation famous 
 
 ## Other girl-related mechanisms
 
-SBFG has a system of experience gained by girls which can be used to level up other stats. This mechanism won't be kept in SB224. Instead, variable stats will change either through experience (e.g. Sex), or through training (e.g. Constitution, Prominence) or through other dedicated activities (e.g. Commitment).
+HSB has a system of experience gained by girls which can be used to level up other stats. This mechanism won't be kept in ESB. Instead, variable stats will change either through experience (e.g. Sex), or through training (e.g. Constitution, Prominence) or through other dedicated activities (e.g. Commitment).
 
 ## Technical details
 
@@ -140,3 +140,52 @@ Using a full fledged tag system makes sense. So far I've identified the followin
 Please note that several tags can apply simultaneously.
 
 If a tag is empty or does not have enough images to fulfil a request, images must be drawn among the images of all the sets of the parent category.
+
+## Girls from HSB
+
+I found the following paragraph on the Newgrounds page of HSB:
+
+> Big Breasts - Urd, Tifa, Nico Robin, Nami, Mikuru, Ayane, Lulu, Matsumoto, Orihime (Basically free advertising)
+> Lolita - Skuld, Shinobu, Sasami, Sakura, Chihiro (May gain 1 CHARISMA daily)
+> Happiness - Rikku, Yuffie, Osaka, Sasami, Talim, Matsumoto, Orihime (Gain 1 JOY daily)
+> Lucky - Haruhi, Naru, Osaka, Talim, Orihime (Less harmful events)
+> Famous - Aerith, Rikku, Yuna, Nico Robin, Ayeka, Zelda, Nami (Doesn't work)
+> Noble - Belldandy, Skuld, Urd, Hinata, Yuna, Ayeka, Rinoa, Zelda, Sasami, Deedlith (Gain 1 REFINEMENT daily)
+> Excellent - Aerith, Rikku, Yuna, Rei, Ayeka, Rinoa, Talim, Zelda, Deedlith(Always max customers)
+> Catgirl - Haruhi, Naru, Ranma, Sakura, Mikuru, Fran (CHARISMA and sex stats locked at 100)
+
+It lists 33 different girls in total:
+
+- Aerith
+- Ayane
+- Ayeka
+- Belldandy
+- Chihiro
+- Deedlith
+- Deedlith
+- Fran
+- Haruhi
+- Hinata
+- Lulu
+- Matsumoto
+- Mikuru
+- Nami
+- Nami
+- Naru
+- Nico Robin
+- Orihime
+- Osaka
+- Ranma
+- Rei
+- Rikku
+- Rinoa
+- Sakura
+- Sasami
+- Shinobu
+- Skuld
+- Talim
+- Tifa
+- Urd
+- Yuffie
+- Yuna
+- Zelda
