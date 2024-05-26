@@ -69,13 +69,10 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
       })
       parent = tagTree[parent].parent
       if (--stop < 0) {
-        console.log("parent", parent)
-        throw new Error("Infinite loop detected in category system")
+        throw new Error(`Infinite loop detected in category system with parent "${parent}"`)
       }
     }
   })
-
-  console.log('tagTree', tagTree)
 
   return {
     tagMapping: imageSetInfo.tagMapping,

@@ -10,7 +10,15 @@ export function GirlListCard(prop: GirlListCardProp) {
   let { girl } = prop
   return (
     <span className="girl-list-card">
-      <GirlDisplay girl={girl} tag="mini" /> {girl.name} {girl.health}
+      <div className="mini-image-container">
+        <GirlDisplay
+          className="mini-image"
+          girl={girl}
+          tag="mini"
+          maxSize={100}
+        />
+      </div>{" "}
+      {girl.name} {girl.health}
     </span>
   )
 }

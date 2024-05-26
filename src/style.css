@@ -20,8 +20,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 133vh;
     border: solid 1px #e0e0e0;
     margin: auto;
 }
@@ -35,6 +33,7 @@ body {
     border: 1px solid #000;
     border-radius: 30px;
     font-size: 3em;
+    display: inline-block;
 }
 
 .side-menu--ul {
@@ -56,4 +55,19 @@ body {
 
 .side-menu button:hover {
     background-color: #efcb98;
+}
+
+/** Girl List */
+.girl-list {
+    display: inline-block;
+}
+
+.mini-image-container {
+  width: 100px;
+  height: 100px;
+  background-color: #efcb98;
+}
+
+.mini-image {
+    margin: auto;
 }
