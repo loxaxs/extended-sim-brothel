@@ -62,11 +62,16 @@ function main() {
           }
           let response = await fetch(pageUrl + ".json")
           let data: any = await response.json()
-          let media: Record<string, string> = {}
+          let media = ""
           data.media_asset.variants.forEach((variant: any) => {
-            media[variant.type] = variant.url
+            if (variant.type === '720x720') {
+              media = variant.url
+            }
           })
-          return [pageUrl, { media, tagList }]
+          if (!media) {
+            console.error(`Failed to get image url for page "${pageUrl}"`)
+          }
+          return [pageUrl, { media, tags: tagList.join(" ") }]
         }),
       )
       let dataContent = Object.fromEntries(entryList)

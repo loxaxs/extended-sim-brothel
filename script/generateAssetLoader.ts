@@ -40,12 +40,8 @@ async function generateGirlAssetLoader() {
   let girlFileArray: {
     girlName: string
     data: {
-      media: {
-        "720x720": string
-        "sample": string
-        "original": string
-      }
-      tagList: string[]
+      media: string
+      tags: string
     }[]
   }[] = []
   let callbackPromiseList: Promise<unknown>[] = []
@@ -96,8 +92,8 @@ async function generateGirlAssetLoader() {
           (piece) => `
   {
     girlName: "${girlName}",
-    tagList: ${JSON.stringify(piece.tagList)},
-    src: "${piece.media["720x720"]}",
+    tagList: ${JSON.stringify(piece.tags.split(' '))},
+    src: "${piece.media}",
   },`,
         )
         .join("")
