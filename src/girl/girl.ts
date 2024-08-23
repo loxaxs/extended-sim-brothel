@@ -1,4 +1,5 @@
 import { createImageSet } from "../imageSet/imageSet"
+import { randomInt } from "../lib/random"
 import { Girl, GirlImageSetInfo, GirlInfo } from "../type"
 
 export function createGirl(girlInfo: GirlInfo): Girl {
@@ -11,7 +12,7 @@ export function createGirl(girlInfo: GirlInfo): Girl {
   }
 }
 
-export const MAX_GIRL_STAT: Omit<GirlInfo, "name" | "imageSet"> = {
+export const MAX_GIRL_STAT: Omit<GirlInfo, "name" | "imageSet" | "owned"> = {
   beauty: 100,
   character: 100,
   commitment: 100,
@@ -29,9 +30,9 @@ export function createRandomGirlInfo(
   imageSet: GirlImageSetInfo,
 ): GirlInfo {
   let girlInfo: GirlInfo = Object.fromEntries(
-    Object.entries(MAX_GIRL_STAT).map(([key, max_value]) => [
+    Object.entries(MAX_GIRL_STAT).map(([key, maxValue]) => [
       key,
-      Math.floor((Math.random() * max_value) / 2),
+      Math.floor(randomInt(maxValue) / 2),
     ]),
   ) as any
   girlInfo.name = girlName

@@ -44,7 +44,7 @@ In HSB, the girls have the has the following ten characteristics: **Charisma, Co
 
 - **Charisma** is a better word for Beauty, so I think I'll keep it
 - **Constitution**, or strength relates well to the number of customer a girl can take care of. I think I'll keep it
-- **Character** is a nice mechanic for girls refusing to work. I'll probably keep it, but I think I'll rework the way it works.
+- **Character** is a nice mechanic for girls refusing to work. I'll probably keep it, but I think I'll rework it.
 - **Reputation** is an interesting characteristic which goes together with refinemenent. I think I'll keep at least one of these two characteristics but I might change how they work
 - **Joy** is interesting, but it might be superfluous. I might remove it
 - **Libido** is interesting, ~~but it might be superfluous as well. I might remove it as well~~ I've decided I'll keep it

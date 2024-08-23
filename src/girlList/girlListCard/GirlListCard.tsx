@@ -15,7 +15,7 @@ export function GirlListCard(prop: GirlListCardProp) {
           className="mini-image"
           girl={girl}
           tag="mini"
-          maxSize={100}
+          maxSize={50}
         />
       </div>{" "}
       {girl.name} {girl.health} {"<3"}
