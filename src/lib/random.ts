@@ -2,16 +2,20 @@ export function mod(a: number, b: number) {
   return ((a % b) + b) % b
 }
 
-export function randomChoice<T>(array: T[]): T {
-  return array[Math.floor(Math.random() * array.length)]
+export function randomInt(count: number) {
+  return Math.floor(Math.random() * count)
 }
 
-export function randomPick<T>(count: number, array: T[]): T[] {
+export function randomChoice<T>(array: T[]): T {
+  return array[randomInt(array.length)]
+}
+
+export function randomExtract<T>(count: number, array: T[]): T[] {
   if (count >= array.length) {
     return array
   }
   let arrayCopy = [...array]
   return Array.from({ length: count }, () => {
-    return arrayCopy.splice(Math.floor(Math.random() * arrayCopy.length), 1)[0]
+    return arrayCopy.splice(randomInt(arrayCopy.length), 1)[0]
   })
 }

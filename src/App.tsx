@@ -5,6 +5,7 @@ import { Girl } from "./type"
 import "./ambient.d"
 import { girlImageList } from "./asset/girlAsset"
 import { createGirlGroup } from "./girl/girlGroup"
+import { createMarket } from "./market/market"
 
 export interface AppProp {
   baseHeight: number
@@ -15,8 +16,20 @@ export function App(prop: AppProp) {
   let { baseHeight, baseWidth } = prop
   let gold = 0
   let day = 0
-  let girls: Girl[] = Object.values(createGirlGroup(girlImageList))
+  let girlArray: Girl[] = Object.values(createGirlGroup(girlImageList))
+  let ownedGirlArray: Girl[] = girlArray.slice(0, 1)
+  let wanderingGirlArray: Girl[] = girlArray.slice(1)
+  let market = createMarket(wanderingGirlArray)
   let size = Math.min(baseHeight * 16, baseWidth * 9)
+
+  const handleSave = () => {
+    console.log("Save!")
+  }
+
+  const handleNewDay = () => {
+    market.handleNewDay()
+  }
+
   return (
     <div className="game-frame" style={{ height: size / 16, width: size / 9 }}>
       <div
@@ -26,15 +39,15 @@ export function App(prop: AppProp) {
         <div className="head-banner">
           Gold: {gold} Day: {day}
         </div>
-        <div className="display">{"<girl image(s)>"}</div>
-        <GirlList girls={girls} />
+        <div className="display"></div>
+        <GirlList girls={girlArray} />
         <div className="side-menu">
           <ul className="side-menu--ul">
             <li>
-              <button>Save</button>
+              <button onClick={handleSave}>Save</button>
             </li>
             <li>
-              <button>New Day</button>
+              <button onClick={handleNewDay}>New Day</button>
             </li>
           </ul>
         </div>

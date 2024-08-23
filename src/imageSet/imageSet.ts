@@ -1,5 +1,5 @@
+import { randomExtract } from "../lib/random"
 import { GirlImage, GirlImageSetInfo } from "../type"
-import { randomPick } from "../lib/random"
 import { CategorySystem, categorySystem } from "./imageCategorySystem"
 
 interface ImageTagNode {
@@ -123,7 +123,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
         // If there are too many images in the pack being added to the list,
         // we'll randomly extract the number of images needed
         if (imageList.length + filteredImageList.length > count) {
-          filteredImageList = randomPick(
+          filteredImageList = randomExtract(
             count - imageList.length,
             filteredImageList,
           )
