@@ -9,7 +9,7 @@ export interface GirlListProp {
 export function GirlList(prop: GirlListProp) {
   let { girls } = prop
   return (
-    <div className="girl-list">
+    <div className="inline-block">
       {girls.map((girl) => {
         return <GirlListCard key={girl.name} girl={girl} />
       })}

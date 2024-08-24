@@ -31,24 +31,27 @@ export function App(prop: AppProp) {
   }
 
   return (
-    <div className="game-frame" style={{ height: size / 16, width: size / 9 }}>
+    <div
+      className="bg-amber-200 flex flex-col justify-center items-center border-neutral-200 m-auto"
+      style={{ height: size / 16, width: size / 9 }}
+    >
       <div
-        className="game-content"
         style={{ transform: `scale(${size / 1080 / 9})` }}
       >
-        <div className="head-banner">
+        <div className="text-xl">
           Gold: {gold} Day: {day}
         </div>
-        <div className="display"></div>
         <GirlList girls={girlArray} />
-        <div className="side-menu">
-          <ul className="side-menu--ul">
-            <li>
-              <button onClick={handleSave}>Save</button>
-            </li>
-            <li>
-              <button onClick={handleNewDay}>New Day</button>
-            </li>
+        <div className="border border-black rounded-2xl text-xl inline-block">
+          <ul className="p-0">
+            {[
+              { callback: handleSave, text: "Save"},
+              { callback: handleNewDay, text: "New Day"}
+            ].map(({callback, text}) => (
+              <li className="m-1 text-center">
+                <button onClick={callback} className="p-1 g-amber-200 border border-amber-400 rounded-xl hover:bg-yellow-200">{text}</button>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

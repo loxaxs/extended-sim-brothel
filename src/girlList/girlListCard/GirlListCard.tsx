@@ -9,10 +9,10 @@ export interface GirlListCardProp {
 export function GirlListCard(prop: GirlListCardProp) {
   let { girl } = prop
   return (
-    <div className="girl-list-card">
-      <div className="mini-image-container">
+    <div className="m-2 border border-amber-400 rounded-xl text-center hover:bg-yellow-200">
+      <div className="m-auto">
         <GirlDisplay
-          className="mini-image"
+          className="m-auto"
           girl={girl}
           tag="mini"
           maxSize={50}
