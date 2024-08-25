@@ -1,11 +1,9 @@
-import React from "react"
-import { GirlList } from "./girlList/GirlList"
-import { Girl } from "./type"
+import React, { useState } from "react"
 
 import "./ambient.d"
-import { girlImageList } from "./asset/girlAsset"
-import { createGirlGroup } from "./girl/girlGroup"
-import { createMarket } from "./market/market"
+import { Game } from "./Game"
+import { load, save } from "./save/save"
+import { SelectSaveFile } from "./save/SelectSaveFile"
 
 export interface AppProp {
   baseHeight: number
@@ -14,46 +12,26 @@ export interface AppProp {
 
 export function App(prop: AppProp) {
   let { baseHeight, baseWidth } = prop
-  let gold = 0
-  let day = 0
-  let girlArray: Girl[] = Object.values(createGirlGroup(girlImageList))
-  let ownedGirlArray: Girl[] = girlArray.slice(0, 1)
-  let wanderingGirlArray: Girl[] = girlArray.slice(1)
-  let market = createMarket(wanderingGirlArray)
-  let size = Math.min(baseHeight * 16, baseWidth * 9)
-
-  const handleSave = () => {
-    console.log("Save!")
-  }
-
-  const handleNewDay = () => {
-    market.handleNewDay()
-  }
+  let size = Math.min(baseHeight * 4, baseWidth * 3)
+  let [saveIndex, setSaveIndex] = useState(0)
+  let state = load(saveIndex)
 
   return (
     <div
-      className="bg-amber-200 flex flex-col justify-center items-center border-neutral-200 m-auto"
-      style={{ height: size / 16, width: size / 9 }}
+      className="m-auto flex flex-col items-center justify-center border-neutral-200 bg-amber-200"
+      style={{ height: size / 4, width: size / 3 }}
     >
-      <div
-        style={{ transform: `scale(${size / 1080 / 9})` }}
-      >
-        <div className="text-xl">
-          Gold: {gold} Day: {day}
-        </div>
-        <GirlList girls={girlArray} />
-        <div className="border border-black rounded-2xl text-xl inline-block">
-          <ul className="p-0">
-            {[
-              { callback: handleSave, text: "Save"},
-              { callback: handleNewDay, text: "New Day"}
-            ].map(({callback, text}) => (
-              <li className="m-1 text-center">
-                <button onClick={callback} className="p-1 g-amber-200 border border-amber-400 rounded-xl hover:bg-yellow-200">{text}</button>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div style={{ transform: `scale(${size / 1080 / 3})` }}>
+        {saveIndex ? (
+          <Game
+            initialState={state}
+            save={(gameState) => {
+              save(saveIndex, gameState)
+            }}
+          />
+        ) : (
+          <SelectSaveFile setSaveIndex={setSaveIndex} />
+        )}
       </div>
     </div>
   )

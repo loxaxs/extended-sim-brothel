@@ -1,7 +1,7 @@
 import { randomExtract, randomInt } from "../lib/random"
-import { Girl } from "../type"
+import { Girl, GirlInfo } from "../type"
 
-export function createMarket(initialGirlArray: Girl[]) {
+export function createMarket(initialGirlArray: GirlInfo[]) {
   // GirlArray lists the girls which can be bought now or later
   let girlArray = [...initialGirlArray]
   // AvailableGirlArray lists the girls which are in the market today

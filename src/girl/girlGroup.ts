@@ -1,3 +1,4 @@
+import { girlImageList } from "../asset/girlAsset"
 import { Girl, GirlImage } from "../type"
 import { createGirl, createRandomGirlInfo } from "./girl"
 
@@ -21,4 +22,8 @@ export function createGirlGroup(girlImageList: GirlImage[]) {
   })
 
   return girlGroup
+}
+
+export function getGirlArray() {
+  return Object.values(createGirlGroup(girlImageList))
 }

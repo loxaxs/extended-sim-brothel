@@ -1,16 +1,16 @@
 import React from "react"
-import { Girl } from "../type"
+import { GirlInfo } from "../type"
 import { GirlListCard } from "./girlListCard/GirlListCard"
 
 export interface GirlListProp {
-  girls: Girl[]
+  girlArray: GirlInfo[]
 }
 
 export function GirlList(prop: GirlListProp) {
-  let { girls } = prop
+  let { girlArray } = prop
   return (
     <div className="inline-block">
-      {girls.map((girl) => {
+      {girlArray.map((girl) => {
         return <GirlListCard key={girl.name} girl={girl} />
       })}
     </div>

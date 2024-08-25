@@ -55,3 +55,10 @@ export interface PlaceInfo {
 }
 
 export interface Place extends PlaceInfo {}
+
+export interface GameState {
+  day: number
+  gold: number
+  girlArray: GirlInfo[]
+  placeArray: PlaceInfo[]
+}
