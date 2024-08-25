@@ -12,7 +12,7 @@ export function Button(prop: ButtonProp) {
     <button
       {...prop}
       className={clsx(
-        "ml-3 rounded-lg border border-black p-1",
+        "my-1 ml-3 rounded-lg border border-black p-1",
         prop.className,
       )}
     />

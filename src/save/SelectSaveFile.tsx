@@ -58,6 +58,13 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
               <Button onClick={() => setSaveIndex(baseSave.index)}>
                 {baseSave.hasData ? "Load" : "Use"}
               </Button>
+              {baseSave.hasData && (
+                <Button onClick={() => setDeleteSaveIndex(baseSave.index)}>
+                  Delete
+                </Button>
+              )}
+            </span>
+            <div>
               {baseSave.hasData &&
                 emptySaveArray.map((targetSave) => (
                   <Button
@@ -69,12 +76,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                     Duplicate to save {targetSave.index}
                   </Button>
                 ))}
-              {baseSave.hasData && (
-                <Button onClick={() => setDeleteSaveIndex(baseSave.index)}>
-                  Delete
-                </Button>
-              )}
-            </span>
+            </div>
           </li>
         )
       })}

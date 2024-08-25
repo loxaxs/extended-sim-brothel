@@ -1,14 +1,19 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { getGirlArray } from "./girl/girlGroup"
-import { GirlList } from "./girlList/GirlList"
-import { createMarket } from "./market/market"
-import { GameState } from "./type"
+import { Home } from "./Home"
+import { Market } from "./market/Market"
+import { createMarketManager } from "./market/marketManager"
+import { GameState, PageName } from "./type"
 
 function newGameState(): GameState {
+  let girlArray = getGirlArray()
+
+  girlArray[0].owned = true
+
   return {
     gold: 100,
     day: 0,
-    girlArray: getGirlArray(),
+    girlArray,
     placeArray: [],
   }
 }
@@ -19,9 +24,17 @@ export interface GameProp {
 }
 
 export function Game(prop: GameProp) {
-  let { gold, day, girlArray, placeArray } =
+  let initialState =
     prop.initialState.day !== undefined ? prop.initialState : newGameState()
-  let market = createMarket(girlArray.filter((g) => !g.owned))
+  let [gold, setGold] = React.useState(initialState.gold)
+  let [day, setDay] = React.useState(initialState.day)
+  let [page, setPage] = React.useState("home" as PageName)
+  let [girlArray, setGirlArray] = React.useState(initialState.girlArray)
+  let [placeArray, setPlaceArray] = React.useState(initialState.placeArray)
+  let marketManager = useMemo(
+    () => createMarketManager(girlArray.filter((g) => !g.owned)),
+    [],
+  )
 
   const handleSave = () => {
     prop.save({
@@ -33,32 +46,31 @@ export function Game(prop: GameProp) {
   }
 
   const handleNewDay = () => {
-    market.handleNewDay()
+    marketManager.handleNewDay()
+    setDay((d) => d + 1)
   }
 
   return (
     <div>
+      {page !== "home" && (
+        <button onClick={() => setPage("home")}>{"< Back"}</button>
+      )}
       <div className="text-xl">
         Gold: {gold} Day: {day}
       </div>
-      <GirlList girlArray={girlArray} />
-      <div className="inline-block rounded-2xl border border-black text-xl">
-        <ul className="p-0">
-          {[
-            { callback: handleSave, text: "Save" },
-            { callback: handleNewDay, text: "New Day" },
-          ].map(({ callback, text }) => (
-            <li key={text} className="m-1 text-center">
-              <button
-                onClick={callback}
-                className="g-amber-200 rounded-xl border border-amber-400 p-1 hover:bg-yellow-200"
-              >
-                {text}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {
+        {
+          home: (
+            <Home
+              handleNewDay={handleNewDay}
+              handleSave={handleSave}
+              setPage={setPage}
+              girlArray={girlArray}
+            />
+          ),
+          market: <Market marketManager={marketManager} />,
+        }[page]
+      }
     </div>
   )
 }

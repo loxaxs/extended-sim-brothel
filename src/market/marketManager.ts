@@ -1,7 +1,7 @@
 import { randomExtract, randomInt } from "../lib/random"
 import { Girl, GirlInfo } from "../type"
 
-export function createMarket(initialGirlArray: GirlInfo[]) {
+export function createMarketManager(initialGirlArray: GirlInfo[]) {
   // GirlArray lists the girls which can be bought now or later
   let girlArray = [...initialGirlArray]
   // AvailableGirlArray lists the girls which are in the market today
@@ -10,6 +10,9 @@ export function createMarket(initialGirlArray: GirlInfo[]) {
     girlArray,
   )
   return {
+    getGirlArray() {
+      return girlInMarketArray
+    },
     handleNewDay() {
       // One girl leaves the market, some enter it
       // If there's only one girl remaining, make sure she stays in the market
@@ -42,3 +45,5 @@ export function createMarket(initialGirlArray: GirlInfo[]) {
     },
   }
 }
+
+export type MarketManager = ReturnType<typeof createMarketManager>
