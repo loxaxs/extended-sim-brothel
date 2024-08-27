@@ -1,5 +1,5 @@
 import { randomExtract, randomInt } from "../lib/random"
-import { Girl, GirlInfo } from "../type"
+import { GirlInfo } from "../type"
 
 export function createMarketManager(initialGirlArray: GirlInfo[]) {
   // GirlArray lists the girls which can be bought now or later
@@ -39,9 +39,9 @@ export function createMarketManager(initialGirlArray: GirlInfo[]) {
       )
       girlInMarketArray.push(...girlEnteringMarketArray)
     },
-    handleBuy(girl: Girl) {
-      girlInMarketArray = girlInMarketArray.filter((g) => g.name !== girl.name)
-      girlArray = girlArray.filter((g) => g.name !== girl.name)
+    handleBuy(girlName: string) {
+      girlInMarketArray = girlInMarketArray.filter((g) => g.name !== girlName)
+      girlArray = girlArray.filter((g) => g.name !== girlName)
     },
   }
 }

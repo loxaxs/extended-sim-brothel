@@ -83,7 +83,7 @@ export function Game(prop: GameProp) {
         Gold: {gold} Day: {day}
       </div>
       {{
-        "0:": () => (
+        ":": () => (
           <Home
             handleNewDay={handleNewDay}
             handleSave={handleSave}
@@ -91,16 +91,28 @@ export function Game(prop: GameProp) {
             girlArray={girlArray}
           />
         ),
-        "1:market": () => (
+        ":market": () => (
           <Market marketManager={marketManager} changePath={changePath} />
         ),
-        "1:girl": () => (
+        ":girl": () => (
           <GirlDetailView girl={girlByName[path[0].split(":")[1]]} />
         ),
-        "2:market:girl": () => (
-          <GirlDetailView girl={girlByName[path[1].split(":")[1]]} />
+        ":market:girl": () => (
+          <GirlDetailView
+            girl={girlByName[path[1].split(":")[1]]}
+            marketInfo={{
+              gold: gold,
+              price: 10,
+              buy: (girlName) => {
+                marketManager.handleBuy(girlName)
+                girlByName[girlName].owned = true
+                setGold((g) => g - 10)
+                changePath({ pathLevelRemovalCount: 2 })
+              },
+            }}
+          />
         ),
-      }[`${path.length}:${path.map((p) => p.split(":")[0]).join(":")}`]()}
+      }[`:${path.map((p) => p.split(":")[0]).join(":")}`]()}
     </div>
   )
 }

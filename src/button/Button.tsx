@@ -13,6 +13,7 @@ export function Button(prop: ButtonProp) {
       {...prop}
       className={clsx(
         "my-1 ml-3 rounded-lg border border-black p-1",
+        { "border-gray-400 bg-amber-100 text-gray-400": prop.disabled },
         prop.className,
       )}
     />
