@@ -1,24 +1,30 @@
 import React from "react"
 import { Button } from "./button/Button"
+import { ChangePathAction } from "./Game"
 import { GirlList } from "./girlList/GirlList"
-import { GirlInfo, PageName } from "./type"
+import { GirlInfo } from "./type"
 
 export interface HomeProp {
   handleSave: () => void
   handleNewDay: () => void
-  setPage: (page: PageName) => void
+  changePath: (action: ChangePathAction) => void
   girlArray: GirlInfo[]
 }
 
 export function Home(prop: HomeProp) {
-  let { handleSave, handleNewDay, setPage, girlArray } = prop
+  let { handleSave, handleNewDay, changePath, girlArray } = prop
   return (
     <>
-      <GirlList girlArray={girlArray.filter((g) => g.owned)} />
+      <GirlList
+        girlArray={girlArray.filter((g) => g.owned)}
+        onClick={(name) => {
+          changePath({ pathAddition: [`girl:${name}`] })
+        }}
+      />
       <div className="inline-block">
         <Button
           onClick={() => {
-            setPage("market")
+            changePath({ pathAddition: ["market"] })
           }}
         >
           Market

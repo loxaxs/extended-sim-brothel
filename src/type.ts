@@ -63,4 +63,4 @@ export interface GameState {
   placeArray: PlaceInfo[]
 }
 
-export type PageName = "home" | "market"
+export type PageName = "home" | "market" | "girl"

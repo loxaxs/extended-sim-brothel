@@ -4,14 +4,23 @@ import { GirlListCard } from "./girlListCard/GirlListCard"
 
 export interface GirlListProp {
   girlArray: GirlInfo[]
+  onClick: (name: string) => void
 }
 
 export function GirlList(prop: GirlListProp) {
-  let { girlArray } = prop
+  let { girlArray, onClick } = prop
   return (
     <div className="inline-block">
       {girlArray.map((girl) => {
-        return <GirlListCard key={girl.name} girl={girl} />
+        return (
+          <GirlListCard
+            key={girl.name}
+            girl={girl}
+            onClick={() => {
+              onClick(girl.name)
+            }}
+          />
+        )
       })}
     </div>
   )

@@ -1,5 +1,4 @@
 import React from "react"
-import { Image } from "../image/Image"
 import { Girl } from "../type"
 
 export interface GirlDisplayProp {
@@ -20,14 +19,12 @@ export function GirlDisplay(prop: GirlDisplayProp) {
     <>
       {imageList.map((image) => {
         return (
-          <Image
+          <img
             className={className}
             style={{ maxHeight: maxSize, maxWidth: maxSize, ...style }}
             key={image.src}
             src={image.src}
             alt={[image.girlName, ...tagArray].join(" ")}
-            expectedHeight={maxSize}
-            expectedWidth={maxSize}
           />
         )
       })}

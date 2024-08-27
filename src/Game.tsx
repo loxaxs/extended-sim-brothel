@@ -1,9 +1,10 @@
 import React, { useMemo } from "react"
+import { GirlDetailView } from "./girl/GirlDetailView"
 import { getGirlArray } from "./girl/girlGroup"
 import { Home } from "./Home"
 import { Market } from "./market/Market"
 import { createMarketManager } from "./market/marketManager"
-import { GameState, PageName } from "./type"
+import { GameState } from "./type"
 
 function newGameState(): GameState {
   let girlArray = getGirlArray()
@@ -18,6 +19,11 @@ function newGameState(): GameState {
   }
 }
 
+export interface ChangePathAction {
+  pathLevelRemovalCount?: number
+  pathAddition?: string[]
+}
+
 export interface GameProp {
   initialState: GameState
   save: (state: GameState) => void
@@ -28,13 +34,29 @@ export function Game(prop: GameProp) {
     prop.initialState.day !== undefined ? prop.initialState : newGameState()
   let [gold, setGold] = React.useState(initialState.gold)
   let [day, setDay] = React.useState(initialState.day)
-  let [page, setPage] = React.useState("home" as PageName)
+  let [path, changePath] = React.useReducer(
+    (path: string[], action: ChangePathAction) => {
+      let { pathAddition = [], pathLevelRemovalCount = 0 } = action
+      if (pathLevelRemovalCount > 0) {
+        path = path.slice(0, -pathLevelRemovalCount)
+      }
+      return [...path, ...pathAddition]
+    },
+    [],
+  )
   let [girlArray, setGirlArray] = React.useState(initialState.girlArray)
   let [placeArray, setPlaceArray] = React.useState(initialState.placeArray)
   let marketManager = useMemo(
     () => createMarketManager(girlArray.filter((g) => !g.owned)),
     [],
   )
+  let girlByName = useMemo(() => {
+    let mapping = {}
+    girlArray.forEach((girl) => {
+      mapping[girl.name] = girl
+    })
+    return mapping
+  }, [girlArray])
 
   const handleSave = () => {
     prop.save({
@@ -52,25 +74,33 @@ export function Game(prop: GameProp) {
 
   return (
     <div>
-      {page !== "home" && (
-        <button onClick={() => setPage("home")}>{"< Back"}</button>
+      {path.length > 0 && (
+        <button onClick={() => changePath({ pathLevelRemovalCount: 1 })}>
+          {"< Back"}
+        </button>
       )}
       <div className="text-xl">
         Gold: {gold} Day: {day}
       </div>
-      {
-        {
-          home: (
-            <Home
-              handleNewDay={handleNewDay}
-              handleSave={handleSave}
-              setPage={setPage}
-              girlArray={girlArray}
-            />
-          ),
-          market: <Market marketManager={marketManager} />,
-        }[page]
-      }
+      {{
+        "0:": () => (
+          <Home
+            handleNewDay={handleNewDay}
+            handleSave={handleSave}
+            changePath={changePath}
+            girlArray={girlArray}
+          />
+        ),
+        "1:market": () => (
+          <Market marketManager={marketManager} changePath={changePath} />
+        ),
+        "1:girl": () => (
+          <GirlDetailView girl={girlByName[path[0].split(":")[1]]} />
+        ),
+        "2:market:girl": () => (
+          <GirlDetailView girl={girlByName[path[1].split(":")[1]]} />
+        ),
+      }[`${path.length}:${path.map((p) => p.split(":")[0]).join(":")}`]()}
     </div>
   )
 }
