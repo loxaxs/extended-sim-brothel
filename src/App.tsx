@@ -12,17 +12,17 @@ export interface AppProp {
 
 export function App(prop: AppProp) {
   let { baseHeight, baseWidth } = prop
-  let size = Math.min(baseHeight * 4, baseWidth * 3)
+  let size = Math.min(baseHeight * 3, baseWidth * 2)
   let [saveIndex, setSaveIndex] = useState(0)
   let state = load(saveIndex)
 
   return (
     <div
       className="m-auto flex flex-col items-center justify-center bg-amber-200"
-      style={{ height: size / 4, width: size / 3 }}
+      style={{ height: size / 3, width: size / 2 }}
     >
       <div
-        style={{ transform: `scale(${size / 1080 / 3})` }}
+        style={{ transform: `scale(${size / 1080 / 2})` }}
         className="w-auto"
       >
         {saveIndex ? (
