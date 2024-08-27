@@ -11,14 +11,16 @@ export interface MarketProp {
 export function Market(prop: MarketProp) {
   let { marketManager, changePath } = prop
   return (
-    <div>
+    <div className="mx-auto">
       <div className="text-xl">Market</div>
-      <GirlList
-        girlArray={marketManager.getGirlArray()}
-        onClick={(girlName) => {
-          changePath({ pathAddition: [`girl:${girlName}`] })
-        }}
-      />
+      <div className="inline-block">
+        <GirlList
+          girlArray={marketManager.getGirlArray()}
+          onClick={(girlName) => {
+            changePath({ pathAddition: [`girl:${girlName}`] })
+          }}
+        />
+      </div>
     </div>
   )
 }

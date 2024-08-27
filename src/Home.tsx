@@ -15,12 +15,14 @@ export function Home(prop: HomeProp) {
   let { handleSave, handleNewDay, changePath, girlArray } = prop
   return (
     <>
-      <GirlList
-        girlArray={girlArray.filter((g) => g.owned)}
-        onClick={(name) => {
-          changePath({ pathAddition: [`girl:${name}`] })
-        }}
-      />
+      <div className="inline-block">
+        <GirlList
+          girlArray={girlArray.filter((g) => g.owned)}
+          onClick={(name) => {
+            changePath({ pathAddition: [`girl:${name}`] })
+          }}
+        />
+      </div>
       <div className="inline-block">
         <Button
           onClick={() => {

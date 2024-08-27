@@ -10,7 +10,7 @@ export interface GirlListProp {
 export function GirlList(prop: GirlListProp) {
   let { girlArray, onClick } = prop
   return (
-    <div className="inline-block">
+    <div className="mx-auto">
       {girlArray.map((girl) => {
         return (
           <GirlListCard

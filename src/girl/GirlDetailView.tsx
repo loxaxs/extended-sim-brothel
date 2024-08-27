@@ -2,7 +2,8 @@ import React from "react"
 import { Button } from "../button/Button"
 import { GirlDisplay } from "../girlDisplay/GirlDisplay"
 import { GirlInfo } from "../type"
-import { createGirl } from "./girl"
+import { capitalize } from "../util"
+import { createGirl, MAX_GIRL_STAT } from "./girl"
 
 export interface GirlDetailViewProp {
   girl: GirlInfo
@@ -27,7 +28,7 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
   }
 
   return (
-    <div>
+    <div className="grid grid-cols-[80%_20%]">
       <div>
         <GirlDisplay girl={createGirl(girl)} maxSize={720} tag={tag} />
         {mi && (
@@ -39,6 +40,18 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
             Buy for {mi.price} gold
           </Button>
         )}
+      </div>
+      <div>
+        <table className="text-2xl">
+          <tbody>
+            {Object.keys(MAX_GIRL_STAT).map((key) => (
+              <tr key={key}>
+                <td>{capitalize(key)}:</td>
+                <td>{girl[key as any]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )

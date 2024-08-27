@@ -73,7 +73,7 @@ export function Game(prop: GameProp) {
   }
 
   return (
-    <div>
+    <div className="w-auto">
       {path.length > 0 && (
         <button onClick={() => changePath({ pathLevelRemovalCount: 1 })}>
           {"< Back"}
