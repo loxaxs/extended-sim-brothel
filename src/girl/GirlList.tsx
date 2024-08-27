@@ -1,6 +1,6 @@
 import React from "react"
 import { GirlInfo } from "../type"
-import { GirlListCard } from "./girlListCard/GirlListCard"
+import { GirlListCard } from "./GirlListCard"
 
 export interface GirlListProp {
   girlArray: GirlInfo[]

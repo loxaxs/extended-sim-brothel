@@ -1,6 +1,6 @@
 import React from "react"
 import { ChangePathAction } from "../Game"
-import { GirlList } from "../girlList/GirlList"
+import { GirlList } from "../girl/GirlList"
 import { MarketManager } from "./marketManager"
 
 export interface MarketProp {

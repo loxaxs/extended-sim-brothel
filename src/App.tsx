@@ -2,8 +2,7 @@ import React, { useState } from "react"
 
 import "./ambient.d"
 import { Game } from "./Game"
-import { load, save } from "./save/save"
-import { SelectSaveFile } from "./save/SelectSaveFile"
+import { load, save, SelectSaveFile } from "./save/Save"
 
 export interface AppProp {
   baseHeight: number

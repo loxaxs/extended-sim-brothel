@@ -1,9 +1,9 @@
 import React from "react"
 import { Button } from "../button/Button"
-import { GirlDisplay } from "../girlDisplay/GirlDisplay"
+import { capitalize } from "../lib/text"
 import { GirlInfo } from "../type"
-import { capitalize } from "../util"
 import { createGirl, MAX_GIRL_STAT } from "./girl"
+import { GirlDisplay } from "./GirlDisplay"
 
 export interface GirlDetailViewProp {
   girl: GirlInfo

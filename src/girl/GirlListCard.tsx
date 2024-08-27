@@ -1,7 +1,7 @@
 import React from "react"
-import { createGirl } from "../../girl/girl"
-import { GirlDisplay } from "../../girlDisplay/GirlDisplay"
-import { GirlInfo } from "../../type"
+import { GirlInfo } from "../type"
+import { createGirl } from "./girl"
+import { GirlDisplay } from "./GirlDisplay"
 
 export interface GirlListCardProp {
   girl: GirlInfo

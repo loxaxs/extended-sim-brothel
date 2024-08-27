@@ -1,8 +1,8 @@
 import React from "react"
-import { Button } from "./button/Button"
-import { ChangePathAction } from "./Game"
-import { GirlList } from "./girlList/GirlList"
-import { GirlInfo } from "./type"
+import { Button } from "../button/Button"
+import { ChangePathAction } from "../Game"
+import { GirlList } from "../girl/GirlList"
+import { GirlInfo } from "../type"
 
 export interface HomeProp {
   handleSave: () => void

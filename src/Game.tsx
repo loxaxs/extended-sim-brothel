@@ -1,9 +1,10 @@
 import React, { useMemo } from "react"
 import { GirlDetailView } from "./girl/GirlDetailView"
 import { getGirlArray } from "./girl/girlGroup"
-import { Home } from "./Home"
+import { Home } from "./home/Home"
 import { Market } from "./market/Market"
 import { createMarketManager } from "./market/marketManager"
+import { getPlaceArray } from "./place/Place"
 import { GameState } from "./type"
 
 function newGameState(): GameState {
@@ -15,7 +16,7 @@ function newGameState(): GameState {
     gold: 100,
     day: 0,
     girlArray,
-    placeArray: [],
+    placeArray: getPlaceArray(),
   }
 }
 
