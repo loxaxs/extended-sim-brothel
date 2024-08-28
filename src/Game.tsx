@@ -12,7 +12,7 @@ import { access } from "./lib/access"
 import { formatBigNumber } from "./lib/number"
 import { Market } from "./market/Market"
 import { createMarketManager } from "./market/marketManager"
-import { ChangePathAction, GameState } from "./type"
+import { Building, ChangePathAction, GameState, GirlInfo } from "./type"
 import { Button } from "./ui/button/Button"
 
 function newGameState(): GameState {
@@ -63,14 +63,14 @@ export function Game(prop: GameProp) {
     [],
   )
   let girlByName = useMemo(() => {
-    let mapping = {}
+    let mapping: Record<string, GirlInfo> = {}
     girlArray.forEach((girl) => {
       mapping[girl.name] = girl
     })
     return mapping
   }, [girlArray])
   let placeByName = useMemo(() => {
-    let mapping = {}
+    let mapping: Record<string, Building> = {}
     buildingArray.forEach((building) => {
       mapping[building.name] = building
     })
@@ -112,14 +112,12 @@ export function Game(prop: GameProp) {
               <Home
                 handleNewDay={handleNewDay}
                 handleSave={handleSave}
-                changePath={changePath}
                 girlArray={girlArray}
               />
             ),
             ".buyplace": () => (
               <BuildingList
                 buildingArray={buildingArray}
-                changePath={changePath}
                 act={{
                   kind: "buy",
                   gold,
@@ -127,13 +125,10 @@ export function Game(prop: GameProp) {
               />
             ),
             ".girl": () => <GirlDetailView girl={girlByName[getName(0)]} />,
-            ".market": () => (
-              <Market marketManager={marketManager} changePath={changePath} />
-            ),
+            ".market": () => <Market marketManager={marketManager} />,
             ".setactivity": () => (
               <BuildingList
                 buildingArray={buildingArray}
-                changePath={changePath}
                 act={{
                   kind: "setActivity",
                   girlArray,

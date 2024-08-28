@@ -1,15 +1,16 @@
 import React from "react"
+import { gameContext } from "../context/context"
 import { GirlList } from "../girl/GirlList"
-import { ChangePathAction } from "../type"
 import { MarketManager } from "./marketManager"
 
 export interface MarketProp {
   marketManager: MarketManager
-  changePath: (action: ChangePathAction) => void
 }
 
 export function Market(prop: MarketProp) {
-  let { marketManager, changePath } = prop
+  let { marketManager } = prop
+  let { changePath } = React.useContext(gameContext)
+
   return (
     <div className="mx-auto">
       <div className="text-xl">Market</div>
@@ -19,7 +20,6 @@ export function Market(prop: MarketProp) {
           onClick={(girlName) => {
             changePath({ pathAddition: [`girl:${girlName}`] })
           }}
-          changePath={changePath}
           act={{ kind: "market" }}
         />
       </div>

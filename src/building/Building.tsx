@@ -1,5 +1,6 @@
 import React from "react"
-import { Building, ChangePathAction, GirlInfo, OtherActivity } from "../type"
+import { gameContext } from "../context/context"
+import { Building, GirlInfo, OtherActivity } from "../type"
 import { Button } from "../ui/button/Button"
 import { Card } from "../ui/card/Card"
 import { Section } from "../ui/section/Section"
@@ -33,7 +34,6 @@ export function getBuildingArray() {
 export interface BuildingListProp {
   act: BuildingListAct
   buildingArray: Building[]
-  changePath: (action: ChangePathAction) => void
 }
 
 export type BuildingListAct = BuildingListBuyAct | BuildingListSetActivityAct
@@ -50,7 +50,8 @@ export interface BuildingListSetActivityAct {
 }
 
 export function BuildingList(prop: BuildingListProp) {
-  let { act, buildingArray, changePath } = prop
+  let { act, buildingArray } = prop
+  let { changePath } = React.useContext(gameContext)
 
   let buildingOccupancyMapping: Record<string, number> = {}
   if (act.kind === "setActivity") {

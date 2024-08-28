@@ -1,13 +1,13 @@
 import React from "react"
 import { otherActivityNameMapping } from "../building/Building"
-import { ChangePathAction, GirlInfo } from "../type"
+import { gameContext } from "../context/context"
+import { GirlInfo } from "../type"
 import { Button } from "../ui/button/Button"
 import { Section } from "../ui/section/Section"
 import { createGirl } from "./girl"
 import { GirlDisplay } from "./GirlDisplay"
 
 export interface GirlListCardProp {
-  changePath: (action: ChangePathAction) => void
   girl: GirlInfo
   onClick: () => void
   act: GirlListCardAct
@@ -18,7 +18,9 @@ export type GirlListCardAct = {
 }
 
 export function GirlListCard(prop: GirlListCardProp) {
-  let { act, changePath, girl, onClick } = prop
+  let { act, girl, onClick } = prop
+  let { changePath } = React.useContext(gameContext)
+
   return (
     <Section clickable className="m-2 text-center" onClick={onClick}>
       <div style={{ height: 100 }}>

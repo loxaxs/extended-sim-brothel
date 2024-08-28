@@ -1,18 +1,19 @@
 import React from "react"
+import { gameContext } from "../context/context"
 import { GirlList } from "../girl/GirlList"
-import { ChangePathAction, GirlInfo } from "../type"
+import { GirlInfo } from "../type"
 import { Button } from "../ui/button/Button"
 import { Section } from "../ui/section/Section"
 
 export interface HomeProp {
   handleSave: () => void
   handleNewDay: () => void
-  changePath: (action: ChangePathAction) => void
   girlArray: GirlInfo[]
 }
 
 export function Home(prop: HomeProp) {
-  let { handleSave, handleNewDay, changePath, girlArray } = prop
+  let { handleSave, handleNewDay, girlArray } = prop
+  let { changePath } = React.useContext(gameContext)
   return (
     <div className="grid grid-cols-[85%_15%] gap-2">
       <div>
@@ -21,7 +22,6 @@ export function Home(prop: HomeProp) {
           onClick={(name) => {
             changePath({ pathAddition: [`girl:${name}`] })
           }}
-          changePath={changePath}
           act={{ kind: "home" }}
         />
       </div>

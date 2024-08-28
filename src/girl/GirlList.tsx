@@ -1,11 +1,10 @@
 import React from "react"
-import { ChangePathAction, GirlInfo } from "../type"
+import { GirlInfo } from "../type"
 import { GirlListCard } from "./GirlListCard"
 
 export interface GirlListProp {
   girlArray: GirlInfo[]
   onClick: (name: string) => void
-  changePath: (action: ChangePathAction) => void
   act: GirlListAct
 }
 
@@ -14,7 +13,8 @@ export type GirlListAct = {
 }
 
 export function GirlList(prop: GirlListProp) {
-  let { act, changePath, girlArray, onClick } = prop
+  let { act, girlArray, onClick } = prop
+
   return (
     <div className="grid grid-cols-4">
       {girlArray.map((girl) => {
@@ -25,7 +25,6 @@ export function GirlList(prop: GirlListProp) {
             onClick={() => {
               onClick(girl.name)
             }}
-            changePath={changePath}
             act={act}
           />
         )
