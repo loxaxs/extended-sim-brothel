@@ -1,5 +1,5 @@
 import React from "react"
-import { Girl } from "../type"
+import { Girl, SizeArray } from "../type"
 
 export interface GirlDisplayProp {
   className?: string
@@ -9,15 +9,30 @@ export interface GirlDisplayProp {
   tag?: string
   tagList?: string[]
   count?: number
+  sizeRef?: React.MutableRefObject<SizeArray>
+  rerender?: () => void
 }
 
 export function GirlDisplay(prop: GirlDisplayProp) {
-  let { className, girl, maxSize, style, tag, tagList = [], count = 1 } = prop
+  let {
+    className,
+    girl,
+    maxSize,
+    style,
+    tag,
+    tagList = [],
+    count = 1,
+    sizeRef,
+    rerender,
+  } = prop
   let tagArray = tag ? [tag, ...tagList] : tagList
   let imageList = girl.imageSet.getSeveralByTag(count, ...tagArray)
+  if (sizeRef) {
+    sizeRef.current = imageList.map((image) => ({ width: 0, height: 0 }))
+  }
   return (
     <>
-      {imageList.map((image) => {
+      {imageList.map((image, k) => {
         return (
           <img
             className={className}
@@ -25,6 +40,13 @@ export function GirlDisplay(prop: GirlDisplayProp) {
             key={image.src}
             src={image.src}
             alt={[image.girlName, ...tagArray].join(" ")}
+            onLoad={(ev) => {
+              if (sizeRef) {
+                sizeRef.current[k].width = ev.currentTarget.width
+                sizeRef.current[k].height = ev.currentTarget.height
+                rerender?.()
+              }
+            }}
           />
         )
       })}

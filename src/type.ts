@@ -37,6 +37,7 @@ export interface GirlInfo {
   fame: number
   /** changing boolean */
   owned: boolean
+  price: number
   /** all the images for a girl */
   imageSet: GirlImageSetInfo
 }
@@ -46,21 +47,23 @@ export interface Girl extends GirlInfo {
   imageSet: GirlImageSet
 }
 
-export interface PlaceInfo {
+export interface Building {
   name: string
   /** Number of rooms girls can work in */
   capacity: number
+  price: number
   fame: number
   owned: boolean
 }
-
-export interface Place extends PlaceInfo {}
 
 export interface GameState {
   day: number
   gold: number
   girlArray: GirlInfo[]
-  placeArray: PlaceInfo[]
+  buildingArray: Building[]
 }
 
 export type PageName = "home" | "market" | "girl"
+
+export type Size = { width: number; height: number }
+export type SizeArray = Size[]

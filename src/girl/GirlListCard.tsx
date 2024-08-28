@@ -12,7 +12,7 @@ export function GirlListCard(prop: GirlListCardProp) {
   let { girl, onClick } = prop
   return (
     <div
-      className="m-2 rounded-xl border border-amber-400 text-center hover:bg-yellow-200"
+      className="m-2 rounded-xl border border-amber-400 p-1 text-center hover:bg-yellow-200"
       onClick={onClick}
     >
       <div>

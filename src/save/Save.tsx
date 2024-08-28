@@ -1,6 +1,8 @@
 import React, { SetStateAction } from "react"
-import { Button } from "../button/Button"
 import { GameState } from "../type"
+import { Button } from "../ui/button/Button"
+import { Card } from "../ui/card/Card"
+import { Section } from "../ui/section/Section"
 
 export function load(saveIndex: number): GameState & {
   index: number
@@ -53,8 +55,12 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
           {" "}
           Day: {save.day} Gold: {save.gold}
         </p>
-        <Button onClick={handleYes}>Yes</Button>
-        <Button onClick={() => setDeleteSaveIndex(0)}>No</Button>
+        <Button ml3 onClick={handleYes}>
+          Yes
+        </Button>
+        <Button ml3 onClick={() => setDeleteSaveIndex(0)}>
+          No
+        </Button>
       </div>
     )
   }
@@ -63,45 +69,48 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
     <div>
       {saveArray.map((baseSave) => {
         return (
-          <li
-            key={baseSave.name}
-            className="m-3 list-none rounded-lg border border-black p-1"
-          >
-            <span className="inline-block">
-              <h4>{baseSave.title}</h4>
-              {baseSave.hasData ? (
-                <p>
-                  {" "}
-                  Day: {baseSave.day} Gold: {baseSave.gold}
-                </p>
-              ) : (
-                ""
-              )}
-            </span>
-            <span className="inline-block">
-              <Button onClick={() => setSaveIndex(baseSave.index)}>
-                {baseSave.hasData ? "Load" : "Use"}
-              </Button>
-              {baseSave.hasData && (
-                <Button onClick={() => setDeleteSaveIndex(baseSave.index)}>
-                  Delete
+          <Card key={baseSave.name} className="m-3">
+            <Section>
+              <span className="inline-block">
+                <h4>{baseSave.title}</h4>
+                {baseSave.hasData ? (
+                  <p>
+                    {" "}
+                    Day: {baseSave.day} Gold: {baseSave.gold}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </span>
+              <span className="inline-block">
+                <Button ml3 onClick={() => setSaveIndex(baseSave.index)}>
+                  {baseSave.hasData ? "Load" : "Use"}
                 </Button>
-              )}
-            </span>
-            <div>
-              {baseSave.hasData &&
-                emptySaveArray.map((targetSave) => (
+                {baseSave.hasData && (
                   <Button
-                    onClick={() => {
-                      save(targetSave.index, baseSave)
-                      reload()
-                    }}
+                    ml3
+                    onClick={() => setDeleteSaveIndex(baseSave.index)}
                   >
-                    Duplicate to save {targetSave.index}
+                    Delete
                   </Button>
-                ))}
-            </div>
-          </li>
+                )}
+              </span>
+              <div>
+                {baseSave.hasData &&
+                  emptySaveArray.map((targetSave) => (
+                    <Button
+                      ml3
+                      onClick={() => {
+                        save(targetSave.index, baseSave)
+                        reload()
+                      }}
+                    >
+                      Duplicate to save {targetSave.index}
+                    </Button>
+                  ))}
+              </div>
+            </Section>
+          </Card>
         )
       })}
     </div>

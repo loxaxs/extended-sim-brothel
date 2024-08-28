@@ -22,7 +22,7 @@ Here is a more in-depth description of the game mechanics which differ from HSB 
 
 - The game time step is still the day: You plan what each girl will do and validate the day to see the results. It is still possible to save the game before or after spending a day.
 - The girl aquisition mechanic has been simplified: There's now only one way to obtain new girls, not four. You can only get them from the market.
-- I'm still thinking of having six places where you can have business, but I'd like to add a limitation that only two of them can be active at the same time. Also, the places would be rented, not bought. Except maybe the two most prestigious places could be bought as an achievement. I might add a rental system to make it more interesting.
+- I'm still thinking of having six buildings where you can have business, but I'd like to add a limitation that only two of them can be active at the same time. Also, the buildings would be rented, not bought. Except maybe the two most prestigious buildings could be bought as an achievement. I might add a rental system to make it more interesting.
 - The final goal of the game would not be the brothel business itself, but rather to own as many horses as possible. The brothel business would just be a way to get money to buy and care for horses. Or alternatively, the money would be donated to some non-profit organizations chosen by the player.
 
 Girl-related mechanics:

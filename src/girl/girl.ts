@@ -23,6 +23,7 @@ export const MAX_GIRL_STAT: Omit<GirlInfo, "name" | "imageSet" | "owned"> = {
   libido: 100,
   prominence: 100,
   sex: 100,
+  price: 1000,
 }
 
 export function createRandomGirlInfo(

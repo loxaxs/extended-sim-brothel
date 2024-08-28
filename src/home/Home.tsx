@@ -1,8 +1,9 @@
 import React from "react"
-import { Button } from "../button/Button"
 import { ChangePathAction } from "../Game"
 import { GirlList } from "../girl/GirlList"
 import { GirlInfo } from "../type"
+import { Button } from "../ui/button/Button"
+import { Section } from "../ui/section/Section"
 
 export interface HomeProp {
   handleSave: () => void
@@ -24,30 +25,41 @@ export function Home(prop: HomeProp) {
         />
       </div>
       <div className="inline-block">
-        <Button
-          onClick={() => {
-            changePath({ pathAddition: ["market"] })
-          }}
-        >
-          Market
-        </Button>
-        <div className="rounded-2xl border border-black text-xl">
+        <div>
+          <Button
+            className="block"
+            onClick={() => {
+              changePath({ pathAddition: ["market"] })
+            }}
+          >
+            Girl market
+          </Button>
+          <Button
+            className="block"
+            onClick={() => {
+              changePath({ pathAddition: ["buyplace"] })
+            }}
+          >
+            Buy building
+          </Button>
+        </div>
+        <Section className="text-xl">
           <ul className="p-0">
             {[
               { callback: handleSave, text: "Save" },
               { callback: handleNewDay, text: "New Day" },
             ].map(({ callback, text }) => (
               <li key={text} className="m-1 text-center">
-                <button
+                <Button
                   onClick={callback}
-                  className="g-amber-200 rounded-xl border border-amber-400 p-1 hover:bg-yellow-200"
+                  className="g-amber-200 border-amber-400"
                 >
                   {text}
-                </button>
+                </Button>
               </li>
             ))}
           </ul>
-        </div>
+        </Section>
       </div>
     </>
   )
