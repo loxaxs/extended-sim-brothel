@@ -38,6 +38,7 @@ export interface GirlInfo {
   /** changing boolean */
   owned: boolean
   price: number
+  activity: Activity
   /** all the images for a girl */
   imageSet: GirlImageSetInfo
 }
@@ -56,6 +57,23 @@ export interface Building {
   owned: boolean
 }
 
+export type Activity = BuildingActivity | OtherActivity
+
+export interface BuildingActivity {
+  kind: "building"
+  building: Building
+}
+
+export interface OtherActivity {
+  kind:
+    | "rest"
+    | "ceremony"
+    | "poetrySchool"
+    | "danceSchool"
+    | "sexSchool"
+    | "bondageSchool"
+}
+
 export interface GameState {
   day: number
   gold: number
@@ -63,7 +81,14 @@ export interface GameState {
   buildingArray: Building[]
 }
 
-export type PageName = "home" | "market" | "girl"
-
 export type Size = { width: number; height: number }
 export type SizeArray = Size[]
+
+export interface ChangePathAction {
+  pathLevelRemovalCount?: number
+  pathAddition?: string[]
+}
+
+export interface GameContext {
+  changePath: (action: ChangePathAction) => void
+}

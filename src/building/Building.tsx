@@ -1,7 +1,5 @@
 import React from "react"
-import { ChangePathAction } from "../Game"
-import { tw } from "../lib/tw"
-import { Building } from "../type"
+import { Building, ChangePathAction, GirlInfo, OtherActivity } from "../type"
 import { Button } from "../ui/button/Button"
 import { Card } from "../ui/card/Card"
 import { Section } from "../ui/section/Section"
@@ -32,38 +30,132 @@ export function getBuildingArray() {
   ]
 }
 
-export interface BuyBuildingProp {
+export interface BuildingListProp {
+  act: BuildingListAct
   buildingArray: Building[]
-  gold: number
   changePath: (action: ChangePathAction) => void
 }
 
-export function BuyBuilding(prop: BuyBuildingProp) {
-  let { buildingArray, gold, changePath } = prop
+export type BuildingListAct = BuildingListBuyAct | BuildingListSetActivityAct
+
+export interface BuildingListBuyAct {
+  kind: "buy"
+  gold: number
+}
+
+export interface BuildingListSetActivityAct {
+  kind: "setActivity"
+  girlArray: GirlInfo[]
+  targetGirl: GirlInfo
+}
+
+export function BuildingList(prop: BuildingListProp) {
+  let { act, buildingArray, changePath } = prop
+
+  let buildingOccupancyMapping: Record<string, number> = {}
+  if (act.kind === "setActivity") {
+    act.girlArray.forEach((g) => {
+      if (g.activity.kind === "building") {
+        let { name } = g.activity.building
+        buildingOccupancyMapping[name] =
+          (buildingOccupancyMapping[name] ?? 0) + 1
+      }
+    })
+  }
+
   return (
     <div>
-      {buildingArray.map((building) => (
-        <Card key={building.name} className={tw({ hidden: building.owned })}>
-          <Section>
-            <div>{building.name}</div>
-            <p className="mb-3">
-              {building.capacity} rooms
-              <span className="float-right">
-                <Button
-                  disabled={gold < building.price}
+      <div className="grid grid-cols-3">
+        {buildingArray.map((building) => {
+          let { capacity } = building
+          if (act.kind === "setActivity") {
+            capacity -= buildingOccupancyMapping[building.name] ?? 0
+            if (
+              act.targetGirl.activity.kind === "building" &&
+              act.targetGirl.activity.building.name === building.name
+            ) {
+              // mark the room where the target girl is as free to allow reassigning it to her
+              capacity += 1
+            }
+          }
+          let s = capacity > 1 ? "s" : ""
+          return (
+            ((act.kind === "buy" && !building.owned) ||
+              (act.kind === "setActivity" && building.owned)) && (
+              <Card key={building.name}>
+                <Section
+                  clickable={act.kind === "setActivity"}
+                  disabled={capacity <= 0}
                   onClick={() => {
-                    changePath({ pathAddition: [`confirm:${building.name}`] })
+                    ;(act as BuildingListSetActivityAct).targetGirl.activity = {
+                      kind: "building",
+                      building,
+                    }
+                    changePath({ pathLevelRemovalCount: 1 })
                   }}
                 >
-                  Buy for {building.price} gold
-                </Button>
-              </span>
-            </p>
-          </Section>
-        </Card>
-      ))}
+                  <div>{building.name}</div>
+                  <p className="mb-3">
+                    {capacity}
+                    {act.kind === "setActivity" && " free"} room{s}
+                    {act.kind === "buy" && (
+                      <span className="float-right">
+                        <Button
+                          disabled={act.gold < building.price}
+                          onClick={() => {
+                            changePath({
+                              pathAddition: [`confirm:${building.name}`],
+                            })
+                          }}
+                        >
+                          Buy for {building.price} gold
+                        </Button>
+                      </span>
+                    )}
+                  </p>
+                </Section>
+              </Card>
+            )
+          )
+        })}
+      </div>
+      {act.kind === "setActivity" && (
+        <div className="grid grid-cols-3">
+          {otherActivityArray.map((kind) => (
+            <Card key={kind}>
+              <Section
+                clickable
+                onClick={() => {
+                  act.targetGirl.activity = { kind }
+                  changePath({ pathLevelRemovalCount: 1 })
+                }}
+              >
+                {otherActivityNameMapping[kind]}
+              </Section>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
+}
+
+export let otherActivityArray: OtherActivity["kind"][] = [
+  "rest",
+  "ceremony",
+  "poetrySchool",
+  "danceSchool",
+  "sexSchool",
+  "bondageSchool",
+]
+
+export let otherActivityNameMapping: Record<OtherActivity["kind"], string> = {
+  rest: "Rest",
+  ceremony: "Ceremony",
+  poetrySchool: "Poetry School",
+  danceSchool: "Dance School",
+  sexSchool: "Sex School",
+  bondageSchool: "Bondage School",
 }
 
 export interface BuyBuildingConfirmProp {

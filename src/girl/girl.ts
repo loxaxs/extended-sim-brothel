@@ -12,7 +12,10 @@ export function createGirl(girlInfo: GirlInfo): Girl {
   }
 }
 
-export const MAX_GIRL_STAT: Omit<GirlInfo, "name" | "imageSet" | "owned"> = {
+export const MAX_GIRL_STAT: Omit<
+  GirlInfo,
+  "name" | "imageSet" | "owned" | "activity"
+> = {
   beauty: 100,
   character: 100,
   commitment: 100,
@@ -41,5 +44,6 @@ export function createRandomGirlInfo(
   girlInfo.health = 100
   girlInfo.beauty *= 2
   girlInfo.character *= 2
+  girlInfo.activity = { kind: "rest" }
   return girlInfo
 }

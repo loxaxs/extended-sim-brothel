@@ -20,10 +20,7 @@ export function App(prop: AppProp) {
       className="m-auto flex flex-col items-center justify-center bg-amber-200"
       style={{ height: size / 3, width: size / 2 }}
     >
-      <div
-        style={{ transform: `scale(${size / 1080 / 2})` }}
-        className="w-auto"
-      >
+      <div style={{ transform: `scale(${size / 1080 / 2})` }}>
         {saveIndex ? (
           <Game
             initialState={state}

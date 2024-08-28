@@ -1,29 +1,56 @@
 import React from "react"
-import { GirlInfo } from "../type"
+import { otherActivityNameMapping } from "../building/Building"
+import { ChangePathAction, GirlInfo } from "../type"
+import { Button } from "../ui/button/Button"
+import { Section } from "../ui/section/Section"
 import { createGirl } from "./girl"
 import { GirlDisplay } from "./GirlDisplay"
 
 export interface GirlListCardProp {
+  changePath: (action: ChangePathAction) => void
   girl: GirlInfo
   onClick: () => void
+  act: GirlListCardAct
+}
+
+export type GirlListCardAct = {
+  kind: "home" | "market"
 }
 
 export function GirlListCard(prop: GirlListCardProp) {
-  let { girl, onClick } = prop
+  let { act, changePath, girl, onClick } = prop
   return (
-    <div
-      className="m-2 rounded-xl border border-amber-400 p-1 text-center hover:bg-yellow-200"
-      onClick={onClick}
-    >
-      <div>
+    <Section clickable className="m-2 text-center" onClick={onClick}>
+      <div style={{ height: 100 }}>
         <GirlDisplay
           className="m-auto"
           girl={createGirl(girl)}
           tag="mini"
           maxSize={100}
         />
-      </div>{" "}
-      {girl.name} ♥ {girl.health}
-    </div>
+      </div>
+      <div>
+        {girl.name} ♥ {girl.health}
+      </div>
+      <div>
+        {girl.activity.kind === "building"
+          ? girl.activity.building.name
+          : otherActivityNameMapping[girl.activity.kind]}
+      </div>
+      {act.kind === "home" && (
+        <div>
+          <Button
+            ml3
+            className="hover:bg-amber-50"
+            onClick={(ev) => {
+              ev.stopPropagation()
+              changePath({ pathAddition: [`setactivity:${girl.name}`] })
+            }}
+          >
+            🏠
+          </Button>
+        </div>
+      )}
+    </Section>
   )
 }

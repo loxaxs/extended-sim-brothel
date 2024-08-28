@@ -1,9 +1,10 @@
 import React, { useMemo } from "react"
 import {
-  BuyBuilding,
+  BuildingList,
   BuyBuildingConfirm,
   getBuildingArray,
 } from "./building/Building"
+import { gameContext } from "./context/context"
 import { GirlDetailView } from "./girl/GirlDetailView"
 import { getGirlArray } from "./girl/girlGroup"
 import { Home } from "./home/Home"
@@ -11,7 +12,7 @@ import { access } from "./lib/access"
 import { formatBigNumber } from "./lib/number"
 import { Market } from "./market/Market"
 import { createMarketManager } from "./market/marketManager"
-import { GameState } from "./type"
+import { ChangePathAction, GameState } from "./type"
 import { Button } from "./ui/button/Button"
 
 function newGameState(): GameState {
@@ -29,11 +30,6 @@ function newGameState(): GameState {
     girlArray,
     buildingArray,
   }
-}
-
-export interface ChangePathAction {
-  pathLevelRemovalCount?: number
-  pathAddition?: string[]
 }
 
 export interface GameProp {
@@ -81,7 +77,7 @@ export function Game(prop: GameProp) {
     return mapping
   }, [buildingArray])
 
-  const handleSave = () => {
+  let handleSave = () => {
     prop.save({
       gold,
       day,
@@ -90,76 +86,98 @@ export function Game(prop: GameProp) {
     })
   }
 
-  const handleNewDay = () => {
+  let handleNewDay = () => {
     marketManager.handleNewDay()
     setDay((d) => d + 1)
   }
 
+  let getName = (pathIndex: number) => {
+    return path[pathIndex].split(":")[1]
+  }
+
   return (
-    <div className="w-auto">
-      {path.length > 0 && (
-        <Button onClick={() => changePath({ pathLevelRemovalCount: 1 })}>
-          {"< Back"}
-        </Button>
-      )}
-      <div className="text-xl">
-        Gold: {formatBigNumber(gold)} Day: {formatBigNumber(day)}
-      </div>
-      {access(
-        {
-          ".": () => (
-            <Home
-              handleNewDay={handleNewDay}
-              handleSave={handleSave}
-              changePath={changePath}
-              girlArray={girlArray}
-            />
-          ),
-          ".buyplace": () => (
-            <BuyBuilding
-              buildingArray={buildingArray}
-              gold={gold}
-              changePath={changePath}
-            />
-          ),
-          ".girl": () => (
-            <GirlDetailView girl={girlByName[path[0].split(":")[1]]} />
-          ),
-          ".market": () => (
-            <Market marketManager={marketManager} changePath={changePath} />
-          ),
-          ".buyplace.confirm": () => (
-            <BuyBuildingConfirm
-              building={placeByName[path[1].split(":")[1]]}
-              buy={(placeName: string) => {
-                let building = placeByName[placeName]
-                building.owned = true
-                setGold((g) => g - building.price)
-                changePath({ pathLevelRemovalCount: 2 })
-              }}
-              cancel={() => {
-                changePath({ pathLevelRemovalCount: 1 })
-              }}
-            />
-          ),
-          ".market.girl": () => (
-            <GirlDetailView
-              girl={girlByName[path[1].split(":")[1]]}
-              marketInfo={{
-                gold: gold,
-                buy: (girlName) => {
-                  marketManager.handleBuy(girlName)
-                  let girl = girlByName[girlName]
-                  girl.owned = true
-                  setGold((g) => g - girl.price)
+    <gameContext.Provider value={{ changePath }}>
+      <div className="w-[960px]">
+        {path.length > 0 && (
+          <Button onClick={() => changePath({ pathLevelRemovalCount: 1 })}>
+            {"< Back"}
+          </Button>
+        )}
+        <div className="text-xl">
+          Gold: {formatBigNumber(gold)} Day: {formatBigNumber(day)}
+        </div>
+        {access(
+          {
+            ".": () => (
+              <Home
+                handleNewDay={handleNewDay}
+                handleSave={handleSave}
+                changePath={changePath}
+                girlArray={girlArray}
+              />
+            ),
+            ".buyplace": () => (
+              <BuildingList
+                buildingArray={buildingArray}
+                changePath={changePath}
+                act={{
+                  kind: "buy",
+                  gold,
+                }}
+              />
+            ),
+            ".girl": () => <GirlDetailView girl={girlByName[getName(0)]} />,
+            ".market": () => (
+              <Market marketManager={marketManager} changePath={changePath} />
+            ),
+            ".setactivity": () => (
+              <BuildingList
+                buildingArray={buildingArray}
+                changePath={changePath}
+                act={{
+                  kind: "setActivity",
+                  girlArray,
+                  targetGirl: girlByName[getName(0)],
+                }}
+              />
+            ),
+            ".buyplace.confirm": () => (
+              <BuyBuildingConfirm
+                building={placeByName[getName(1)]}
+                buy={(placeName: string) => {
+                  let building = placeByName[placeName]
+                  building.owned = true
+                  setGold((g) => g - building.price)
                   changePath({ pathLevelRemovalCount: 2 })
-                },
-              }}
-            />
-          ),
-        },
-        `.${path.map((p) => p.split(":")[0]).join(".")}`,
-      )}
-    </div>
+                }}
+                cancel={() => {
+                  changePath({ pathLevelRemovalCount: 1 })
+                }}
+              />
+            ),
+            ".market.girl": () => (
+              <GirlDetailView
+                girl={girlByName[getName(1)]}
+                marketInfo={{
+                  gold: gold,
+                  buy: (girlName) => {
+                    marketManager.handleBuy(girlName)
+                    let girl = girlByName[girlName]
+                    girl.owned = true
+                    setGold((g) => g - girl.price)
+                    setGirlArray([
+                      ...girlArray.filter((g) => g.name !== girlName),
+                      girl,
+                    ])
+                    changePath({ pathLevelRemovalCount: 2 })
+                  },
+                }}
+              />
+            ),
+          },
+          `.${path.map((p) => p.split(":")[0]).join(".")}`,
+        )}
+      </div>
+    </gameContext.Provider>
   )
 }

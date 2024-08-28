@@ -1,7 +1,6 @@
 import React from "react"
-import { ChangePathAction } from "../Game"
 import { GirlList } from "../girl/GirlList"
-import { GirlInfo } from "../type"
+import { ChangePathAction, GirlInfo } from "../type"
 import { Button } from "../ui/button/Button"
 import { Section } from "../ui/section/Section"
 
@@ -15,19 +14,21 @@ export interface HomeProp {
 export function Home(prop: HomeProp) {
   let { handleSave, handleNewDay, changePath, girlArray } = prop
   return (
-    <>
-      <div className="inline-block">
+    <div className="grid grid-cols-[85%_15%] gap-2">
+      <div>
         <GirlList
           girlArray={girlArray.filter((g) => g.owned)}
           onClick={(name) => {
             changePath({ pathAddition: [`girl:${name}`] })
           }}
+          changePath={changePath}
+          act={{ kind: "home" }}
         />
       </div>
-      <div className="inline-block">
+      <div>
         <div>
           <Button
-            className="block"
+            className="mx-auto block"
             onClick={() => {
               changePath({ pathAddition: ["market"] })
             }}
@@ -35,7 +36,7 @@ export function Home(prop: HomeProp) {
             Girl market
           </Button>
           <Button
-            className="block"
+            className="mx-auto block"
             onClick={() => {
               changePath({ pathAddition: ["buyplace"] })
             }}
@@ -61,6 +62,6 @@ export function Home(prop: HomeProp) {
           </ul>
         </Section>
       </div>
-    </>
+    </div>
   )
 }
