@@ -30,8 +30,8 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
   let [, rerender] = React.useState(false)
 
   return (
-    <div className="grid grid-cols-[80%_20%]">
-      <div>
+    <div className="grid grid-cols-[75%_25%]">
+      <div className="mx-auto">
         <GirlDisplay
           girl={createGirl(girl)}
           maxSize={600}
@@ -43,20 +43,22 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
           <Button
             style={{ width: sizeRef.current[0]?.width || "100%" }}
             onClick={() => mi.buy(girl.name)}
-            disabled={girl.price > mi.gold}
+            disabled={girl.acquisitionPrice > mi.gold}
           >
-            Buy for {girl.price} gold
+            Buy for {girl.acquisitionPrice} gold
           </Button>
         )}
       </div>
-      <div>
-        <table className="text-2xl">
+      <div className="flex">
+        <table className="m-auto text-xl">
           <tbody>
             {Object.keys(MAX_GIRL_STAT).map((key) =>
-              key === "price" ? null : (
+              key === "acquisitionPrice" ? null : (
                 <tr key={key}>
-                  <td>{capitalize(key)}:</td>
-                  <td className="text-right">{girl[key as any]}</td>
+                  <td className="px-3 py-1">{capitalize(key)}</td>
+                  <td className="border-l-2 border-black px-3 text-right">
+                    {girl[key as any]}
+                  </td>
                 </tr>
               ),
             )}

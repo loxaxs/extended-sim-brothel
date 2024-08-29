@@ -37,11 +37,24 @@ export interface GirlInfo {
   fame: number
   /** changing boolean */
   owned: boolean
-  price: number
+  acquisitionPrice: number
+  sessionPrice: number
   activity: Activity
   /** all the images for a girl */
   imageSet: GirlImageSetInfo
 }
+
+export type GirlVaryingStatKey =
+  | "prominence"
+  | "libido"
+  | "constitution"
+  | "health"
+  | "commitment"
+  | "sex"
+  | "esteem"
+  | "fame"
+
+export type GirlStatChange = Record<GirlVaryingStatKey, number>
 
 export interface Girl extends GirlInfo {
   getCharisma(): number
@@ -53,6 +66,7 @@ export interface Building {
   /** Number of rooms girls can work in */
   capacity: number
   price: number
+  visibility: number
   fame: number
   owned: boolean
 }
@@ -61,7 +75,7 @@ export type Activity = BuildingActivity | OtherActivity
 
 export interface BuildingActivity {
   kind: "building"
-  building: Building
+  buildingName: string
 }
 
 export interface OtherActivity {
@@ -91,4 +105,19 @@ export interface ChangePathAction {
 
 export interface GameContext {
   changePath: (action: ChangePathAction) => void
+}
+
+export type Report = ReportLine[]
+export type ReportLine = GirlReportLine | OtherReportLine
+export interface GirlReportLine {
+  kind: "girl"
+  girlName: string
+  imageCount: number
+  tagList: string[]
+  statChange: GirlStatChange
+  message: string
+}
+export interface OtherReportLine {
+  kind: "other"
+  message: string
 }

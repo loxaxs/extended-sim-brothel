@@ -1,19 +1,22 @@
 import React from "react"
 import { gameContext } from "../context/context"
-import { Building, GirlInfo, OtherActivity } from "../type"
+import { Building, GirlInfo } from "../type"
 import { Button } from "../ui/button/Button"
 import { Card } from "../ui/card/Card"
 import { Section } from "../ui/section/Section"
+import { otherActivityArray, otherActivityNameMapping } from "./activity"
 
 export function createBuilding(
   name: string,
   capacity: number,
   price: number,
+  visibility: number,
 ): Building {
   return {
     name,
     capacity,
     price,
+    visibility,
     fame: 0,
     owned: false,
   }
@@ -21,13 +24,13 @@ export function createBuilding(
 
 export function getBuildingArray() {
   return [
-    createBuilding("Old shack far away", 1, 50),
-    createBuilding("Small house out of the island", 2, 250),
-    createBuilding("House on the island", 3, 1000),
-    createBuilding("House on central road", 3, 5000),
-    createBuilding("Big house on central road", 5, 15000),
-    createBuilding("Palace on central road", 7, 25000),
-    createBuilding("Central palace", 10, 45000),
+    createBuilding("Old shack far away", 1, 50, 0),
+    createBuilding("Small house out of the island", 2, 250, 10),
+    createBuilding("House on the island", 3, 1000, 30),
+    createBuilding("House on central road", 3, 5000, 50),
+    createBuilding("Big house on central road", 5, 15000, 65),
+    createBuilding("Palace on central road", 7, 25000, 80),
+    createBuilding("Central palace", 10, 45000, 110),
   ]
 }
 
@@ -57,9 +60,9 @@ export function BuildingList(prop: BuildingListProp) {
   if (act.kind === "setActivity") {
     act.girlArray.forEach((g) => {
       if (g.activity.kind === "building") {
-        let { name } = g.activity.building
-        buildingOccupancyMapping[name] =
-          (buildingOccupancyMapping[name] ?? 0) + 1
+        let { buildingName } = g.activity
+        buildingOccupancyMapping[buildingName] =
+          (buildingOccupancyMapping[buildingName] ?? 0) + 1
       }
     })
   }
@@ -73,7 +76,7 @@ export function BuildingList(prop: BuildingListProp) {
             capacity -= buildingOccupancyMapping[building.name] ?? 0
             if (
               act.targetGirl.activity.kind === "building" &&
-              act.targetGirl.activity.building.name === building.name
+              act.targetGirl.activity.buildingName === building.name
             ) {
               // mark the room where the target girl is as free to allow reassigning it to her
               capacity += 1
@@ -90,7 +93,7 @@ export function BuildingList(prop: BuildingListProp) {
                   onClick={() => {
                     ;(act as BuildingListSetActivityAct).targetGirl.activity = {
                       kind: "building",
-                      building,
+                      buildingName: building.name,
                     }
                     changePath({ pathLevelRemovalCount: 1 })
                   }}
@@ -139,24 +142,6 @@ export function BuildingList(prop: BuildingListProp) {
       )}
     </div>
   )
-}
-
-export let otherActivityArray: OtherActivity["kind"][] = [
-  "rest",
-  "ceremony",
-  "poetrySchool",
-  "danceSchool",
-  "sexSchool",
-  "bondageSchool",
-]
-
-export let otherActivityNameMapping: Record<OtherActivity["kind"], string> = {
-  rest: "Rest",
-  ceremony: "Ceremony",
-  poetrySchool: "Poetry School",
-  danceSchool: "Dance School",
-  sexSchool: "Sex School",
-  bondageSchool: "Bondage School",
 }
 
 export interface BuyBuildingConfirmProp {

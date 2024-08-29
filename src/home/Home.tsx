@@ -38,7 +38,7 @@ export function Home(prop: HomeProp) {
           <Button
             className="mx-auto block"
             onClick={() => {
-              changePath({ pathAddition: ["buyplace"] })
+              changePath({ pathAddition: ["buybuilding"] })
             }}
           >
             Buy building

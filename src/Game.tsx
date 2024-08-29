@@ -3,7 +3,7 @@ import {
   BuildingList,
   BuyBuildingConfirm,
   getBuildingArray,
-} from "./building/Building"
+} from "./activity/Building"
 import { gameContext } from "./context/context"
 import { GirlDetailView } from "./girl/GirlDetailView"
 import { getGirlArray } from "./girl/girlGroup"
@@ -24,8 +24,10 @@ function newGameState(): GameState {
   let buildingArray = getBuildingArray()
   buildingArray[0].owned = true
 
+  let url = new URL(location.href)
+
   return {
-    gold: 10_000,
+    gold: Number(url.searchParams.get("gold") ?? 250),
     day: 0,
     girlArray,
     buildingArray,
@@ -69,7 +71,7 @@ export function Game(prop: GameProp) {
     })
     return mapping
   }, [girlArray])
-  let placeByName = useMemo(() => {
+  let buildingByName = useMemo(() => {
     let mapping: Record<string, Building> = {}
     buildingArray.forEach((building) => {
       mapping[building.name] = building
@@ -115,13 +117,10 @@ export function Game(prop: GameProp) {
                 girlArray={girlArray}
               />
             ),
-            ".buyplace": () => (
+            ".buybuilding": () => (
               <BuildingList
                 buildingArray={buildingArray}
-                act={{
-                  kind: "buy",
-                  gold,
-                }}
+                act={{ kind: "buy", gold }}
               />
             ),
             ".girl": () => <GirlDetailView girl={girlByName[getName(0)]} />,
@@ -136,11 +135,11 @@ export function Game(prop: GameProp) {
                 }}
               />
             ),
-            ".buyplace.confirm": () => (
+            ".buybuilding.confirm": () => (
               <BuyBuildingConfirm
-                building={placeByName[getName(1)]}
-                buy={(placeName: string) => {
-                  let building = placeByName[placeName]
+                building={buildingByName[getName(1)]}
+                buy={(buildingName: string) => {
+                  let building = buildingByName[buildingName]
                   building.owned = true
                   setGold((g) => g - building.price)
                   changePath({ pathLevelRemovalCount: 2 })
@@ -159,7 +158,7 @@ export function Game(prop: GameProp) {
                     marketManager.handleBuy(girlName)
                     let girl = girlByName[girlName]
                     girl.owned = true
-                    setGold((g) => g - girl.price)
+                    setGold((g) => g - girl.acquisitionPrice)
                     setGirlArray([
                       ...girlArray.filter((g) => g.name !== girlName),
                       girl,

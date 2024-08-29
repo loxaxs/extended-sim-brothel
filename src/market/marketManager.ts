@@ -6,7 +6,7 @@ export function createMarketManager(initialGirlArray: GirlInfo[]) {
   let girlArray = [...initialGirlArray]
   // AvailableGirlArray lists the girls which are in the market today
   let girlInMarketArray = randomExtract(
-    Math.ceil(girlArray.length / 2),
+    Math.ceil(girlArray.length / 2) * 2,
     girlArray,
   )
   return {
@@ -14,6 +14,7 @@ export function createMarketManager(initialGirlArray: GirlInfo[]) {
       return girlInMarketArray
     },
     handleNewDay() {
+      return
       // One girl leaves the market, some enter it
       // If there's only one girl remaining, make sure she stays in the market
       if (girlArray.length === girlInMarketArray.length) {

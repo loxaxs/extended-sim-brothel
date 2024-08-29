@@ -14,7 +14,7 @@ export function createGirl(girlInfo: GirlInfo): Girl {
 
 export const MAX_GIRL_STAT: Omit<
   GirlInfo,
-  "name" | "imageSet" | "owned" | "activity"
+  "name" | "imageSet" | "owned" | "activity" | "sessionPrice"
 > = {
   beauty: 100,
   character: 100,
@@ -26,7 +26,7 @@ export const MAX_GIRL_STAT: Omit<
   libido: 100,
   prominence: 100,
   sex: 100,
-  price: 1000,
+  acquisitionPrice: 1000,
 }
 
 export function createRandomGirlInfo(
