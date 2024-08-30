@@ -41,9 +41,11 @@ export function getParaActivityStatChange(girl: GirlInfo): GirlStatChange {
       break
     case "danceSchool":
       stat.constitution += 1 + randomInt(5)
+      stat.prominence += 1 + randomInt(3)
       break
     case "poetrySchool":
       stat.prominence += 1 + randomInt(5)
+      stat.esteem += 1 + randomInt(3)
       break
     case "sexSchool":
       stat.sex += 1 + randomInt(5)

@@ -61,19 +61,19 @@ The libido inflences the number of customers a girl can work with each day. Howe
 
 Furthermore, low health girls will quickly loose libido. Very healthy girls slowly gain libido over time. It is possible to increase libido temporarily and permanently by using drugs, but low commitment girls are more likely to refuse to take drugs.
 
-### Character, integralism and commitment
+### Character, willingness and commitment
 
-Girls with low commitment are likely to refuse to work. Girls with high character are more likely to refuse to engage in activities they have never practised; one could say they are "integralist". While commitment can be aquired through training, character is a natural trait that cannot be worn down.
+Girls with low willingness are likely to refuse to work. Girls with high character are more likely to refuse to engage in activities they have never practised. While commitment can be aquired through training, character is a natural trait that cannot be worn down.
 
 ### Sex
 
-The ability of a girl to provide customers with satisfactory sexual services depends on the "Sex" characteristic. Together with the charisma, it influences the satisfaction of the customer, and thus the reputation of the girl.
+The ability of a girl to provide customers with satisfactory sexual services depends on the "Sex" characteristic. Together with the charisma, it influences the satisfaction of the customer, and thus the esteem of the girl.
 
-### Reputation and fame
+### Esteem and fame
 
-The recognition of a girl is aquired throught time and through experience she has with customers. It is composed of the fame and the reputation. The reputation tracks the sum of the charisma and sex characteristics. The fame describes how many customers know her or have heard about her. The fame simply grows with experience. The reputation of a girl varies a bit more slowly when she is famous, be it positively or negatively.
+The recognition of a girl is aquired throught time and through experience she has with customers. It is composed of the fame and the reputation. The esteem tracks the sum of the charisma and sex characteristics. The fame describes how many customers know her or have heard about her. The fame simply grows with experience. The esteem of a girl varies a bit more slowly when she is famous, be it positively or negatively.
 
-The price that can be charged for a girl depends a lot on her reputation famous girls will also attract more customers.
+The price that can be charged for a girl depends a lot on her esteem. Famous girls will also attract more customers.
 
 ## Other girl-related mechanisms
 

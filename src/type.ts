@@ -13,6 +13,14 @@ export interface GirlImageSet extends GirlImageSetInfo {
   getSeveralByTag(count: number, ...tags: string[]): GirlImage[]
 }
 
+/**
+ * Beauty+Prominence->Charisma
+ * Libido,Constitution,Health~>Maximum customer count
+ * Commitment-Character->Willingness to work
+ * Sex~>Customer satisfaction, likelyhood of tipping
+ * Esteem~>Customer evaluation of the quality of service
+ * Fame~>Number of customers to come to the building
+ */
 export interface GirlInfo {
   name: string
   /** fixed stat */
@@ -35,9 +43,10 @@ export interface GirlInfo {
   esteem: number
   /** changing stat */
   fame: number
-  /** changing boolean */
-  owned: boolean
+  /** acquisition of ownership */
   acquisitionPrice: number
+  owned: boolean
+  /** user-set value */
   sessionPrice: number
   activity: Activity
   /** all the images for a girl */
@@ -57,7 +66,14 @@ export type GirlVaryingStatKey =
 export type GirlStatChange = Record<GirlVaryingStatKey, number>
 
 export interface Girl extends GirlInfo {
+  /** bargain is a ratio */
+  getBargain(): number
+  /** charisma in [0, 200] */
   getCharisma(): number
+  /** willinness in [-100; 100]  */
+  getWillingness(): number
+  /** max customer count in [1, 4] */
+  getMaxiumumCustomerCount(): number
   imageSet: GirlImageSet
 }
 
