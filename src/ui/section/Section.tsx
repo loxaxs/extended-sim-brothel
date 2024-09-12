@@ -2,10 +2,7 @@ import React from "react"
 import { tw } from "../../lib/tw"
 
 export interface SectionProp
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLElement>,
-    HTMLElement
-  > {
+  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {
   clickable?: boolean
   disabled?: boolean
 }

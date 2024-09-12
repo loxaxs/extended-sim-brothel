@@ -13,7 +13,7 @@ export function load(saveIndex: number): GameState & {
   let saveName = `save${saveIndex}`
   let save = JSON.parse(localStorage.getItem(saveName) ?? "{}")
   save.index = saveIndex
-  save.title = `Save file ${saveIndex}`
+  save.title = `Save file #${saveIndex}`
   save.name = saveName
   save.hasData = save.day !== undefined
   return save
@@ -72,7 +72,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
           <Card key={baseSave.name} className="m-3">
             <Section>
               <span className="inline-block">
-                <h4>{baseSave.title}</h4>
+                <h4 className="text-lg">{baseSave.title}</h4>
                 {baseSave.hasData ? (
                   <p>
                     {" "}
@@ -87,10 +87,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                   {baseSave.hasData ? "Load" : "Use"}
                 </Button>
                 {baseSave.hasData && (
-                  <Button
-                    ml3
-                    onClick={() => setDeleteSaveIndex(baseSave.index)}
-                  >
+                  <Button ml3 onClick={() => setDeleteSaveIndex(baseSave.index)}>
                     Delete
                   </Button>
                 )}
@@ -113,6 +110,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
           </Card>
         )
       })}
+      <p className="text-center">Use #1, #2 or #3 in the URL to auto-load a save file</p>
     </>
   )
 }

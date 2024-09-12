@@ -61,8 +61,7 @@ export function BuildingList(prop: BuildingListProp) {
     act.girlArray.forEach((g) => {
       if (g.activity.kind === "building") {
         let { buildingName } = g.activity
-        buildingOccupancyMapping[buildingName] =
-          (buildingOccupancyMapping[buildingName] ?? 0) + 1
+        buildingOccupancyMapping[buildingName] = (buildingOccupancyMapping[buildingName] ?? 0) + 1
       }
     })
   }
@@ -154,8 +153,7 @@ export function BuyBuildingConfirm(prop: BuyBuildingConfirmProp) {
   return (
     <div>
       <div>
-        Are you sure you want to buy the {prop.building.name} for{" "}
-        {prop.building.price} gold?
+        Are you sure you want to buy the {prop.building.name} for {prop.building.price} gold?
       </div>
       <Button onClick={() => prop.buy(prop.building.name)}>Yes</Button>
       <Button onClick={prop.cancel} ml3>

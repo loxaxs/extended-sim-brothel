@@ -53,10 +53,7 @@ export const MAX_GIRL_STAT: Omit<
   acquisitionPrice: 1000,
 }
 
-export function createRandomGirlInfo(
-  girlName: string,
-  imageSet: GirlImageSetInfo,
-): GirlInfo {
+export function createRandomGirlInfo(girlName: string, imageSet: GirlImageSetInfo): GirlInfo {
   let girlInfo: GirlInfo = Object.fromEntries(
     Object.entries(MAX_GIRL_STAT).map(([key, maxValue]) => [
       key,
@@ -69,5 +66,8 @@ export function createRandomGirlInfo(
   girlInfo.beauty *= 2
   girlInfo.character *= 2
   girlInfo.activity = { kind: "rest" }
+  girlInfo.owned = false
+  girlInfo.sessionPrice = girlInfo.esteem
+
   return girlInfo
 }

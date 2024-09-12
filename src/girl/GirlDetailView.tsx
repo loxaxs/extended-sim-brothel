@@ -1,15 +1,19 @@
 import React, { useRef } from "react"
-import { capitalize } from "../lib/text"
 import { GirlInfo, SizeArray } from "../type"
 import { Button } from "../ui/button/Button"
-import { createGirl, MAX_GIRL_STAT } from "./girl"
+import { createGirl } from "./girl"
 import { GirlDisplay } from "./GirlDisplay"
+import { GirlStat } from "./GirlStat"
 
 export interface GirlDetailViewProp {
   girl: GirlInfo
   marketInfo?: {
     gold: number
     buy: (name: string) => void
+  }
+  navigation: {
+    next: "" | (() => void)
+    previous: "" | (() => void)
   }
 }
 
@@ -34,7 +38,7 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
       <div className="mx-auto">
         <GirlDisplay
           girl={createGirl(girl)}
-          maxSize={600}
+          maxSize={550}
           tag={tag}
           sizeRef={sizeRef}
           rerender={() => rerender((x) => !x)}
@@ -48,23 +52,22 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
             Buy for {girl.acquisitionPrice} gold
           </Button>
         )}
+        <span className="flex justify-between gap-2">
+          <NavigationButton onClick={prop.navigation.previous}>{"<"}</NavigationButton>
+          <NavigationButton onClick={prop.navigation.next}>{">"}</NavigationButton>
+        </span>
       </div>
       <div className="flex">
-        <table className="m-auto text-xl">
-          <tbody>
-            {Object.keys(MAX_GIRL_STAT).map((key) =>
-              key === "acquisitionPrice" ? null : (
-                <tr key={key}>
-                  <td className="px-3 py-1">{capitalize(key)}</td>
-                  <td className="border-l-2 border-black px-3 text-right">
-                    {girl[key as any]}
-                  </td>
-                </tr>
-              ),
-            )}
-          </tbody>
-        </table>
+        <GirlStat girl={girl} />
       </div>
     </div>
+  )
+}
+
+function NavigationButton({ onClick, children }: { onClick: "" | (() => void); children: string }) {
+  return (
+    <Button onClick={onClick || undefined} disabled={!onClick} style={{ width: "100%" }}>
+      {children}
+    </Button>
   )
 }

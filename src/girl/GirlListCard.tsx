@@ -24,12 +24,7 @@ export function GirlListCard(prop: GirlListCardProp) {
   return (
     <Section clickable className="m-2 text-center" onClick={onClick}>
       <div style={{ height: 100 }}>
-        <GirlDisplay
-          className="m-auto"
-          girl={createGirl(girl)}
-          tag="mini"
-          maxSize={100}
-        />
+        <GirlDisplay className="m-auto" girl={createGirl(girl)} tag="mini" maxSize={100} />
       </div>
       <div>
         {girl.name} {act.kind === "home" && `♥ ${girl.health}`}
@@ -37,6 +32,7 @@ export function GirlListCard(prop: GirlListCardProp) {
       {act.kind === "home" && (
         <>
           <div>
+            ⌂{" "}
             {girl.activity.kind === "building"
               ? girl.activity.buildingName
               : otherActivityNameMapping[girl.activity.kind]}

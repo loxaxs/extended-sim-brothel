@@ -5,10 +5,7 @@ export function createMarketManager(initialGirlArray: GirlInfo[]) {
   // GirlArray lists the girls which can be bought now or later
   let girlArray = [...initialGirlArray]
   // AvailableGirlArray lists the girls which are in the market today
-  let girlInMarketArray = randomExtract(
-    Math.ceil(girlArray.length / 2) * 2,
-    girlArray,
-  )
+  let girlInMarketArray = randomExtract(Math.ceil(girlArray.length / 2) * 2, girlArray)
   return {
     getGirlArray() {
       return girlInMarketArray
@@ -22,22 +19,12 @@ export function createMarketManager(initialGirlArray: GirlInfo[]) {
       }
       const girlLeavingMarketCount = 1
       let girlEnteringMarketCount =
-        Math.ceil(girlArray.length / 2) +
-        girlLeavingMarketCount -
-        girlInMarketArray.length
+        Math.ceil(girlArray.length / 2) + girlLeavingMarketCount - girlInMarketArray.length
       // The girl which can enter the market are the girls which are not already
       // in it.
-      let girlEnteringOptionArray = girlArray.filter(
-        (g) => !girlInMarketArray.includes(g),
-      )
-      let girlEnteringMarketArray = randomExtract(
-        girlEnteringMarketCount,
-        girlEnteringOptionArray,
-      )
-      girlInMarketArray.splice(
-        randomInt(girlInMarketArray.length),
-        girlLeavingMarketCount,
-      )
+      let girlEnteringOptionArray = girlArray.filter((g) => !girlInMarketArray.includes(g))
+      let girlEnteringMarketArray = randomExtract(girlEnteringMarketCount, girlEnteringOptionArray)
+      girlInMarketArray.splice(randomInt(girlInMarketArray.length), girlLeavingMarketCount)
       girlInMarketArray.push(...girlEnteringMarketArray)
     },
     handleBuy(girlName: string) {

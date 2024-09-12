@@ -95,13 +95,7 @@ export interface BuildingActivity {
 }
 
 export interface OtherActivity {
-  kind:
-    | "rest"
-    | "ceremony"
-    | "poetrySchool"
-    | "danceSchool"
-    | "sexSchool"
-    | "bondageSchool"
+  kind: "rest" | "ceremony" | "poetrySchool" | "danceSchool" | "sexSchool" | "bondageSchool"
 }
 
 export interface GameState {
@@ -131,9 +125,11 @@ export interface GirlReportLine {
   imageCount: number
   tagList: string[]
   statChange: GirlStatChange
+  goldChange: number
   message: string
 }
 export interface OtherReportLine {
   kind: "other"
+  goldChange: number
   message: string
 }

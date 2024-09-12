@@ -14,17 +14,7 @@ export interface GirlDisplayProp {
 }
 
 export function GirlDisplay(prop: GirlDisplayProp) {
-  let {
-    className,
-    girl,
-    maxSize,
-    style,
-    tag,
-    tagList = [],
-    count = 1,
-    sizeRef,
-    rerender,
-  } = prop
+  let { className, girl, maxSize, style, tag, tagList = [], count = 1, sizeRef, rerender } = prop
   let tagArray = tag ? [tag, ...tagList] : tagList
   let imageList = girl.imageSet.getSeveralByTag(count, ...tagArray)
   if (sizeRef) {

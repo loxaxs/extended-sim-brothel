@@ -13,7 +13,7 @@ export interface AppProp {
 export function App(prop: AppProp) {
   let { baseHeight, baseWidth } = prop
   let size = Math.min(baseHeight * 3, baseWidth * 2)
-  let [saveIndex, setSaveIndex] = useState(0)
+  let [saveIndex, setSaveIndex] = useState(+location.hash.slice(1) || 0)
   let state = load(saveIndex)
 
   return (
@@ -27,7 +27,6 @@ export function App(prop: AppProp) {
           width: 960,
           height: 640,
         }}
-        className="table"
       >
         <a className="fixed right-0 top-0" href={packageInfo.repository.url}>
           ESB-{packageInfo.version}

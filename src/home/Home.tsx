@@ -25,7 +25,7 @@ export function Home(prop: HomeProp) {
           act={{ kind: "home" }}
         />
       </div>
-      <div>
+      <div className="place-self-center">
         <div>
           <Button
             className="mx-auto block"
@@ -51,10 +51,7 @@ export function Home(prop: HomeProp) {
               { callback: handleNewDay, text: "New Day" },
             ].map(({ callback, text }) => (
               <li key={text} className="m-1 text-center">
-                <Button
-                  onClick={callback}
-                  className="g-amber-200 border-amber-400"
-                >
+                <Button onClick={callback} className="g-amber-200 border-amber-400">
                   {text}
                 </Button>
               </li>

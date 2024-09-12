@@ -61,10 +61,7 @@ export function getParaActivityStatChange(girl: GirlInfo): GirlStatChange {
   return stat
 }
 
-export function getParaActivityMessage(
-  girl: GirlInfo,
-  statChange: GirlStatChange,
-) {
+export function getParaActivityMessage(girl: GirlInfo, statChange: GirlStatChange) {
   let statChangeMessage = Object.entries(statChange)
     .filter(([k, v]) => v !== 0)
     .map(([name, diff]) => `${name} (${diff})`)

@@ -26,11 +26,7 @@ let emptyTagTree: ImageTagTree = {}
 walkCategorySystem(categorySystem, "", emptyTagTree)
 let emptyTagTreeString = JSON.stringify(emptyTagTree)
 
-function uniqueOrderedInsert<T>(
-  item: T,
-  array: T[],
-  keyFunction: (a: T) => string,
-) {
+function uniqueOrderedInsert<T>(item: T, array: T[], keyFunction: (a: T) => string) {
   if (array.length === 0) {
     array.push(item)
     return
@@ -61,9 +57,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
   let tagTree: ImageTagTree = JSON.parse(emptyTagTreeString)
   Object.entries(imageSetInfo.tagMapping).forEach(([tag, images]) => {
     if (!tagTree[tag]) {
-      throw new Error(
-        `Tag ${JSON.stringify(tag)} not found in the category system`,
-      )
+      throw new Error(`Tag ${JSON.stringify(tag)} not found in the category system`)
     }
     tagTree[tag].imageList = images
     let parent = tag
@@ -74,9 +68,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
       })
       parent = tagTree[parent].parent
       if (--stop < 0) {
-        throw new Error(
-          `Infinite loop detected in category system with parent "${parent}"`,
-        )
+        throw new Error(`Infinite loop detected in category system with parent "${parent}"`)
       }
     }
   })
@@ -86,10 +78,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
     getByTag(...tags: string[]): GirlImage {
       return this.getSeveralByTag(1, ...tags)[0]
     },
-    getSeveralByTag(
-      count: number,
-      ...tagArray: [string, ...string[]]
-    ): GirlImage[] {
+    getSeveralByTag(count: number, ...tagArray: [string, ...string[]]): GirlImage[] {
       let imageList: GirlImage[] = []
       let imageUrlList: string[] = []
       let tagIndex = 0
@@ -123,10 +112,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
         // If there are too many images in the pack being added to the list,
         // we'll randomly extract the number of images needed
         if (imageList.length + filteredImageList.length > count) {
-          filteredImageList = randomExtract(
-            count - imageList.length,
-            filteredImageList,
-          )
+          filteredImageList = randomExtract(count - imageList.length, filteredImageList)
         }
         imageList.push(...filteredImageList)
         imageUrlList.push(...filteredImageList.map(({ src }) => src))

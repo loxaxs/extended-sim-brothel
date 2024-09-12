@@ -16,9 +16,7 @@ export function createGirlGroup(girlImageList: GirlImage[]) {
   })
 
   Object.entries(imageTagMappingGroup).forEach(([girlName, tagMapping]) => {
-    girlGroup[girlName] = createGirl(
-      createRandomGirlInfo(girlName, { tagMapping }),
-    )
+    girlGroup[girlName] = createGirl(createRandomGirlInfo(girlName, { tagMapping }))
   })
 
   return girlGroup
