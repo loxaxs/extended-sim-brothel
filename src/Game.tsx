@@ -99,79 +99,77 @@ export function Game(prop: GameProp) {
 
   return (
     <gameContext.Provider value={{ changePath }}>
-      <div className="w-[960px]">
-        {path.length > 0 && (
-          <Button onClick={() => changePath({ pathLevelRemovalCount: 1 })}>
-            {"< Back"}
-          </Button>
-        )}
-        <div className="text-xl">
-          Gold: {formatBigNumber(gold)} Day: {formatBigNumber(day)}
-        </div>
-        {access(
-          {
-            ".": () => (
-              <Home
-                handleNewDay={handleNewDay}
-                handleSave={handleSave}
-                girlArray={girlArray}
-              />
-            ),
-            ".buybuilding": () => (
-              <BuildingList
-                buildingArray={buildingArray}
-                act={{ kind: "buy", gold }}
-              />
-            ),
-            ".girl": () => <GirlDetailView girl={girlByName[getName(0)]} />,
-            ".market": () => <Market marketManager={marketManager} />,
-            ".setactivity": () => (
-              <BuildingList
-                buildingArray={buildingArray}
-                act={{
-                  kind: "setActivity",
-                  girlArray,
-                  targetGirl: girlByName[getName(0)],
-                }}
-              />
-            ),
-            ".buybuilding.confirm": () => (
-              <BuyBuildingConfirm
-                building={buildingByName[getName(1)]}
-                buy={(buildingName: string) => {
-                  let building = buildingByName[buildingName]
-                  building.owned = true
-                  setGold((g) => g - building.price)
-                  changePath({ pathLevelRemovalCount: 2 })
-                }}
-                cancel={() => {
-                  changePath({ pathLevelRemovalCount: 1 })
-                }}
-              />
-            ),
-            ".market.girl": () => (
-              <GirlDetailView
-                girl={girlByName[getName(1)]}
-                marketInfo={{
-                  gold: gold,
-                  buy: (girlName) => {
-                    marketManager.handleBuy(girlName)
-                    let girl = girlByName[girlName]
-                    girl.owned = true
-                    setGold((g) => g - girl.acquisitionPrice)
-                    setGirlArray([
-                      ...girlArray.filter((g) => g.name !== girlName),
-                      girl,
-                    ])
-                    changePath({ pathLevelRemovalCount: 2 })
-                  },
-                }}
-              />
-            ),
-          },
-          `.${path.map((p) => p.split(":")[0]).join(".")}`,
-        )}
+      {path.length > 0 && (
+        <Button onClick={() => changePath({ pathLevelRemovalCount: 1 })}>
+          {"< Back"}
+        </Button>
+      )}
+      <div className="text-xl">
+        Gold: {formatBigNumber(gold)} Day: {formatBigNumber(day)}
       </div>
+      {access(
+        {
+          ".": () => (
+            <Home
+              handleNewDay={handleNewDay}
+              handleSave={handleSave}
+              girlArray={girlArray}
+            />
+          ),
+          ".buybuilding": () => (
+            <BuildingList
+              buildingArray={buildingArray}
+              act={{ kind: "buy", gold }}
+            />
+          ),
+          ".girl": () => <GirlDetailView girl={girlByName[getName(0)]} />,
+          ".market": () => <Market marketManager={marketManager} />,
+          ".setactivity": () => (
+            <BuildingList
+              buildingArray={buildingArray}
+              act={{
+                kind: "setActivity",
+                girlArray,
+                targetGirl: girlByName[getName(0)],
+              }}
+            />
+          ),
+          ".buybuilding.confirm": () => (
+            <BuyBuildingConfirm
+              building={buildingByName[getName(1)]}
+              buy={(buildingName: string) => {
+                let building = buildingByName[buildingName]
+                building.owned = true
+                setGold((g) => g - building.price)
+                changePath({ pathLevelRemovalCount: 2 })
+              }}
+              cancel={() => {
+                changePath({ pathLevelRemovalCount: 1 })
+              }}
+            />
+          ),
+          ".market.girl": () => (
+            <GirlDetailView
+              girl={girlByName[getName(1)]}
+              marketInfo={{
+                gold: gold,
+                buy: (girlName) => {
+                  marketManager.handleBuy(girlName)
+                  let girl = girlByName[girlName]
+                  girl.owned = true
+                  setGold((g) => g - girl.acquisitionPrice)
+                  setGirlArray([
+                    ...girlArray.filter((g) => g.name !== girlName),
+                    girl,
+                  ])
+                  changePath({ pathLevelRemovalCount: 2 })
+                },
+              }}
+            />
+          ),
+        },
+        `.${path.map((p) => p.split(":")[0]).join(".")}`,
+      )}
     </gameContext.Provider>
   )
 }

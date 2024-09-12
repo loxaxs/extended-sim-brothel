@@ -49,7 +49,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
     }
 
     return (
-      <div>
+      <>
         <p>Are you sure you want to delete save file {deleteSaveIndex}?</p>
         <p>
           {" "}
@@ -61,12 +61,12 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
         <Button ml3 onClick={() => setDeleteSaveIndex(0)}>
           No
         </Button>
-      </div>
+      </>
     )
   }
 
   return (
-    <div>
+    <>
       {saveArray.map((baseSave) => {
         return (
           <Card key={baseSave.name} className="m-3">
@@ -113,6 +113,6 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
           </Card>
         )
       })}
-    </div>
+    </>
   )
 }

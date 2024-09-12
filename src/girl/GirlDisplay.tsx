@@ -47,6 +47,7 @@ export function GirlDisplay(prop: GirlDisplayProp) {
                 rerender?.()
               }
             }}
+            draggable={false} // disables image dragging which is on by default in web browsers
           />
         )
       })}
