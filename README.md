@@ -4,10 +4,18 @@
 
 The game images are held in a separate repository: esbpic. To build the game,
 you'll need to clone the esbpic repository in the root folder of the extended-sim-brothel repository.
+You have several options. You can use `--recurse-submodules` when cloning:
 
 ```bash
-# cd extended-sim-brothel/
-git clone git@github.com:loxaxs/esbpic.git
+git clone https://github.com/loxaxs/extended-sim-brothel --recurse-submodules
+```
+
+...or you can do it in two steps:
+
+```bash
+git clone https://github.com/loxaxs/extended-sim-brothel
+cd extended-sim-brothel/
+git submodule update --init
 ```
 
 ## Description

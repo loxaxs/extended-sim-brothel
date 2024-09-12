@@ -6,8 +6,10 @@ dist/
 !/src/
 !/script/
 !/asset/
+!/esbpic/
 
 !.gitignore
+!.gitmodules
 !.postcssrc
 !.prettierrc
 !.yarnrc.yml
