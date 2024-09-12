@@ -1,11 +1,12 @@
-import React from "react"
+import { ReactNode } from "react"
 import { GirlInfo } from "../type"
 import { GirlListCard } from "./GirlListCard"
 
 export interface GirlListProp {
+  act: GirlListAct
+  contentIfEmpty?: ReactNode
   girlArray: GirlInfo[]
   onClick: (name: string) => void
-  act: GirlListAct
 }
 
 export type GirlListAct = {
@@ -13,22 +14,26 @@ export type GirlListAct = {
 }
 
 export function GirlList(prop: GirlListProp) {
-  let { act, girlArray, onClick } = prop
+  let { act, contentIfEmpty, girlArray, onClick } = prop
 
   return (
-    <div className="grid grid-cols-4">
+    <div className="flex flex-wrap">
       {girlArray.map((girl) => {
         return (
-          <GirlListCard
-            key={girl.name}
-            girl={girl}
-            onClick={() => {
-              onClick(girl.name)
-            }}
-            act={act}
-          />
+          <div className="w-1/4">
+            <GirlListCard
+              className="h-[230px]"
+              key={girl.name}
+              girl={girl}
+              onClick={() => {
+                onClick(girl.name)
+              }}
+              act={act}
+            />
+          </div>
         )
       })}
+      {girlArray.length === 0 && contentIfEmpty}
     </div>
   )
 }

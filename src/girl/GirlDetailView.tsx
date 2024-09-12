@@ -4,6 +4,7 @@ import { Button } from "../ui/button/Button"
 import { createGirl } from "./girl"
 import { GirlDisplay } from "./GirlDisplay"
 import { GirlStat } from "./GirlStat"
+import { SessionPriceSelector } from "./SessionPriceSelector"
 
 export interface GirlDetailViewProp {
   girl: GirlInfo
@@ -32,17 +33,21 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
 
   let sizeRef = useRef<SizeArray>([])
   let [, rerender] = React.useState(false)
+  let [sessionPrice, setSessionPrice] = React.useState(girl.sessionPrice)
+  girl.sessionPrice = sessionPrice
 
   return (
     <div className="grid grid-cols-[75%_25%]">
       <div className="mx-auto">
-        <GirlDisplay
-          girl={createGirl(girl)}
-          maxSize={550}
-          tag={tag}
-          sizeRef={sizeRef}
-          rerender={() => rerender((x) => !x)}
-        />
+        <div className="h-[550px]">
+          <GirlDisplay
+            girl={createGirl(girl)}
+            maxSize={550}
+            tag={tag}
+            sizeRef={sizeRef}
+            rerender={() => rerender((x) => !x)}
+          />
+        </div>
         {mi && (
           <Button
             style={{ width: sizeRef.current[0]?.width || "100%" }}
@@ -57,8 +62,9 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
           <NavigationButton onClick={prop.navigation.next}>{">"}</NavigationButton>
         </span>
       </div>
-      <div className="flex">
+      <div>
         <GirlStat girl={girl} />
+        <SessionPriceSelector sessionPrice={sessionPrice} setSessionPrice={setSessionPrice} />
       </div>
     </div>
   )

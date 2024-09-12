@@ -27,8 +27,9 @@ export function App(prop: AppProp) {
           width: 960,
           height: 640,
         }}
+        className="table"
       >
-        <a className="fixed right-0 top-0" href={packageInfo.repository.url}>
+        <a className="absolute right-0 top-0" href={packageInfo.repository.url}>
           ESB-{packageInfo.version}
         </a>
         <div className="mx-auto table-cell justify-center align-middle">

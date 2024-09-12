@@ -139,6 +139,9 @@ export function BuildingList(prop: BuildingListProp) {
           ))}
         </div>
       )}
+      {act.kind === "buy" && buildingArray.every((b) => b.owned) && (
+        <div>You own all the buildings</div>
+      )}
     </div>
   )
 }

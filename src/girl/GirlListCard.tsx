@@ -1,5 +1,6 @@
 import React from "react"
 import { otherActivityNameMapping } from "src/activity/activity"
+import { tw } from "src/lib/tw"
 import { gameContext } from "../context/context"
 import { GirlInfo } from "../type"
 import { Button } from "../ui/button/Button"
@@ -8,9 +9,10 @@ import { createGirl } from "./girl"
 import { GirlDisplay } from "./GirlDisplay"
 
 export interface GirlListCardProp {
+  act: GirlListCardAct
+  className?: string
   girl: GirlInfo
   onClick: () => void
-  act: GirlListCardAct
 }
 
 export type GirlListCardAct = {
@@ -18,21 +20,21 @@ export type GirlListCardAct = {
 }
 
 export function GirlListCard(prop: GirlListCardProp) {
-  let { act, girl, onClick } = prop
+  let { act, className, girl, onClick } = prop
   let { changePath } = React.useContext(gameContext)
 
   return (
-    <Section clickable className="m-2 text-center" onClick={onClick}>
+    <Section clickable className={tw(className, "m-2 text-center")} onClick={onClick}>
       <div style={{ height: 100 }}>
         <GirlDisplay className="m-auto" girl={createGirl(girl)} tag="mini" maxSize={100} />
       </div>
       <div>
-        {girl.name} {act.kind === "home" && `♥ ${girl.health}`}
+        {girl.name} {act.kind === "home" && `♥ ${girl.health}`}
       </div>
       {act.kind === "home" && (
         <>
           <div>
-            ⌂{" "}
+            ⌂ 
             {girl.activity.kind === "building"
               ? girl.activity.buildingName
               : otherActivityNameMapping[girl.activity.kind]}

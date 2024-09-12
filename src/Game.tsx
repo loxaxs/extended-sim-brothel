@@ -18,7 +18,7 @@ function newGameState(): GameState {
 
   girlArray[0].owned = true
   girlArray[0].commitment = 100
-  girlArray[0].libido = 50 + girlArray[0].libido / 2
+  girlArray[0].libido = 50 + Math.floor(girlArray[0].libido / 2)
 
   let buildingArray = getBuildingArray()
   buildingArray[0].owned = true
