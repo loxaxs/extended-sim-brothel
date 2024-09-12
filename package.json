@@ -3,16 +3,25 @@
   "version": "1.0.0-alpha.1",
   "author": "Loxaan OXYDE <loxaxs@free.fr>",
   "license": "Jam",
-  "engines": {
-    "node": ">=20.6.1"
-  },
   "packageManager": "yarn@4.1.1",
   "repository": {
     "url": "https://github.com/loxaxs/extended-sim-brothel"
   },
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "vercelbuild": "wireit",
+    "resolveGirlImageUrl": "ts-node script/resolveGirlImageUrl.ts",
+    "generateAssetLoader": "ts-node script/generateAssetLoader.ts"
+  },
+  "wireit": {
+    "vercelbuild": {
+      "command": "yarn build",
+      "dependencies": [
+        "resolveGirlImageUrl",
+        "generateAssetLoader"
+      ]
+    }
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -31,6 +40,7 @@
     "sharp": "^0.31.1",
     "tailwindcss": "^3.4.10",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "wireit": "^0.14.9"
   }
 }

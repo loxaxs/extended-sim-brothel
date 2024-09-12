@@ -1,9 +1,9 @@
 import React from "react"
-import { createGirl } from "src/girl/girl"
-import { GirlDisplay } from "src/girl/GirlDisplay"
-import { GirlStat } from "src/girl/GirlStat"
-import { Girl, GirlInfo, GirlReportLine, Report } from "src/type"
-import { Button } from "src/ui/button/Button"
+import { createGirl } from "../girl/girl"
+import { GirlDisplay } from "../girl/GirlDisplay"
+import { GirlStat } from "../girl/GirlStat"
+import { Girl, GirlInfo, GirlReportLine, Report } from "../type"
+import { Button } from "../ui/button/Button"
 
 export interface ReportDisplayProp {
   report: Report

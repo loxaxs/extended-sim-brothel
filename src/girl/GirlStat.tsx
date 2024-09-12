@@ -1,5 +1,5 @@
-import { capitalize } from "src/lib/text"
-import { GirlInfo, GirlStatChange } from "src/type"
+import { capitalize } from "../lib/text"
+import { GirlInfo, GirlStatChange } from "../type"
 import { MAX_GIRL_STAT } from "./girl"
 
 export interface GirlStatProp {

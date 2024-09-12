@@ -1,5 +1,5 @@
-import { Button } from "src/ui/button/Button"
-import { Section } from "src/ui/section/Section"
+import { Button } from "../ui/button/Button"
+import { Section } from "../ui/section/Section"
 
 export interface SessionPriceSelectorProp {
   sessionPrice: number

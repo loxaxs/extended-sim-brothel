@@ -8,14 +8,23 @@ You have several options. You can use `--recurse-submodules` when cloning:
 
 ```bash
 git clone https://github.com/loxaxs/extended-sim-brothel --recurse-submodules
+cd extended-sim-brothel
 ```
 
 ...or you can do it in two steps:
 
 ```bash
 git clone https://github.com/loxaxs/extended-sim-brothel
-cd extended-sim-brothel/
+cd extended-sim-brothel
 git submodule update --init
+```
+
+Once the images are downloaded, you need to run two scripts to make them available in the game:
+
+```bash
+yarn
+yarn ts-node script/resolveGirlImageUrl.ts
+yarn ts-node script/generateAssetLoader.ts
 ```
 
 ## Description

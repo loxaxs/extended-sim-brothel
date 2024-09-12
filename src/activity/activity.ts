@@ -1,5 +1,5 @@
-import { GirlInfo, GirlStatChange, OtherActivity } from "src/type"
 import { randomInt } from "../lib/random"
+import { GirlInfo, GirlStatChange, OtherActivity } from "../type"
 
 export let otherActivityArray: OtherActivity["kind"][] = [
   "rest",

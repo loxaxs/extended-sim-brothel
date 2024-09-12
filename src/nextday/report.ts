@@ -1,6 +1,6 @@
-import { getParaActivityMessage, getParaActivityStatChange } from "src/activity/activity"
-import { createGirl } from "src/girl/girl"
-import { Building, Girl, GirlInfo, Report } from "src/type"
+import { getParaActivityMessage, getParaActivityStatChange } from "../activity/activity"
+import { createGirl } from "../girl/girl"
+import { Building, Girl, GirlInfo, Report } from "../type"
 
 export interface NextDayReportParam {
   girlArray: GirlInfo[]
