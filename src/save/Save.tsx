@@ -1,15 +1,11 @@
 import React, { SetStateAction } from "react"
-import { GameState } from "../type"
+import { tw } from "../lib/tw"
+import { GameState, SaveExtraData } from "../type"
 import { Button } from "../ui/button/Button"
 import { Card } from "../ui/card/Card"
 import { Section } from "../ui/section/Section"
 
-export function load(saveIndex: number): GameState & {
-  index: number
-  title: string
-  name: string
-  hasData: boolean
-} {
+export function loadGame(saveIndex: number): GameState & SaveExtraData {
   let saveName = `save${saveIndex}`
   let save = JSON.parse(localStorage.getItem(saveName) ?? "{}")
   save.index = saveIndex
@@ -19,7 +15,7 @@ export function load(saveIndex: number): GameState & {
   return save
 }
 
-export function save(saveIndex: number, data: GameState) {
+export function saveGame(saveIndex: number, data: GameState) {
   let { index, title, name, ...gameData } = data as any
   localStorage.setItem(`save${saveIndex}`, JSON.stringify(gameData))
 }
@@ -29,12 +25,15 @@ export function deleteSave(saveIndex: number) {
 }
 
 export interface SelectSaveFileProp {
+  saveCount: number
+  saveIndex: number
+  saveData?: GameState & SaveExtraData
   setSaveIndex: (value: SetStateAction<number>) => void
 }
 
 export function SelectSaveFile(prop: SelectSaveFileProp) {
-  let { setSaveIndex } = prop
-  let saveArray = Array.from({ length: 3 }, (_, k) => load(k + 1))
+  let { saveCount, saveIndex, saveData, setSaveIndex } = prop
+  let saveArray = Array.from({ length: saveCount }, (_, k) => loadGame(k + 1))
   let emptySaveArray = saveArray.filter((baseSave) => !baseSave.hasData)
 
   let [_, reload] = React.useReducer((x) => !x, false)
@@ -68,9 +67,17 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
   return (
     <>
       {saveArray.map((baseSave) => {
+        let isInUse = baseSave.index === saveIndex
+        if (isInUse) {
+          baseSave = saveData!
+        }
         return (
           <Card key={baseSave.name} className="m-3">
-            <Section>
+            <Section
+              className={tw({
+                "bg-amber-50": isInUse,
+              })}
+            >
               <span className="inline-block">
                 <h4 className="text-lg">{baseSave.title}</h4>
                 {baseSave.hasData ? (
@@ -98,7 +105,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                     <Button
                       ml3
                       onClick={() => {
-                        save(targetSave.index, baseSave)
+                        saveGame(targetSave.index, baseSave)
                         reload()
                       }}
                     >
@@ -110,7 +117,6 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
           </Card>
         )
       })}
-      <p className="text-center">Use #1, #2 or #3 in the URL to auto-load a save file</p>
     </>
   )
 }

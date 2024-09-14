@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { tw } from "src/lib/tw"
 import { GirlInfo } from "../type"
 import { GirlListCard } from "./GirlListCard"
 
@@ -22,7 +23,10 @@ export function GirlList(prop: GirlListProp) {
         return (
           <div className="w-1/4">
             <GirlListCard
-              className="h-[230px]"
+              className={tw({
+                "h-[230px]": act.kind === "home",
+                "h-[140px]": act.kind === "market",
+              })}
               key={girl.name}
               girl={girl}
               onClick={() => {

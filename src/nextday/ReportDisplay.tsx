@@ -67,7 +67,7 @@ export function ReportGirlDisplay(prop: { line: GirlReportLine; girl: Girl }) {
 
   return (
     <div className="flex">
-      <GirlDisplay girl={girl} maxSize={300} tagList={line.tagList} />
+      <GirlDisplay girl={girl} maxSize={300} tagList={line.tagList} count={line.imageCount} />
       <GirlStat girl={girl} statChange={line.statChange} />
     </div>
   )

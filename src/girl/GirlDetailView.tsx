@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useReducer, useRef } from "react"
 import { GirlInfo, SizeArray } from "../type"
 import { Button } from "../ui/button/Button"
 import { createGirl } from "./girl"
@@ -16,10 +16,11 @@ export interface GirlDetailViewProp {
     next: "" | (() => void)
     previous: "" | (() => void)
   }
+  showPriceSelector?: boolean
 }
 
 export function GirlDetailView(prop: GirlDetailViewProp) {
-  let { girl, marketInfo: mi } = prop
+  let { girl, marketInfo: mi, navigation, showPriceSelector } = prop
   let tag: string
   if (girl.health === 100) {
     tag = "dancing"
@@ -32,7 +33,7 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
   }
 
   let sizeRef = useRef<SizeArray>([])
-  let [, rerender] = React.useState(false)
+  let [, rerender] = useReducer((x) => !x, false)
   let [sessionPrice, setSessionPrice] = React.useState(girl.sessionPrice)
   girl.sessionPrice = sessionPrice
 
@@ -45,7 +46,7 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
             maxSize={550}
             tag={tag}
             sizeRef={sizeRef}
-            rerender={() => rerender((x) => !x)}
+            rerender={rerender}
           />
         </div>
         {mi && (
@@ -58,13 +59,15 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
           </Button>
         )}
         <span className="flex justify-between gap-2">
-          <NavigationButton onClick={prop.navigation.previous}>{"<"}</NavigationButton>
-          <NavigationButton onClick={prop.navigation.next}>{">"}</NavigationButton>
+          <NavigationButton onClick={navigation.previous}>{"<"}</NavigationButton>
+          <NavigationButton onClick={navigation.next}>{">"}</NavigationButton>
         </span>
       </div>
       <div>
         <GirlStat girl={girl} />
-        <SessionPriceSelector sessionPrice={sessionPrice} setSessionPrice={setSessionPrice} />
+        {showPriceSelector && (
+          <SessionPriceSelector sessionPrice={sessionPrice} setSessionPrice={setSessionPrice} />
+        )}
       </div>
     </div>
   )

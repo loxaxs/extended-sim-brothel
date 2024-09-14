@@ -24,7 +24,7 @@ export function GirlListCard(prop: GirlListCardProp) {
   let { changePath } = React.useContext(gameContext)
 
   return (
-    <Section clickable className={tw(className, "m-2 text-center")} onClick={onClick}>
+    <Section clickable className={tw(className, "m-2 text-center text-sm")} onClick={onClick}>
       <div style={{ height: 100 }}>
         <GirlDisplay className="m-auto" girl={createGirl(girl)} tag="mini" maxSize={100} />
       </div>

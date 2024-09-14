@@ -1,3 +1,16 @@
+export interface Config {
+  devMode: boolean
+  gold: number
+  save: number
+}
+
+export interface SaveExtraData {
+  index: number
+  title: string
+  name: string
+  hasData: boolean
+}
+
 export interface GirlImage {
   src: string
   girlName: string
@@ -115,6 +128,7 @@ export interface ChangePathAction {
 
 export interface GameContext {
   changePath: (action: ChangePathAction) => void
+  devMode: boolean
 }
 
 export type Report = ReportLine[]

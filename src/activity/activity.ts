@@ -67,5 +67,10 @@ export function getParaActivityMessage(girl: GirlInfo, statChange: GirlStatChang
     .map(([name, diff]) => `${name} (${diff})`)
     .join(", ")
   let activityName = otherActivityNameMapping[girl.activity.kind]
-  return `Girl ${girl.name} went to ${activityName} and gained or loss ${statChangeMessage}`
+  if (statChangeMessage) {
+    statChangeMessage = ` and gained or loss ${statChangeMessage}`
+  } else {
+    statChangeMessage = " and nothing happened"
+  }
+  return `Girl ${girl.name} went to ${activityName}${statChangeMessage}.`
 }

@@ -89,6 +89,11 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
         if (tagIndex < tagArray.length) {
           // We'll try each of the provided tags to find the number of requested images
           let tag = tagArray[tagIndex]
+          if (!tagTree[tag]) {
+            console.error("Unexisting tag:", tag)
+            tagIndex += 1
+            continue
+          }
           filteredImageList = tagTree[tag].imageList.filter(
             ({ src }) => !imageUrlList.includes(src),
           )
@@ -99,7 +104,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
         } else {
           // If we have exhausted all the tags, we will walk up the category hierarchy
           // of the first tag for images
-          parent = tagTree[parent].parent
+          parent = tagTree[parent]?.parent
           if (!parent) {
             // If we reach the root of the category system, we'll give up on providing
             // the user with enough images and just return what little images we got

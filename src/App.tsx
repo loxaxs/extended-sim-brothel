@@ -1,20 +1,24 @@
 import { useState } from "react"
 
 import * as packageInfo from "../package.json"
-import "./ambient.d"
 import { Game } from "./Game"
-import { load, save, SelectSaveFile } from "./save/Save"
+import { loadGame, saveGame, SelectSaveFile } from "./save/Save"
+import { Config } from "./type"
+
+import "./ambient.d"
 
 export interface AppProp {
   baseHeight: number
   baseWidth: number
+  config: Config
 }
 
 export function App(prop: AppProp) {
-  let { baseHeight, baseWidth } = prop
+  let { baseHeight, baseWidth, config } = prop
+  let saveCount = 5
   let size = Math.min(baseHeight * 3, baseWidth * 2)
-  let [saveIndex, setSaveIndex] = useState(+location.hash.slice(1) || 0)
-  let state = load(saveIndex)
+  let [saveIndex, setSaveIndex] = useState(config.save)
+  let save = loadGame(saveIndex)
 
   return (
     <div
@@ -33,15 +37,26 @@ export function App(prop: AppProp) {
           ESB-{packageInfo.version}
         </a>
         <div className="mx-auto table-cell justify-center align-middle">
-          {saveIndex ? (
+          {saveIndex &&
+          Array.from({ length: saveCount + 1 })
+            .map((_, k) => k)
+            .includes(saveIndex) ? (
             <Game
-              initialState={state}
-              save={(gameState) => {
-                save(saveIndex, gameState)
+              save={save}
+              resetSaveIndex={() => setSaveIndex(0)}
+              saveCount={saveCount}
+              saveGame={(gameState) => {
+                saveGame(saveIndex, gameState)
               }}
+              setSaveIndex={setSaveIndex}
+              config={config}
             />
           ) : (
-            <SelectSaveFile setSaveIndex={setSaveIndex} />
+            <SelectSaveFile
+              saveCount={saveCount}
+              saveIndex={saveIndex}
+              setSaveIndex={setSaveIndex}
+            />
           )}
         </div>
       </div>
