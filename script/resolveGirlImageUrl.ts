@@ -23,9 +23,7 @@ async function walkPath(
     }
   }
   await Promise.all(
-    directoryArray.map((directory) =>
-      walkPath(directory, callback, callbackPromiseList),
-    ),
+    directoryArray.map((directory) => walkPath(directory, callback, callbackPromiseList)),
   )
 }
 
@@ -35,15 +33,12 @@ function main() {
     let [extA, extB] = fileNameParts.slice(-2)
     if (extA === "girl" && ["yaml", "yml"].includes(extB)) {
       let fileStem = fileNameParts.slice(0, -2).join(".")
-      let destinationPath =
-        fullPath.slice(0, -file.length) + fileStem + ".girl.pictureUrl.json"
+      let destinationPath = fullPath.slice(0, -file.length) + fileStem + ".girl.pictureUrl.json"
       console.log("Processing", fullPath)
       let content = await fsp.readFile(fullPath, "utf-8")
       let existingResultContent: any
       try {
-        existingResultContent = JSON.parse(
-          await fsp.readFile(destinationPath, "utf-8"),
-        )
+        existingResultContent = JSON.parse(await fsp.readFile(destinationPath, "utf-8"))
         console.log(
           "Found",
           Object.keys(existingResultContent).length,
@@ -54,39 +49,34 @@ function main() {
         existingResultContent = {}
       }
       let entryList = await Promise.all(
-        content.split("\n").filter(x => x).map(async (line) => {
-          let [_dash, pageUrl, ...tagList] = line.split(" ")
-          let existing = existingResultContent[pageUrl]
-          if (existing) {
-            return [pageUrl, existing]
-          }
-          let response = await fetch(pageUrl + ".json")
-          let data: any = await response.json()
-          let media = ""
-          data.media_asset.variants.forEach((variant: any) => {
-            if (variant.type === '720x720') {
-              media = variant.url
+        content
+          .split("\n")
+          .filter((x) => x)
+          .map(async (line) => {
+            let [_dash, pageUrl, ...tagList] = line.split(" ")
+            let existing = existingResultContent[pageUrl]
+            if (existing) {
+              existing.tags = tagList.join(" ")
+              return [pageUrl, existing]
             }
-          })
-          if (!media) {
-            console.error(`Failed to get image url for page "${pageUrl}"`)
-          }
-          return [pageUrl, { media, tags: tagList.join(" ") }]
-        }),
+            let response = await fetch(pageUrl + ".json")
+            let data: any = await response.json()
+            let media = ""
+            data.media_asset.variants.forEach((variant: any) => {
+              if (variant.type === "720x720") {
+                media = variant.url
+              }
+            })
+            if (!media) {
+              console.error(`Failed to get image url for page "${pageUrl}"`)
+            }
+            return [pageUrl, { media, tags: tagList.join(" ") }]
+          }),
       )
       let dataContent = Object.fromEntries(entryList)
 
-      fsp.writeFile(
-        destinationPath,
-        JSON.stringify(dataContent, null, 2),
-        "utf-8",
-      )
-      console.log(
-        "Wrote",
-        Object.keys(dataContent).length,
-        "entries to",
-        destinationPath,
-      )
+      fsp.writeFile(destinationPath, JSON.stringify(dataContent, null, 2), "utf-8")
+      console.log("Wrote", Object.keys(dataContent).length, "entries to", destinationPath)
     }
   })
 }
