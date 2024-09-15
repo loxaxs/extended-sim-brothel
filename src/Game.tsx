@@ -150,7 +150,13 @@ export function Game(prop: GameProp) {
         )}
         {path.length === 0 && (
           <>
-            <Button onClick={prop.resetSaveIndex}>Save {prop.save.index}</Button>
+            <Button
+              onClick={() => {
+                changePath({ pathAddition: ["save"] })
+              }}
+            >
+              Save {prop.save.index}
+            </Button>
             {" - "}
           </>
         )}

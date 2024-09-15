@@ -67,7 +67,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
   return (
     <>
       {saveArray.map((baseSave) => {
-        let isInUse = baseSave.index === saveIndex
+        let isInUse = baseSave.index === saveData?.index
         if (isInUse) {
           baseSave = saveData!
         }
@@ -75,7 +75,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
           <Card key={baseSave.name} className="m-3">
             <Section
               className={tw({
-                "bg-amber-50": isInUse,
+                "bg-amber-100": isInUse,
               })}
             >
               <span className="inline-block">
@@ -89,18 +89,32 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                   ""
                 )}
               </span>
-              <span className="inline-block">
-                <Button ml3 onClick={() => setSaveIndex(baseSave.index)}>
-                  {baseSave.hasData ? "Load" : "Use"}
-                </Button>
-                {baseSave.hasData && (
-                  <Button ml3 onClick={() => setDeleteSaveIndex(baseSave.index)}>
-                    Delete
+              {!isInUse && (
+                <span className="inline-block">
+                  <Button ml3 onClick={() => setSaveIndex(baseSave.index)}>
+                    {baseSave.hasData ? "Load" : "Use"}
                   </Button>
-                )}
-              </span>
+                  {baseSave.hasData && (
+                    <Button ml3 onClick={() => setDeleteSaveIndex(baseSave.index)}>
+                      Delete
+                    </Button>
+                  )}
+                </span>
+              )}
+              {isInUse && (
+                <Button
+                  ml3
+                  onClick={() => {
+                    saveGame(baseSave.index, baseSave)
+                    setSaveIndex(0)
+                  }}
+                >
+                  Save and unload
+                </Button>
+              )}
               <div>
                 {baseSave.hasData &&
+                  !isInUse &&
                   emptySaveArray.map((targetSave) => (
                     <Button
                       ml3
