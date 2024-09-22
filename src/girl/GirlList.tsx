@@ -1,11 +1,9 @@
-import { ReactNode } from "react"
 import { tw } from "src/lib/tw"
 import { GirlInfo } from "../type"
 import { GirlListCard } from "./GirlListCard"
 
 export interface GirlListProp {
   act: GirlListAct
-  contentIfEmpty?: ReactNode
   girlArray: GirlInfo[]
   onClick: (name: string) => void
 }
@@ -15,7 +13,7 @@ export type GirlListAct = {
 }
 
 export function GirlList(prop: GirlListProp) {
-  let { act, contentIfEmpty, girlArray, onClick } = prop
+  let { act, girlArray, onClick } = prop
 
   return (
     <div className="flex flex-wrap">
@@ -24,8 +22,8 @@ export function GirlList(prop: GirlListProp) {
           <div className="w-1/4">
             <GirlListCard
               className={tw({
-                "h-[230px]": act.kind === "home",
-                "h-[140px]": act.kind === "market",
+                "h-[250px]": act.kind === "home",
+                "h-[150px]": act.kind === "market",
               })}
               key={girl.name}
               girl={girl}
@@ -37,7 +35,7 @@ export function GirlList(prop: GirlListProp) {
           </div>
         )
       })}
-      {girlArray.length === 0 && contentIfEmpty}
+      {girlArray.length === 0 && act.kind === "market" && "The market is empty."}
     </div>
   )
 }

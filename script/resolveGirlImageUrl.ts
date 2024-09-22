@@ -53,22 +53,32 @@ function main() {
           .split("\n")
           .filter((x) => x)
           .map(async (line) => {
-            let [_dash, pageUrl, ...tagList] = line.split(" ")
-            let existing = existingResultContent[pageUrl]
-            if (existing) {
-              existing.tags = tagList.join(" ")
-              return [pageUrl, existing]
-            }
-            let response = await fetch(pageUrl + ".json")
-            let data: any = await response.json()
             let media = ""
-            data.media_asset.variants.forEach((variant: any) => {
-              if (variant.type === "720x720") {
-                media = variant.url
+            let [_dash, pageUrl, ...tagList] = line.split(" ")
+            let [pageUrlLeft, pageUrlResolved] = pageUrl.split("::")
+            if (pageUrlResolved) {
+              pageUrl = pageUrlLeft
+              media = pageUrlResolved
+            } else {
+              let existing = existingResultContent[pageUrl]
+              if (existing) {
+                existing.tags = tagList.join(" ")
+                return [pageUrl, existing]
               }
-            })
-            if (!media) {
-              console.error(`Failed to get image url for page "${pageUrl}"`)
+              let response = await fetch(pageUrl + ".json")
+              let data: any = await response.json()
+              if (!data.media_asset?.variants) {
+                console.error(`Failed to get image variants for page "${pageUrl}", data:`, data)
+                process.exit(1)
+              }
+              data.media_asset.variants.forEach((variant: any) => {
+                if (variant.type === "720x720") {
+                  media = variant.url
+                }
+              })
+              if (!media) {
+                console.error(`Failed to get image url for page "${pageUrl}"`)
+              }
             }
             return [pageUrl, { media, tags: tagList.join(" ") }]
           }),

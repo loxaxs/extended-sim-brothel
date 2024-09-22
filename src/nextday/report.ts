@@ -1,5 +1,5 @@
 import { getParaActivityMessage, getParaActivityStatChange } from "../activity/activity"
-import { createGirl } from "../girl/girl"
+import { createGirl, healthTag } from "../girl/girl"
 import { Building, Girl, GirlInfo, Report } from "../type"
 
 export interface NextDayReportParam {
@@ -30,9 +30,12 @@ export function nextDayReport(param: NextDayReportParam): Report {
   let redirectedCustomerCount = 0
   Object.entries(girlListInBuilding).forEach(([buildingName, girlList]) => {
     if (girlList.length === 0) {
+      // There will be no message for empty buildings
       return
     }
-    girlList.sort((a, b) => a.getBargain() - b.getBargain())
+
+    // Sort by decreasing bargain
+    girlList.sort((a, b) => b.getBargain() - a.getBargain())
 
     // Compute building attractivity and girl count by building
     let building = buildingByName[buildingName]
@@ -80,7 +83,7 @@ export function nextDayReport(param: NextDayReportParam): Report {
         dedicatedCustomerAttemptCountByGirl[name]++
         dedicatedCustomerAttemptCount++
         let bargain = girl.getBargain()
-        let accepts = 1 - Math.random() ** 2 < bargain
+        let accepts = bargain + Math.random() > 1
         if (accepts) {
           customerCountByGirl[name]++
           distributedCustomerCount++
@@ -94,16 +97,48 @@ export function nextDayReport(param: NextDayReportParam): Report {
 
     // Distribute the remaining, non-dedicated customers
     // Non-dedicated customers all just pick the girl with the best bargain
-    girlList.some((girl) => {
+    let leavingCustomerCount = 0
+    girlList.forEach((girl) => {
       let { name } = girl
       let max = girl.getMaxiumumCustomerCount()
-      let stop = true
-      while (customerCountByGirl[name] < max && distributedCustomerCount < buildingCustomerCount) {
+      let bargain = girl.getBargain()
+      Array.from({
+        length: buildingCustomerCount - distributedCustomerCount - leavingCustomerCount,
+      }).every(() => {
+        if (bargain + Math.random() > 1) {
+          customerCountByGirl[name]++
+          distributedCustomerCount++
+        } else {
+          leavingCustomerCount++
+        }
+        return customerCountByGirl[name] < max
+      })
+    })
+
+    let girlIndex: number
+    let name: string
+    let max: number
+    let bargain: number
+    let setGirlIndex = (index: number) => {
+      girlIndex = index
+      name = girlList[girlIndex].name
+      max = girlList[girlIndex].getMaxiumumCustomerCount()
+      bargain = girlList[girlIndex].getBargain()
+    }
+    setGirlIndex(0)
+    Array.from({ length: buildingCustomerCount - distributedCustomerCount }).some(() => {
+      if (customerCountByGirl[name] >= max) {
+        setGirlIndex(girlIndex + 1)
+        if (girlIndex >= girlList.length) {
+          return true
+        }
+      }
+      if (bargain + Math.random() > 1) {
         customerCountByGirl[name]++
         distributedCustomerCount++
-        stop = false
+      } else {
+        leavingCustomerCount++
       }
-      return stop
     })
 
     let extraCustomerCount = Math.max(0, buildingCustomerCount - distributedCustomerCount)
@@ -111,7 +146,16 @@ export function nextDayReport(param: NextDayReportParam): Report {
       () => Math.random() < 0.5,
     ).length
 
-    let message = `${buildingCustomerCount} customers came to ${buildingName}`
+    let message = `${buildingCustomerCount} customers came to ${buildingName}.`
+    if (leavingCustomerCount) {
+      message += ` ${leavingCustomerCount} left because of the prices.`
+    }
+    if (extraCustomerCount) {
+      message += ` ${extraCustomerCount} could not be serviced.`
+      if (redirectedCustomerCount) {
+        message += `. ${redirectedCustomerCount} of them were redirected to the next building.`
+      }
+    }
 
     report.push({
       kind: "other",
@@ -157,10 +201,17 @@ export function nextDayReport(param: NextDayReportParam): Report {
         statChange,
         message,
         goldChange: -20,
-        imageCount: 0,
-        tagList: [],
+        imageCount: 1,
+        tagList: [healthTag(girl.health + statChange.health)],
       })
     }
+  })
+
+  let totalGoldChange = report.reduce((acc, { goldChange }) => acc + goldChange, 0)
+  report.push({
+    kind: "other",
+    message: `In total you ${totalGoldChange >= 0 ? "earned" : "lost"} ${Math.abs(totalGoldChange)} gold today.`,
+    goldChange: 0,
   })
 
   return report

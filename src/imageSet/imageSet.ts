@@ -102,9 +102,30 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
             continue
           }
         } else {
-          // If we have exhausted all the tags, we will walk up the category hierarchy
-          // of the first tag for images
-          parent = tagTree[parent]?.parent
+          let found = false
+          // If we have exhausted all the tags, we'll consider the first tag
+          // only.
+          if (["dancing", "happy", "tired", "unhealthy"].includes(parent)) {
+            // If we are looking for a safe base tag, we'll try to get the
+            // images from the closest base tag.
+            let fallbackList = {
+              dancing: ["happy", "tired", "unhealthy"],
+              happy: ["dancing", "tired", "unhealthy"],
+              tired: ["happy", "unhealthy", "dancing"],
+              unhealthy: ["tired", "happy", "dancing"],
+            }[parent]!
+            found = fallbackList.some((tag) => {
+              if (tagTree[tag].imageList.length > 0) {
+                parent = tag
+                return true
+              }
+            })
+          }
+          if (!found) {
+            // In the general case, we will walk up the category hierarchy of
+            // the tag.
+            parent = tagTree[parent]?.parent
+          }
           if (!parent) {
             // If we reach the root of the category system, we'll give up on providing
             // the user with enough images and just return what little images we got

@@ -33,8 +33,6 @@ function newGameState(config: Config): GameState {
   let buildingArray = getBuildingArray()
   buildingArray[0].owned = true
 
-  let url = new URL(location.href)
-
   return {
     gold: Number(config.gold),
     day: 0,

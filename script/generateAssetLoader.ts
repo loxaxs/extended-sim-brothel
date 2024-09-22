@@ -48,9 +48,9 @@ async function generateGirlAssetLoader() {
   await walkPath(
     "esbpic",
     async ({ file, fullPath }) => {
-      let fileNameParts = file.split(".")
       if (file.endsWith(".girl.pictureUrl.json")) {
-        let girlName = fileNameParts
+        let girlName = file
+          .split(".")
           .slice(0, -3)
           .join(".")
           .split("_")
@@ -66,6 +66,7 @@ async function generateGirlAssetLoader() {
     callbackPromiseList,
   )
   await Promise.all(callbackPromiseList)
+  girlFileArray.sort((a, b) => a.girlName.localeCompare(b.girlName))
 
   // Compile the local image list into code
   let localImageListCode = localImagePathArray
@@ -92,7 +93,7 @@ async function generateGirlAssetLoader() {
           (piece) => `
   {
     girlName: "${girlName}",
-    tagList: ${JSON.stringify(piece.tags.split(' '))},
+    tagList: ${JSON.stringify(piece.tags.split(" "))},
     src: "${piece.media}",
   },`,
         )
@@ -126,9 +127,7 @@ async function walkPath(
     }
   }
   await Promise.all(
-    directoryArray.map((directory) =>
-      walkPath(directory, callback, callbackPromiseList),
-    ),
+    directoryArray.map((directory) => walkPath(directory, callback, callbackPromiseList)),
   )
 }
 

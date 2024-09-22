@@ -50,7 +50,7 @@ export const MAX_GIRL_STAT: Omit<
   libido: 100,
   prominence: 100,
   sex: 100,
-  acquisitionPrice: 1000,
+  acquisitionPrice: 2000,
 }
 
 export function createRandomGirlInfo(girlName: string, imageSet: GirlImageSetInfo): GirlInfo {
@@ -70,4 +70,16 @@ export function createRandomGirlInfo(girlName: string, imageSet: GirlImageSetInf
   girlInfo.sessionPrice = girlInfo.esteem
 
   return girlInfo
+}
+
+export function healthTag(health: number) {
+  if (health === 100) {
+    return "dancing"
+  } else if (health >= 90) {
+    return "happy"
+  } else if (health >= 80) {
+    return "tired"
+  } else {
+    return "unhealthy"
+  }
 }

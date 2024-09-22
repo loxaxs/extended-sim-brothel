@@ -6,6 +6,8 @@ import { loadGame, saveGame, SelectSaveFile } from "./save/Save"
 import { Config } from "./type"
 
 import "./ambient.d"
+import { girlImageList } from "./asset/girlAsset"
+import { PreloadImageSet } from "./imageSet/PreloadImageSet"
 
 export interface AppProp {
   baseHeight: number
@@ -60,6 +62,7 @@ export function App(prop: AppProp) {
           )}
         </div>
       </div>
+      <PreloadImageSet urlArray={girlImageList.map(({ src }) => src)} />
     </div>
   )
 }

@@ -29,7 +29,7 @@ yarn ts-node script/generateAssetLoader.ts
 
 ## Description
 
-This just one more sim brothel management game. It is heavily inspired from the well known Hentai Sim Brothel flash game (HSB), with more girls, more images and the with an improved usability of the UI.
+This is just one more sim brothel management game. It is heavily inspired from the well known Hentai Sim Brothel flash game (HSB), with more girls, more images and the with an improved usability of the UI.
 
 I might also make a pony version of it if I find the time to.
 
@@ -57,7 +57,7 @@ Note: the game would keep track of vaginal, anal and throat virginity and also r
 
 ## Girl characteristics
 
-In HSB, the girls have the has the following ten characteristics: **Charisma, Constitution, Character, Reputation, Joy, Fuck, Blowjob, Libido, Health, Refinement**
+In HSB, the girls have the following ten characteristics: **Charisma, Constitution, Character, Reputation, Joy, Fuck, Blowjob, Libido, Health, Refinement**
 
 - **Charisma** is a better word for Beauty, so I think I'll keep it
 - **Constitution**, or strength relates well to the number of customer a girl can take care of. I think I'll keep it
@@ -174,11 +174,11 @@ I found the following paragraph on the Newgrounds page of HSB:
 It lists 31 different girls in total:
 
 - Aerith
-- Ayane
-- Ayeka
+- Ayane -> dead_or_alive?
+- Ayeka ??
 - Belldandy
 - Chihiro
-- Deedlith
+- Deedlit
 - Fran
 - Haruhi
 - Hinata

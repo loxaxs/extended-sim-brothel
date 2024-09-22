@@ -1,10 +1,9 @@
 import { girlImageList } from "../asset/girlAsset"
-import { Girl, GirlImage } from "../type"
-import { createGirl, createRandomGirlInfo } from "./girl"
+import { GirlImage } from "../type"
+import { createRandomGirlInfo } from "./girl"
 
-export function createGirlGroup(girlImageList: GirlImage[]) {
+export function getGirlArray() {
   let imageTagMappingGroup: Record<string, Record<string, GirlImage[]>> = {}
-  let girlGroup: Record<string, Girl> = {}
 
   girlImageList.forEach((image) => {
     imageTagMappingGroup[image.girlName] ??= {}
@@ -15,13 +14,7 @@ export function createGirlGroup(girlImageList: GirlImage[]) {
     })
   })
 
-  Object.entries(imageTagMappingGroup).forEach(([girlName, tagMapping]) => {
-    girlGroup[girlName] = createGirl(createRandomGirlInfo(girlName, { tagMapping }))
-  })
-
-  return girlGroup
-}
-
-export function getGirlArray() {
-  return Object.values(createGirlGroup(girlImageList))
+  return Object.entries(imageTagMappingGroup).map(([girlName, tagMapping]) =>
+    createRandomGirlInfo(girlName, { tagMapping }),
+  )
 }
