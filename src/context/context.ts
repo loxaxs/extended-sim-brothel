@@ -6,4 +6,5 @@ export let gameContext = createContext<GameContext>({
     throw new Error("Missing game context")
   },
   devMode: false,
+  safeMode: false,
 })

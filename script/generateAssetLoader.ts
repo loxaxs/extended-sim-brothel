@@ -50,9 +50,7 @@ async function generateGirlAssetLoader() {
     async ({ file, fullPath }) => {
       if (file.endsWith(".girl.pictureUrl.json")) {
         let girlName = file
-          .split(".")
-          .slice(0, -3)
-          .join(".")
+          .split(".")[0]
           .split("_")
           .map((part) => part.slice(0, 1).toUpperCase() + part.slice(1))
           .join(" ")
@@ -138,7 +136,8 @@ async function walkPath(
 
 function parseImagePath(imagePath: string) {
   let filename = imagePath.split("/").slice(-1)[0]
-  let [snakeCaseGirlName, tagString] = filename.split("--")
+  let fileStem = filename.split(".")[0]
+  let [snakeCaseGirlName, tagString] = fileStem.split("--")
   let girlName = snakeCaseGirlName
     .split("_")
     .map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))

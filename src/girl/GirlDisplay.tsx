@@ -1,4 +1,6 @@
-import React, { useMemo } from "react"
+import React, { useContext, useMemo } from "react"
+import { gameContext } from "src/context/context"
+import { isSafeTag } from "src/imageSet/imageSet"
 import { Girl, SizeArray } from "../type"
 
 export interface GirlDisplayProp {
@@ -15,7 +17,14 @@ export interface GirlDisplayProp {
 
 export function GirlDisplay(prop: GirlDisplayProp) {
   let { className, girl, maxSize, style, tag, tagList = [], count = 1, sizeRef, rerender } = prop
-  let tagArray = useMemo(() => (tag ? [tag, ...tagList] : tagList), [tag, JSON.stringify(tagList)])
+  let { safeMode } = useContext(gameContext)
+  let tagArray = useMemo(() => {
+    let tags = tag ? [tag, ...tagList] : tagList
+    if (safeMode) {
+      tags = tags.filter(isSafeTag)
+    }
+    return tags
+  }, [tag, JSON.stringify(tagList)])
   let imageList = useMemo(
     () => girl.imageSet.getSeveralByTag(count, ...tagArray),
     [girl, count, tagArray],

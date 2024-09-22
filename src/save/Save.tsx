@@ -117,6 +117,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                   !isInUse &&
                   emptySaveArray.map((targetSave) => (
                     <Button
+                      key={targetSave.index}
                       ml3
                       onClick={() => {
                         saveGame(targetSave.index, baseSave)

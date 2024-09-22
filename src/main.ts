@@ -12,12 +12,14 @@ function getConfig() {
   return resolveSearch<Config>(location, {
     devMode: [() => false],
     gold: [() => 250],
+    safeMode: [() => false],
     save: [() => 0],
   })
 }
 
 function main() {
   let config = getConfig()
+  console.log("config", config)
 
   let root = createRoot(document.getElementById("root")!)
   const render = () => {

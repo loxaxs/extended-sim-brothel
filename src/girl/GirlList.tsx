@@ -19,7 +19,7 @@ export function GirlList(prop: GirlListProp) {
     <div className="flex flex-wrap">
       {girlArray.map((girl) => {
         return (
-          <div className="w-1/4">
+          <div key={girl.name} className="w-1/4">
             <GirlListCard
               className={tw({
                 "h-[250px]": act.kind === "home",

@@ -1,6 +1,7 @@
 export interface Config {
   devMode: boolean
   gold: number
+  safeMode: boolean
   save: number
 }
 
@@ -129,6 +130,7 @@ export interface ChangePathAction {
 export interface GameContext {
   changePath: (action: ChangePathAction) => void
   devMode: boolean
+  safeMode: boolean
 }
 
 export type Report = ReportLine[]

@@ -51,7 +51,7 @@ export interface GameProp {
 }
 
 export function Game(prop: GameProp) {
-  let { devMode } = prop.config
+  let { devMode, safeMode } = prop.config
   let initialState = prop.save.hasData ? prop.save : newGameState(prop.config)
   let [gold, setGold] = React.useState(initialState.gold)
   let [day, setDay] = React.useState(initialState.day)
@@ -139,7 +139,7 @@ export function Game(prop: GameProp) {
   let staticPath = `.${path.map((p) => p.split(":")[0]).join(".")}`
 
   return (
-    <gameContext.Provider value={{ changePath, devMode }}>
+    <gameContext.Provider value={{ changePath, devMode, safeMode }}>
       <div>
         {path.length > 0 && staticPath !== ".report" && (
           <>

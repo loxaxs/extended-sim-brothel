@@ -150,3 +150,7 @@ export function createImageSet(imageSetInfo: GirlImageSetInfo) {
     },
   }
 }
+
+export function isSafeTag(tag: string) {
+  return ["safe", "mini", "base", "dancing", "happy", "tired", "unhealthy"].includes(tag)
+}
