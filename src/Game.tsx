@@ -175,7 +175,6 @@ export function Game(prop: GameProp) {
           ".save": () => (
             <SelectSaveFile
               saveCount={prop.saveCount}
-              saveIndex={prop.save.index}
               setSaveIndex={prop.setSaveIndex}
               saveData={{ ...prop.save, ...getSaveData() }}
             />

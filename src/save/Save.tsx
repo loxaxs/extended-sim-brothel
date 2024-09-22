@@ -26,13 +26,12 @@ export function deleteSave(saveIndex: number) {
 
 export interface SelectSaveFileProp {
   saveCount: number
-  saveIndex: number
   saveData?: GameState & SaveExtraData
   setSaveIndex: (value: SetStateAction<number>) => void
 }
 
 export function SelectSaveFile(prop: SelectSaveFileProp) {
-  let { saveCount, saveIndex, saveData, setSaveIndex } = prop
+  let { saveCount, saveData, setSaveIndex } = prop
   let saveArray = Array.from({ length: saveCount }, (_, k) => loadGame(k + 1))
   let emptySaveArray = saveArray.filter((baseSave) => !baseSave.hasData)
 

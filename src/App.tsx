@@ -39,11 +39,9 @@ export function App(prop: AppProp) {
           ESB-{packageInfo.version}
         </a>
         <div className="mx-auto table-cell justify-center align-middle">
-          {saveIndex &&
-          Array.from({ length: saveCount + 1 })
-            .map((_, k) => k)
-            .includes(saveIndex) ? (
+          {Array.from({ length: saveCount }, (_, k) => k + 1).includes(saveIndex) ? (
             <Game
+              key={saveIndex}
               save={save}
               resetSaveIndex={() => setSaveIndex(0)}
               saveCount={saveCount}
@@ -54,11 +52,7 @@ export function App(prop: AppProp) {
               config={config}
             />
           ) : (
-            <SelectSaveFile
-              saveCount={saveCount}
-              saveIndex={saveIndex}
-              setSaveIndex={setSaveIndex}
-            />
+            <SelectSaveFile saveCount={saveCount} setSaveIndex={setSaveIndex} />
           )}
         </div>
       </div>
