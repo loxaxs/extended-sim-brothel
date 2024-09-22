@@ -78,7 +78,7 @@ async function generateGirlAssetLoader() {
     girlName: "${girlName}",
     tagList: ${JSON.stringify(tagList)},
     src: String(new URL(
-      "${assetRelativePath}?width=720",
+      "${assetRelativePath}",
       import.meta.url,
     )),
   },`
@@ -106,6 +106,11 @@ async function generateGirlAssetLoader() {
     `export const girlImageList = [${localImageListCode}${remoteImageListCode}\n]\n`,
     "utf-8",
   )
+
+  return {
+    localCount: localImagePathArray.length,
+    remoteCount: girlFileArray.reduce((acc, { data }) => acc + Object.keys(data).length, 0),
+  }
 }
 
 const excludeList = [".git", "node_modules"]
@@ -142,8 +147,11 @@ function parseImagePath(imagePath: string) {
   return { assetRelativePath: `../../${imagePath}`, girlName, tagList }
 }
 
-function main() {
-  generateGirlAssetLoader()
+async function main() {
+  let { localCount, remoteCount } = await generateGirlAssetLoader()
+  console.log(
+    `Generated the asset file for ${localCount} local image and ${remoteCount} remote images`,
+  )
 }
 
 main()

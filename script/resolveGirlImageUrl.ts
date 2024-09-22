@@ -32,11 +32,12 @@ function main() {
     let fileNameParts = file.split(".")
     let [extA, extB] = fileNameParts.slice(-2)
     if (extA === "girl" && ["yaml", "yml"].includes(extB)) {
-      let fileStem = fileNameParts.slice(0, -2).join(".")
-      let destinationPath = fullPath.slice(0, -file.length) + fileStem + ".girl.pictureUrl.json"
+      let girlName = fileNameParts.slice(0, -2).join(".")
+      let destinationPath = fullPath.slice(0, -file.length) + girlName + ".girl.pictureUrl.json"
       console.log("Processing", fullPath)
       let content = await fsp.readFile(fullPath, "utf-8")
-      let existingResultContent: any
+      let existingImageFileNameSet: Record<string, true> = {}
+      let existingResultContent: Record<string, { media: string; tags: string }>
       try {
         existingResultContent = JSON.parse(await fsp.readFile(destinationPath, "utf-8"))
         console.log(
@@ -48,11 +49,24 @@ function main() {
       } catch {
         existingResultContent = {}
       }
+      let directory = fullPath.slice(0, -file.length) + girlName
+      await fsp.mkdir(directory, { recursive: true })
+
+      let directoryContent = await fsp.readdir(directory)
+      directoryContent.filter((name) => {
+        let m = name.match(/^([^-]*--[^-]*)(--([^.]*))?\.picture\.pic\.([^.]+)$/)
+        if (!m) {
+          return null
+        }
+        existingImageFileNameSet[m[1]] = true
+      })
+
       let entryList = await Promise.all(
         content
           .split("\n")
           .filter((x) => x)
-          .map(async (line) => {
+          .map(async (line): Promise<[string, { media: string; tags: string }] | null> => {
+            let artist = ""
             let media = ""
             let [_dash, pageUrl, ...tagList] = line.split(" ")
             let [pageUrlLeft, pageUrlResolved] = pageUrl.split("::")
@@ -60,13 +74,22 @@ function main() {
               pageUrl = pageUrlLeft
               media = pageUrlResolved
             } else {
+              if (existingImageFileNameSet[`${girlName}--${tagList.join(",")}`]) {
+                return null
+              }
               let existing = existingResultContent[pageUrl]
               if (existing) {
                 existing.tags = tagList.join(" ")
-                return [pageUrl, existing]
+                if (!process.argv.includes("--download")) {
+                  return [pageUrl, existing]
+                }
               }
               let response = await fetch(pageUrl + ".json")
               let data: any = await response.json()
+              artist = data.tag_string_artist.replace(/ /g, ",")
+              if (artist) {
+                artist = `--${artist}`
+              }
               if (!data.media_asset?.variants) {
                 console.error(`Failed to get image variants for page "${pageUrl}", data:`, data)
                 process.exit(1)
@@ -78,12 +101,27 @@ function main() {
               })
               if (!media) {
                 console.error(`Failed to get image url for page "${pageUrl}"`)
+                process.exit(1)
               }
+            }
+            if (process.argv.includes("--download")) {
+              let extension = media.split(".").slice(-1)[0]
+              let mediaPath = `${directory}/${girlName}--${tagList.join(",")}${artist}.picture.pic.${extension}`
+
+              let response = await fetch(media)
+              let blob = await response.blob()
+              let arrayBuffer = await blob.arrayBuffer()
+              await fsp.writeFile(mediaPath, Buffer.from(arrayBuffer))
+              console.log("Downloaded", media, "to", mediaPath)
+              return null
             }
             return [pageUrl, { media, tags: tagList.join(" ") }]
           }),
       )
-      let dataContent = Object.fromEntries(entryList)
+      let filteredEntryList: [string, { media: string; tags: string }][] = entryList.filter(
+        (x) => x,
+      ) as any
+      let dataContent = Object.fromEntries(filteredEntryList)
 
       fsp.writeFile(destinationPath, JSON.stringify(dataContent, null, 2), "utf-8")
       console.log("Wrote", Object.keys(dataContent).length, "entries to", destinationPath)
