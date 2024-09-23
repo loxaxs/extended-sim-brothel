@@ -29,6 +29,7 @@ export function ReportDisplay(prop: ReportDisplayProp) {
         girlInfo[statName] += change
       })
     })
+
     setGold((gold) => gold + goldTotalChange)
   }
 
@@ -56,7 +57,7 @@ export function ReportDisplay(prop: ReportDisplayProp) {
           setPage((p) => p + 1)
         }}
       >
-        {page + 1 >= report.length ? "Exit" : "Next"}
+        {page + 1 >= report.length ? "Exit report" : "Next"}
       </Button>
     </>
   )

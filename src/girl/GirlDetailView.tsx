@@ -1,4 +1,6 @@
 import React, { useReducer, useRef } from "react"
+import { ShowActivity } from "src/activity/ShowActivity"
+import { gameContext } from "src/context/context"
 import { GirlInfo, SizeArray } from "../type"
 import { Button } from "../ui/button/Button"
 import { createGirl } from "./girl"
@@ -16,11 +18,10 @@ export interface GirlDetailViewProp {
     next: "" | (() => void)
     previous: "" | (() => void)
   }
-  showPriceSelector?: boolean
 }
 
 export function GirlDetailView(prop: GirlDetailViewProp) {
-  let { girl, marketInfo: mi, navigation, showPriceSelector } = prop
+  let { girl, marketInfo: mi, navigation } = prop
   let tag: string
   if (girl.health === 100) {
     tag = "dancing"
@@ -36,6 +37,7 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
   let [, rerender] = useReducer((x) => !x, false)
   let [sessionPrice, setSessionPrice] = React.useState(girl.sessionPrice)
   girl.sessionPrice = sessionPrice
+  let { changePath } = React.useContext(gameContext)
 
   return (
     <div className="grid grid-cols-[75%_25%]">
@@ -66,8 +68,19 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
       </div>
       <div>
         <GirlStat girl={girl} />
-        {showPriceSelector && (
-          <SessionPriceSelector sessionPrice={sessionPrice} setSessionPrice={setSessionPrice} />
+        {!mi && (
+          <>
+            <SessionPriceSelector sessionPrice={sessionPrice} setSessionPrice={setSessionPrice} />
+            <ShowActivity girl={girl} />
+            <Button
+              className="mx-auto block hover:bg-amber-50"
+              onClick={() => {
+                changePath({ pathAddition: [`setActivity:${girl.name}`] })
+              }}
+            >
+              🏠 Set activity
+            </Button>
+          </>
         )}
       </div>
     </div>

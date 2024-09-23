@@ -1,5 +1,5 @@
 import React from "react"
-import { otherActivityNameMapping } from "../activity/activity"
+import { ShowActivity } from "src/activity/ShowActivity"
 import { gameContext } from "../context/context"
 import { tw } from "../lib/tw"
 import { GirlInfo } from "../type"
@@ -33,19 +33,14 @@ export function GirlListCard(prop: GirlListCardProp) {
       </div>
       {act.kind === "home" && (
         <>
-          <div>
-            ⌂ 
-            {girl.activity.kind === "building"
-              ? girl.activity.buildingName
-              : otherActivityNameMapping[girl.activity.kind]}
-          </div>
+          <ShowActivity girl={girl} />
           <div>
             <Button
               ml3
               className="hover:bg-amber-50"
               onClick={(ev) => {
                 ev.stopPropagation()
-                changePath({ pathAddition: [`setactivity:${girl.name}`] })
+                changePath({ pathAddition: [`setActivity:${girl.name}`] })
               }}
             >
               🏠

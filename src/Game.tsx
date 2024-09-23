@@ -203,15 +203,19 @@ export function Game(prop: GameProp) {
           ".buybuilding": () => (
             <BuildingList buildingArray={buildingArray} act={{ kind: "buy", gold }} />
           ),
-          ".girl": () => (
-            <GirlDetailView
-              girl={girlByName[getName(0)]}
-              navigation={navigation}
-              showPriceSelector
+          ".girl": () => <GirlDetailView girl={girlByName[getName(0)]} navigation={navigation} />,
+          ".girl.setActivity": () => (
+            <BuildingList
+              buildingArray={buildingArray}
+              act={{
+                kind: "setActivity",
+                girlArray,
+                targetGirl: girlByName[getName(1)],
+              }}
             />
           ),
           ".market": () => <Market marketManager={marketManager} />,
-          ".setactivity": () => (
+          ".setActivity": () => (
             <BuildingList
               buildingArray={buildingArray}
               act={{
