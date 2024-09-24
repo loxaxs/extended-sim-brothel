@@ -61,6 +61,8 @@ function main() {
         existingImageFileNameSet[m[1]] = true
       })
 
+      let skipDownloadCount = 0
+      let namePool: Record<string, true> = {}
       let entryList = await Promise.all(
         content
           .split("\n")
@@ -75,6 +77,7 @@ function main() {
               media = pageUrlResolved
             } else {
               if (existingImageFileNameSet[`${girlName}--${tagList.join(",")}`]) {
+                skipDownloadCount++
                 return null
               }
               let existing = existingResultContent[pageUrl]
@@ -106,13 +109,25 @@ function main() {
             }
             if (process.argv.includes("--download")) {
               let extension = media.split(".").slice(-1)[0]
-              let mediaPath = `${directory}/${girlName}--${tagList.join(",")}${artist}.picture.pic.${extension}`
+              let suffix = ""
+              let mediaPath = () =>
+                `${directory}/${girlName}--${tagList.join(",")}${artist}${suffix}.picture.pic.${extension}`
+
+              let infiniteLoop = 0
+              while ((await fsp.stat(mediaPath()).catch(() => false)) || namePool[mediaPath()]) {
+                suffix = `--${Number(suffix.slice(2) || 0) + 1}`
+                if (infiniteLoop++ > 100) {
+                  console.error("Infinite loop detected")
+                  process.exit(255)
+                }
+              }
+              namePool[mediaPath()] = true
 
               let response = await fetch(media)
               let blob = await response.blob()
               let arrayBuffer = await blob.arrayBuffer()
-              await fsp.writeFile(mediaPath, Buffer.from(arrayBuffer))
-              console.log("Downloaded", media, "to", mediaPath)
+              await fsp.writeFile(mediaPath(), Buffer.from(arrayBuffer))
+              console.log("Downloaded", media, "to", mediaPath())
               return null
             }
             return [pageUrl, { media, tags: tagList.join(" ") }]
@@ -124,7 +139,14 @@ function main() {
       let dataContent = Object.fromEntries(filteredEntryList)
 
       fsp.writeFile(destinationPath, JSON.stringify(dataContent, null, 2), "utf-8")
-      console.log("Wrote", Object.keys(dataContent).length, "entries to", destinationPath)
+      console.log("Wrote", filteredEntryList.length, "entries to", destinationPath)
+      console.log(
+        "Found",
+        Object.keys(existingImageFileNameSet).length,
+        "existing images, skipping the download of",
+        skipDownloadCount,
+        "images.",
+      )
     }
   })
 }
