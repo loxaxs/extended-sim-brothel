@@ -89,7 +89,16 @@ function main() {
                 }
               }
               let response = await fetch(pageUrl + ".json")
-              let data: any = await response.json()
+              let data: any
+              try {
+                data = await response.json()
+              } catch (e) {
+                console.error(
+                  `Failed to get json data for page "${pageUrl}" (${e}):`,
+                  await response.text(),
+                )
+                process.exit(1)
+              }
               artist = data.tag_string_artist.replace(/ /g, ",")
               if (artist) {
                 artist = `--${artist}`
