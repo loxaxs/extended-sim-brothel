@@ -2,6 +2,7 @@
  * This script finds `.girl.yaml` files in the `esbpic` folder and resolves the image URL corresponding to each page url found in the girl file.
  */
 
+import { default as fs } from "fs"
 import { default as fsp } from "fs/promises"
 
 const excludeList = [".git", "node_modules"]
@@ -136,10 +137,19 @@ function main() {
       let filteredEntryList: [string, { media: string; tags: string }][] = entryList.filter(
         (x) => x,
       ) as any
-      let dataContent = Object.fromEntries(filteredEntryList)
+      if (filteredEntryList.length === 0) {
+        if (fs.existsSync(destinationPath)) {
+          fsp.unlink(destinationPath)
+          console.log("Deleted now empty", destinationPath)
+        } else {
+          console.log("Skipped creating empty file", destinationPath)
+        }
+      } else {
+        let dataContent = Object.fromEntries(filteredEntryList)
 
-      fsp.writeFile(destinationPath, JSON.stringify(dataContent, null, 2), "utf-8")
-      console.log("Wrote", filteredEntryList.length, "entries to", destinationPath)
+        fsp.writeFile(destinationPath, JSON.stringify(dataContent, null, 2), "utf-8")
+        console.log("Wrote", filteredEntryList.length, "entries to", destinationPath)
+      }
       console.log(
         "Found",
         Object.keys(existingImageFileNameSet).length,

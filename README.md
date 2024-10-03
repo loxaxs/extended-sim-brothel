@@ -171,10 +171,10 @@ I found the following paragraph on the Newgrounds page of HSB:
 > Excellent - Aerith, Rikku, Yuna, Rei, Ayeka, Rinoa, Talim, Zelda, Deedlith(Always max customers)
 > Catgirl - Haruhi, Naru, Ranma, Sakura, Mikuru, Fran (CHARISMA and sex stats locked at 100)
 
-It lists 31 different girls in total:
+It lists 31 different girls in total. Four more of them can be found in the market, here marked with a `+`, raising the total to 35 girls:
 
 - Aerith
-- Ayane -> dead_or_alive?
+- Ayane (dead_or_alive)
 - Ayeka ??
 - Belldandy
 - Chihiro
@@ -182,9 +182,12 @@ It lists 31 different girls in total:
 - Fran
 - Haruhi
 - Hinata
+- +Ino
+- +Kagami
 - Lulu
 - Matsumoto
-- Mikuru
+- +Motoko
+- Mikuru (suzumiya_haruhi_no_yuuutsu)
 - Nami
 - Naru
 - Nico Robin
@@ -194,6 +197,7 @@ It lists 31 different girls in total:
 - Rei
 - Rikku
 - Rinoa
+- +Rukia
 - Sakura
 - Sasami
 - Shinobu
