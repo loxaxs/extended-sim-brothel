@@ -1,6 +1,6 @@
 import { tw } from "src/lib/tw"
 import { GirlInfo } from "../type"
-import { GirlListCard } from "./GirlListCard"
+import { GirlListCard } from "./GirlCard"
 
 export interface GirlListProp {
   act: GirlListAct
