@@ -72,7 +72,11 @@ export function Game(prop: GameProp) {
   let [buildingArray, setBuildingArray] = React.useState(initialState.buildingArray)
   let [report, setReport] = React.useState<Report>((): Report => [])
   let marketManager = React.useMemo(
-    () => createMarketManager(girlArray.filter((g) => !g.owned)),
+    () =>
+      createMarketManager(
+        girlArray.filter((g) => !g.owned),
+        prop.config,
+      ),
     [],
   )
   let [girlByName, ownedGirlIndexByName, marketGirlIndexByName, ownedGirlArray, marketGirlArray] =

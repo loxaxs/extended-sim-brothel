@@ -1,11 +1,14 @@
 import { randomExtract, randomInt } from "../lib/random"
-import { GirlInfo } from "../type"
+import { Config, GirlInfo } from "../type"
 
-export function createMarketManager(initialGirlArray: GirlInfo[]) {
+export function createMarketManager(initialGirlArray: GirlInfo[], config: Config) {
   // GirlArray lists the girls which can be bought now or later
   let girlArray = [...initialGirlArray]
   // AvailableGirlArray lists the girls which are in the market today
-  let girlInMarketArray = randomExtract(Math.ceil(girlArray.length / 2), girlArray)
+  let girlInMarketArray = config.allGirlMode
+    ? [...girlArray]
+    : randomExtract(Math.ceil(girlArray.length / 2), girlArray)
+
   return {
     getGirlArray() {
       return girlInMarketArray

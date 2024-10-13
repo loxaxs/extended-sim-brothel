@@ -5,6 +5,7 @@ export interface Config {
   gold: number
   safeMode: boolean
   save: number
+  allGirlMode: boolean
 }
 
 export interface SaveExtraData {

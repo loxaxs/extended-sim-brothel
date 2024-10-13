@@ -14,6 +14,7 @@ function getConfig() {
     gold: [() => 250],
     safeMode: [() => false],
     save: [() => 0],
+    allGirlMode: [() => false],
   })
 }
 
