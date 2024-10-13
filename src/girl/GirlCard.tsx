@@ -22,14 +22,17 @@ export type GirlListCardAct = {
 export function GirlListCard(prop: GirlListCardProp) {
   let { act, className, girl, onClick } = prop
   let { changePath } = React.useContext(gameContext)
+  let cGirl = createGirl(girl)
 
   return (
     <Section clickable className={tw(className, "m-2 text-center text-sm")} onClick={onClick}>
       <div style={{ height: 100 }}>
-        <GirlDisplay className="m-auto" girl={createGirl(girl)} tag="mini" maxSize={100} />
+        <GirlDisplay className="m-auto" girl={cGirl} tag="mini" maxSize={100} />
       </div>
       <div>
-        {girl.name} {act.kind === "home" && `♥ ${girl.health}`}
+        {girl.name}{" "}
+        {act.kind === "home" &&
+          `♥ ${girl.health} : ${girl.sessionPrice} x ${cGirl.getMaxiumumCustomerCount()}`}
       </div>
       {act.kind === "home" && (
         <>

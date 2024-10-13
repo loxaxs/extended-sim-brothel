@@ -6,6 +6,10 @@ export function randomInt(count: number) {
   return Math.floor(Math.random() * count)
 }
 
+export function randRange(min: number, max: number) {
+  return Math.random() * (max - min) + min
+}
+
 export function randomChoice<T>(array: T[]): T {
   return array[randomInt(array.length)]
 }

@@ -16,7 +16,7 @@ export function GirlList(prop: GirlListProp) {
   let { act, girlArray, onClick } = prop
 
   return (
-    <div className="flex h-[600px] flex-wrap overflow-auto">
+    <div className="flex h-[500px] flex-wrap overflow-auto">
       {girlArray.map((girl) => {
         return (
           <div key={girl.name} className="w-1/4">

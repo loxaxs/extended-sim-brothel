@@ -89,10 +89,10 @@ export function nextDayReport(param: NextDayReportParam): Report {
           distributedCustomerCount++
         }
       }
-      index++
-      if (index > buildingCustomerCount ** 2) {
-        throw new Error("Infinite loop while distributing dediecated customers")
+      if (index > maxDedicatedCustomerAttemptTotal ** 2 + 1) {
+        throw new Error("Infinite loop while distributing dedicated customers")
       }
+      index++
     }
 
     // Distribute the remaining, non-dedicated customers

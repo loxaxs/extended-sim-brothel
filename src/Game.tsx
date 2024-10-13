@@ -6,6 +6,7 @@ import { getGirlArray } from "./girl/girlGroup"
 import { Home } from "./home/Home"
 import { access } from "./lib/access"
 import { formatBigNumber } from "./lib/number"
+import { randRange } from "./lib/random"
 import { Market } from "./market/Market"
 import { createMarketManager } from "./market/marketManager"
 import { nextDayReport } from "./nextday/report"
@@ -26,9 +27,11 @@ import { ControlledSmartEntry } from "./ui/smartEntry/smartEntry"
 function newGameState(config: Config): GameState {
   let girlArray = getGirlArray()
 
-  girlArray[0].owned = true
-  girlArray[0].commitment = 100
-  girlArray[0].libido = 50 + Math.floor(girlArray[0].libido / 2)
+  let firstGirl = girlArray.find(({ name }) => name === "Skuld") ?? girlArray[0]
+  firstGirl.owned = true
+  firstGirl.commitment = 100
+  firstGirl.libido = 50 + Math.floor(girlArray[0].libido / 2)
+  firstGirl.esteem = Math.round(randRange(40, 60))
 
   let buildingArray = getBuildingArray()
   buildingArray[0].owned = true
@@ -55,6 +58,7 @@ export function Game(prop: GameProp) {
   let initialState = prop.save.hasData ? prop.save : newGameState(prop.config)
   let [gold, setGold] = React.useState(initialState.gold)
   let [day, setDay] = React.useState(initialState.day)
+  let [footerContent, setFooterContent] = React.useState("")
   let [path, changePath] = React.useReducer((path: string[], action: ChangePathAction) => {
     let { pathAddition = [], pathLevelRemovalCount = 0 } = action
     if (pathLevelRemovalCount > 0) {
@@ -139,7 +143,7 @@ export function Game(prop: GameProp) {
   let staticPath = `.${path.map((p) => p.split(":")[0]).join(".")}`
 
   return (
-    <gameContext.Provider value={{ changePath, devMode, safeMode }}>
+    <gameContext.Provider value={{ changePath, devMode, safeMode, setFooterContent }}>
       <div>
         {path.length > 0 && staticPath !== ".report" && (
           <>
@@ -196,6 +200,7 @@ export function Game(prop: GameProp) {
               }}
               handleSave={() => {
                 prop.saveGame(getSaveData())
+                setFooterContent("Saved!")
               }}
               girlArray={girlArray}
             />
@@ -272,6 +277,9 @@ export function Game(prop: GameProp) {
         },
         staticPath,
       )}
+      <div className="h-[100px] w-[600px] border-[1px] border-solid border-black bg-white text-center">
+        <div className="my-auto">{footerContent}</div>
+      </div>
     </gameContext.Provider>
   )
 }

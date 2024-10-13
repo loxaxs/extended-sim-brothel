@@ -43,10 +43,10 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
     <div className="grid grid-cols-[75%_25%]">
       <div className="mx-auto">
         <h1 className="text-center text-2xl">{girl.name}</h1>
-        <div className="h-[550px]">
+        <div className="h-[450px]">
           <GirlDisplay
             girl={createGirl(girl)}
-            maxSize={550}
+            maxSize={450}
             tag={tag}
             sizeRef={sizeRef}
             rerender={rerender}

@@ -1,3 +1,5 @@
+import { SetStateAction } from "react"
+
 export interface Config {
   devMode: boolean
   gold: number
@@ -131,6 +133,7 @@ export interface GameContext {
   changePath: (action: ChangePathAction) => void
   devMode: boolean
   safeMode: boolean
+  setFooterContent: (a: SetStateAction<string>) => void
 }
 
 export type Report = ReportLine[]

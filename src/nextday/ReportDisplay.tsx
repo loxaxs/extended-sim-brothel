@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useContext, useEffect } from "react"
+import { gameContext } from "src/context/context"
 import { createGirl } from "../girl/girl"
 import { GirlDisplay } from "../girl/GirlDisplay"
 import { GirlStat } from "../girl/GirlStat"
@@ -14,8 +15,12 @@ export interface ReportDisplayProp {
 
 export function ReportDisplay(prop: ReportDisplayProp) {
   let { report, girlByName, handleExitReport, setGold } = prop
+  let { setFooterContent } = useContext(gameContext)
   let [page, setPage] = React.useState(0)
   let line = report[page]
+  useEffect(() => {
+    setFooterContent(line.message)
+  }, [line.message])
 
   let applyEffect = () => {
     let goldTotalChange = 0
@@ -38,7 +43,6 @@ export function ReportDisplay(prop: ReportDisplayProp) {
       {line.kind === "girl" && (
         <ReportGirlDisplay line={line} girl={createGirl(girlByName[line.girlName])} />
       )}
-      {line.message}
       <Button
         disabled={page <= 0}
         onClick={() => {
