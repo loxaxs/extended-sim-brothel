@@ -1,19 +1,20 @@
 import React from "react"
+import { useT } from "src/i18n/useT"
 import { gameContext } from "../context/context"
-import { Building, GirlInfo } from "../type"
+import { Building, GirlInfo, TFunction } from "../type"
 import { Button } from "../ui/button/Button"
 import { Card } from "../ui/card/Card"
 import { Section } from "../ui/section/Section"
-import { otherActivityArray, otherActivityNameMapping } from "./activity"
+import { getOtherActivityName, otherActivityArray } from "./activity"
 
 export function createBuilding(
-  name: string,
+  id: string,
   capacity: number,
   price: number,
   visibility: number,
 ): Building {
   return {
-    name,
+    id,
     capacity,
     price,
     visibility,
@@ -24,13 +25,13 @@ export function createBuilding(
 
 export function getBuildingArray() {
   return [
-    createBuilding("Old shack far away", 1, 50, 0),
-    createBuilding("Small house out of the island", 2, 250, 10),
-    createBuilding("House on the island", 3, 1000, 30),
-    createBuilding("House on central road", 3, 5000, 50),
-    createBuilding("Big house on central road", 5, 15000, 65),
-    createBuilding("Palace on central road", 7, 25000, 80),
-    createBuilding("Central palace", 10, 45000, 110),
+    createBuilding("A", 1, 50, 0),
+    createBuilding("B", 2, 250, 10),
+    createBuilding("C", 3, 1000, 30),
+    createBuilding("D", 3, 5000, 50),
+    createBuilding("E", 5, 15000, 65),
+    createBuilding("F", 7, 25000, 80),
+    createBuilding("G", 10, 45000, 110),
   ]
 }
 
@@ -52,16 +53,34 @@ export interface BuildingListSetActivityAct {
   targetGirl: GirlInfo
 }
 
+export function getBuildingName(building: Building, t: TFunction): string {
+  return {
+    A: t("Old shack far away"),
+    B: t("Small house out of the island"),
+    C: t("House on the island"),
+    D: t("House on central road"),
+    E: t("Big house on central road"),
+    F: t("Palace on central road"),
+    G: t("Central palace"),
+  }[building.id]!
+}
+
+export function BuildingName(prop: { building: Building }): string {
+  let { t } = useT()
+  return getBuildingName(prop.building, t)
+}
+
 export function BuildingList(prop: BuildingListProp) {
   let { act, buildingArray } = prop
   let { changePath } = React.useContext(gameContext)
+  let { t } = useT()
 
   let buildingOccupancyMapping: Record<string, number> = {}
   if (act.kind === "setActivity") {
     act.girlArray.forEach((g) => {
       if (g.activity.kind === "building") {
-        let { buildingName } = g.activity
-        buildingOccupancyMapping[buildingName] = (buildingOccupancyMapping[buildingName] ?? 0) + 1
+        let { buildingId } = g.activity
+        buildingOccupancyMapping[buildingId] = (buildingOccupancyMapping[buildingId] ?? 0) + 1
       }
     })
   }
@@ -72,10 +91,10 @@ export function BuildingList(prop: BuildingListProp) {
         {buildingArray.map((building) => {
           let { capacity } = building
           if (act.kind === "setActivity") {
-            capacity -= buildingOccupancyMapping[building.name] ?? 0
+            capacity -= buildingOccupancyMapping[building.id] ?? 0
             if (
               act.targetGirl.activity.kind === "building" &&
-              act.targetGirl.activity.buildingName === building.name
+              act.targetGirl.activity.buildingId === building.id
             ) {
               // mark the room where the target girl is as free to allow reassigning it to her
               capacity += 1
@@ -85,19 +104,19 @@ export function BuildingList(prop: BuildingListProp) {
           return (
             ((act.kind === "buy" && !building.owned) ||
               (act.kind === "setActivity" && building.owned)) && (
-              <Card key={building.name}>
+              <Card key={building.id}>
                 <Section
                   clickable={act.kind === "setActivity"}
                   disabled={capacity <= 0}
                   onClick={() => {
                     ;(act as BuildingListSetActivityAct).targetGirl.activity = {
                       kind: "building",
-                      buildingName: building.name,
+                      buildingId: building.id,
                     }
                     changePath({ pathLevelRemovalCount: 1 })
                   }}
                 >
-                  <div>{building.name}</div>
+                  <div>{getBuildingName(building, t)}</div>
                   <p className="mb-3">
                     {capacity}
                     {act.kind === "setActivity" && " free"} room{s}
@@ -107,7 +126,7 @@ export function BuildingList(prop: BuildingListProp) {
                           disabled={act.gold < building.price}
                           onClick={() => {
                             changePath({
-                              pathAddition: [`confirm:${building.name}`],
+                              pathAddition: [`confirm:${building.id}`],
                             })
                           }}
                         >
@@ -133,7 +152,7 @@ export function BuildingList(prop: BuildingListProp) {
                   changePath({ pathLevelRemovalCount: 1 })
                 }}
               >
-                {otherActivityNameMapping[kind]}
+                {getOtherActivityName(kind, t)}
               </Section>
             </Card>
           ))}
@@ -148,7 +167,7 @@ export function BuildingList(prop: BuildingListProp) {
 
 export interface BuyBuildingConfirmProp {
   building: Building
-  buy: (name: string) => void
+  buy: (id: string) => void
   cancel: () => void
 }
 
@@ -156,9 +175,10 @@ export function BuyBuildingConfirm(prop: BuyBuildingConfirmProp) {
   return (
     <div>
       <div>
-        Are you sure you want to buy the {prop.building.name} for {prop.building.price} gold?
+        Are you sure you want to buy the <BuildingName building={prop.building} /> for{" "}
+        {prop.building.price} gold?
       </div>
-      <Button onClick={() => prop.buy(prop.building.name)}>Yes</Button>
+      <Button onClick={() => prop.buy(prop.building.id)}>Yes</Button>
       <Button onClick={prop.cancel} ml3>
         No
       </Button>

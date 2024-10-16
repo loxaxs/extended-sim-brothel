@@ -5,6 +5,7 @@ import { App } from "./App"
 import { resolveSearch } from "./lib/urlParameter"
 import { Config } from "./type"
 
+import { ProvideT } from "./i18n/useT"
 import "./reset.css"
 import "./style.css"
 
@@ -15,6 +16,7 @@ function getConfig() {
     safeMode: [() => false],
     save: [() => 0],
     allGirlMode: [() => false],
+    language: [() => "en"],
   })
 }
 
@@ -25,11 +27,15 @@ function main() {
   let root = createRoot(document.getElementById("root")!)
   const render = () => {
     root.render(
-      createElement(App, {
-        baseHeight: window.innerHeight,
-        baseWidth: window.innerWidth,
-        config,
-      }),
+      createElement(
+        ProvideT,
+        null,
+        createElement(App, {
+          baseHeight: window.innerHeight,
+          baseWidth: window.innerWidth,
+          config,
+        }),
+      ),
     )
   }
   render()

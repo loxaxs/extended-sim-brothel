@@ -1,11 +1,14 @@
 import { SetStateAction } from "react"
 
+export type TFunction = (key: string, interpolation?: Record<string, string | number>) => string
+
 export interface Config {
   devMode: boolean
   gold: number
   safeMode: boolean
   save: number
   allGirlMode: boolean
+  language: "en" | "fr"
 }
 
 export interface SaveExtraData {
@@ -95,7 +98,7 @@ export interface Girl extends GirlInfo {
 }
 
 export interface Building {
-  name: string
+  id: string
   /** Number of rooms girls can work in */
   capacity: number
   price: number
@@ -108,7 +111,7 @@ export type Activity = BuildingActivity | OtherActivity
 
 export interface BuildingActivity {
   kind: "building"
-  buildingName: string
+  buildingId: string
 }
 
 export interface OtherActivity {

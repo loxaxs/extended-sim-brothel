@@ -1,4 +1,5 @@
 import React from "react"
+import { useT } from "src/i18n/useT"
 import { gameContext } from "../context/context"
 import { GirlList } from "../girl/GirlList"
 import { GirlInfo } from "../type"
@@ -14,6 +15,7 @@ export interface HomeProp {
 export function Home(prop: HomeProp) {
   let { handleSave, handleNewDay, girlArray } = prop
   let { changePath } = React.useContext(gameContext)
+  let { t } = useT()
   return (
     <div className="grid grid-cols-[85%_15%] gap-2">
       <div>
@@ -33,7 +35,7 @@ export function Home(prop: HomeProp) {
               changePath({ pathAddition: ["market"] })
             }}
           >
-            Girl market
+            {t("Girl market")}
           </Button>
           <Button
             className="mx-auto block"
@@ -41,14 +43,14 @@ export function Home(prop: HomeProp) {
               changePath({ pathAddition: ["buybuilding"] })
             }}
           >
-            Buy building
+            {t("Buy building")}
           </Button>
         </div>
         <Section className="text-xl">
           <ul className="p-0">
             {[
-              { callback: handleSave, text: "Save" },
-              { callback: handleNewDay, text: "New Day" },
+              { callback: handleSave, text: t("Save") },
+              { callback: handleNewDay, text: t("New Day") },
             ].map(({ callback, text }) => (
               <li key={text} className="m-1 text-center">
                 <Button onClick={callback} className="g-amber-200 border-amber-400">

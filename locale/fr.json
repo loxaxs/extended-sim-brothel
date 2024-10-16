@@ -1,0 +1,210 @@
+{
+  "Rest": {
+    "reference": ["src/activity/activity.ts:15:11"],
+    "msgstr": "Repo"
+  },
+  "Ceremony": {
+    "reference": ["src/activity/activity.ts:16:15"],
+    "msgstr": "Cérémonie"
+  },
+  "Poetry School": {
+    "reference": ["src/activity/activity.ts:17:19"],
+    "msgstr": "École de poésie"
+  },
+  "Dance School": {
+    "reference": ["src/activity/activity.ts:18:18"],
+    "msgstr": "École de dance"
+  },
+  "Sex School": {
+    "reference": ["src/activity/activity.ts:19:16"],
+    "msgstr": "École de sexe"
+  },
+  "Bondage School": {
+    "reference": ["src/activity/activity.ts:20:20"],
+    "msgstr": "École de bondage"
+  },
+  "Old shack far away": {
+    "reference": ["src/activity/Building.tsx:58:8"],
+    "msgstr": "Vielle cabane loin"
+  },
+  "Small house out of the island": {
+    "reference": ["src/activity/Building.tsx:59:8"],
+    "msgstr": "Petite maison hors de l'île"
+  },
+  "House on the island": {
+    "reference": ["src/activity/Building.tsx:60:8"],
+    "msgstr": "Maison sur l'île"
+  },
+  "House on central road": {
+    "reference": ["src/activity/Building.tsx:61:8"],
+    "msgstr": "Maison sur la route centrale"
+  },
+  "Big house on central road": {
+    "reference": ["src/activity/Building.tsx:62:8"],
+    "msgstr": "Grande maison sur la route centrale"
+  },
+  "Palace on central road": {
+    "reference": ["src/activity/Building.tsx:63:8"],
+    "msgstr": "Palais sur la route centrale"
+  },
+  "Central palace": {
+    "reference": ["src/activity/Building.tsx:64:8"],
+    "msgstr": "Palais central"
+  },
+  "Gold": {
+    "reference": ["src/Game.tsx:172:12", "src/save/Save.tsx:58:61", "src/save/Save.tsx:90:75"],
+    "msgstr": "Or"
+  },
+  "Day": {
+    "reference": ["src/Game.tsx:179:18", "src/save/Save.tsx:58:12", "src/save/Save.tsx:90:22"],
+    "msgstr": "Jour"
+  },
+  "Saved!": {
+    "reference": ["src/Game.tsx:210:34"],
+    "msgstr": "Sauvegardé!"
+  },
+  "beauty": {
+    "reference": ["src/girl/girl.ts:46:31"],
+    "msgstr": "beauté"
+  },
+  "character": {
+    "reference": ["src/girl/girl.ts:47:34"],
+    "msgstr": "caractère"
+  },
+  "commitment": {
+    "reference": ["src/girl/girl.ts:48:35"],
+    "msgstr": "engagement"
+  },
+  "constitution": {
+    "reference": ["src/girl/girl.ts:49:37"],
+    "msgstr": "constitution"
+  },
+  "esteem": {
+    "reference": ["src/girl/girl.ts:50:31"],
+    "msgstr": "estime"
+  },
+  "fame": {
+    "reference": ["src/girl/girl.ts:51:29"],
+    "msgstr": "renommée"
+  },
+  "health": {
+    "reference": ["src/girl/girl.ts:52:31"],
+    "msgstr": "santé"
+  },
+  "libido": {
+    "reference": ["src/girl/girl.ts:53:31"],
+    "msgstr": "libido"
+  },
+  "prominence": {
+    "reference": ["src/girl/girl.ts:54:35"],
+    "msgstr": "proéminence"
+  },
+  "sex": {
+    "reference": ["src/girl/girl.ts:55:28"],
+    "msgstr": "sexe"
+  },
+  "acquisition price": {
+    "reference": ["src/girl/girl.ts:56:42"],
+    "msgstr": "prix d'acquisition"
+  },
+  "The market is empty.": {
+    "reference": ["src/girl/GirlList.tsx:40:59"],
+    "msgstr": "Le marché est vide."
+  },
+  "Girl market": {
+    "reference": ["src/home/Home.tsx:38:14"],
+    "msgstr": "Marché des filles"
+  },
+  "Buy building": {
+    "reference": ["src/home/Home.tsx:46:14"],
+    "msgstr": "Acheter un bâtiment"
+  },
+  "Save": {
+    "reference": ["src/home/Home.tsx:52:45"],
+    "msgstr": "Sauvegarder"
+  },
+  "New Day": {
+    "reference": ["src/home/Home.tsx:53:47"],
+    "msgstr": "Nouveau jour"
+  },
+  "{buildingCustomerCount} customers came to {buildingName}.": {
+    "reference": ["src/nextday/report.ts:151:19"],
+    "msgstr": "{buildingCustomerCount} clients sont venus à {buildingName}."
+  },
+  " {leavingCustomerCount} left because of the prices.": {
+    "reference": ["src/nextday/report.ts:156:18"],
+    "msgstr": " {leavingCustomerCount} sont partis à cause des prix."
+  },
+  " {extraCustomerCount} could not be serviced.": {
+    "reference": ["src/nextday/report.ts:159:18"],
+    "msgstr": " {extraCustomerCount} n'ont pas pu être servis."
+  },
+  ". {redirectedCustomerCount} of them were redirected to the next building.": {
+    "reference": ["src/nextday/report.ts:161:20"],
+    "msgstr": ". {redirectedCustomerCount} d'entre eux ont été redirigés vers le bâtiment suivant."
+  },
+  "{name} can work with {maximum} customers. She received {count} customers today, earning {goldChange} gold.": {
+    "reference": ["src/nextday/report.ts:180:18"],
+    "msgstr": "{name} peut travailler avec {maximum} clients. Elle a reçu {count} clients aujourd'hui, gagnant {goldChange} or."
+  },
+  "In total you {earnedOrLost} {goldChange} gold today.": {
+    "reference": ["src/nextday/report.ts:223:14"],
+    "msgstr": "Au total, vous avez {earnedOrLost} {goldChange} or aujourd'hui."
+  },
+  "earned": {
+    "reference": ["src/nextday/report.ts:224:44"],
+    "msgstr": "gagné"
+  },
+  "lost": {
+    "reference": ["src/nextday/report.ts:224:58"],
+    "msgstr": "perdu"
+  },
+  "Previous": {
+    "reference": ["src/nextday/ReportDisplay.tsx:54:10"],
+    "msgstr": "Précédent"
+  },
+  "Exit report": {
+    "reference": ["src/nextday/ReportDisplay.tsx:66:38"],
+    "msgstr": "Quitter le rapport"
+  },
+  "Next": {
+    "reference": ["src/nextday/ReportDisplay.tsx:66:57"],
+    "msgstr": "Suivant"
+  },
+  "Save file #{index}": {
+    "reference": ["src/save/Save.tsx:13:16"],
+    "msgstr": "Fichier de sauvegarde #{index}"
+  },
+  "Are you sure you want to delete save file {index}?": {
+    "reference": ["src/save/Save.tsx:55:13"],
+    "msgstr": "Êtes-vous sûr de vouloir supprimer le fichier de sauvegarde {index} ?"
+  },
+  "Girls": {
+    "reference": ["src/save/Save.tsx:58:35", "src/save/Save.tsx:90:49"],
+    "msgstr": "Filles"
+  },
+  "Yes": {
+    "reference": ["src/save/Save.tsx:61:12"],
+    "msgstr": "Oui"
+  },
+  "No": {
+    "reference": ["src/save/Save.tsx:64:12"],
+    "msgstr": "Non"
+  },
+  "Load": {
+    "reference": ["src/save/Save.tsx:100:41"],
+    "msgstr": "Charger"
+  },
+  "Use": {
+    "reference": ["src/save/Save.tsx:100:53"],
+    "msgstr": "Utiliser"
+  },
+  "Delete": {
+    "reference": ["src/save/Save.tsx:104:24"],
+    "msgstr": "Supprimer"
+  },
+  "Duplicate to save {index}": {
+    "reference": ["src/save/Save.tsx:132:24"],
+    "msgstr": "Dupliquer vers le fichier {index}"
+  }
+}

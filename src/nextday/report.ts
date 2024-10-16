@@ -1,34 +1,36 @@
+import { getBuildingName } from "src/activity/Building"
 import { getParaActivityMessage, getParaActivityStatChange } from "../activity/activity"
 import { createGirl, healthTag } from "../girl/girl"
-import { Building, Girl, GirlInfo, Report } from "../type"
+import { Building, Girl, GirlInfo, Report, TFunction } from "../type"
 
 export interface NextDayReportParam {
   girlArray: GirlInfo[]
-  buildingByName: Record<string, Building>
+  buildingById: Record<string, Building>
+  t: TFunction
 }
 
 export function nextDayReport(param: NextDayReportParam): Report {
-  let { girlArray, buildingByName } = param
+  let { girlArray, buildingById, t } = param
   let report: Report = []
 
   //
   // Deal with the girls working in bulidings
   //
   let girlListInBuilding: Record<string, Girl[]> = {}
-  Object.values(buildingByName).forEach(({ name }) => {
-    girlListInBuilding[name] = []
+  Object.values(buildingById).forEach(({ id }) => {
+    girlListInBuilding[id] = []
   })
   girlArray.forEach((girl) => {
     if (girl.activity.kind === "building") {
-      let { buildingName } = girl.activity
-      girlListInBuilding[buildingName].push(createGirl(girl))
+      let { buildingId } = girl.activity
+      girlListInBuilding[buildingId].push(createGirl(girl))
     }
   })
 
   // redirectedCustomerCount is the number of customers that will accept
   // to be redirected to another (more prestigious) building
   let redirectedCustomerCount = 0
-  Object.entries(girlListInBuilding).forEach(([buildingName, girlList]) => {
+  Object.entries(girlListInBuilding).forEach(([buildingId, girlList]) => {
     if (girlList.length === 0) {
       // There will be no message for empty buildings
       return
@@ -38,7 +40,7 @@ export function nextDayReport(param: NextDayReportParam): Report {
     girlList.sort((a, b) => b.getBargain() - a.getBargain())
 
     // Compute building attractivity and girl count by building
-    let building = buildingByName[buildingName]
+    let building = buildingById[buildingId]
     let buildingAttractivity =
       (building.visibility + building.fame) * Math.sqrt(building.visibility / 50)
     let maxDedicatedCustomerAttemptTotal = 0
@@ -146,14 +148,19 @@ export function nextDayReport(param: NextDayReportParam): Report {
       () => Math.random() < 0.5,
     ).length
 
-    let message = `${buildingCustomerCount} customers came to ${buildingName}.`
+    let message = t(`{buildingCustomerCount} customers came to {buildingName}.`, {
+      buildingCustomerCount,
+      buildingName: getBuildingName(building, t),
+    })
     if (leavingCustomerCount) {
-      message += ` ${leavingCustomerCount} left because of the prices.`
+      message += t(` {leavingCustomerCount} left because of the prices.`, { leavingCustomerCount })
     }
     if (extraCustomerCount) {
-      message += ` ${extraCustomerCount} could not be serviced.`
+      message += t(` {extraCustomerCount} could not be serviced.`, { extraCustomerCount })
       if (redirectedCustomerCount) {
-        message += `. ${redirectedCustomerCount} of them were redirected to the next building.`
+        message += t(`. {redirectedCustomerCount} of them were redirected to the next building.`, {
+          redirectedCustomerCount,
+        })
       }
     }
 
@@ -170,7 +177,10 @@ export function nextDayReport(param: NextDayReportParam): Report {
       report.push({
         kind: "girl",
         girlName: name,
-        message: `${name} can work with ${girl.getMaxiumumCustomerCount()} customers. She received ${count} customers today, earning ${goldChange} gold.`,
+        message: t(
+          `{name} can work with {maximum} customers. She received {count} customers today, earning {goldChange} gold.`,
+          { name, maximum: girl.getMaxiumumCustomerCount(), count, goldChange },
+        ),
         statChange: {
           prominence: 0,
           libido: 0,
@@ -194,7 +204,7 @@ export function nextDayReport(param: NextDayReportParam): Report {
   girlArray.forEach((girl) => {
     if (girl.activity.kind !== "building") {
       let statChange = getParaActivityStatChange(girl)
-      let message = getParaActivityMessage(girl, statChange)
+      let message = getParaActivityMessage(girl, statChange, t)
       report.push({
         kind: "girl",
         girlName: girl.name,
@@ -210,7 +220,10 @@ export function nextDayReport(param: NextDayReportParam): Report {
   let totalGoldChange = report.reduce((acc, { goldChange }) => acc + goldChange, 0)
   report.push({
     kind: "other",
-    message: `In total you ${totalGoldChange >= 0 ? "earned" : "lost"} ${Math.abs(totalGoldChange)} gold today.`,
+    message: t(`In total you {earnedOrLost} {goldChange} gold today.`, {
+      earnedOrLost: totalGoldChange >= 0 ? t("earned") : t("lost"),
+      goldChange: Math.abs(totalGoldChange),
+    }),
     goldChange: 0,
   })
 

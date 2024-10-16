@@ -1,6 +1,6 @@
 import { createImageSet } from "../imageSet/imageSet"
 import { randomInt } from "../lib/random"
-import { Girl, GirlImageSetInfo, GirlInfo } from "../type"
+import { Girl, GirlImageSetInfo, GirlInfo, TFunction } from "../type"
 
 export function createGirl(girlInfo: GirlInfo) {
   let girl = {
@@ -36,28 +36,32 @@ export function createGirl(girlInfo: GirlInfo) {
   return girl as Girl
 }
 
-export const MAX_GIRL_STAT: Omit<
-  GirlInfo,
-  "name" | "imageSet" | "owned" | "activity" | "sessionPrice"
-> = {
-  beauty: 100,
-  character: 100,
-  commitment: 100,
-  constitution: 100,
-  esteem: 100,
-  fame: 100,
-  health: 100,
-  libido: 100,
-  prominence: 100,
-  sex: 100,
-  acquisitionPrice: 2000,
+export function getMaxGirlStat(
+  t: TFunction,
+): Record<
+  keyof Omit<GirlInfo, "name" | "imageSet" | "owned" | "activity" | "sessionPrice">,
+  { max: number; name: string }
+> {
+  return {
+    beauty: { max: 100, name: t("beauty") },
+    character: { max: 100, name: t("character") },
+    commitment: { max: 100, name: t("commitment") },
+    constitution: { max: 100, name: t("constitution") },
+    esteem: { max: 100, name: t("esteem") },
+    fame: { max: 100, name: t("fame") },
+    health: { max: 100, name: t("health") },
+    libido: { max: 100, name: t("libido") },
+    prominence: { max: 100, name: t("prominence") },
+    sex: { max: 100, name: t("sex") },
+    acquisitionPrice: { max: 2000, name: t("acquisition price") },
+  }
 }
 
 export function createRandomGirlInfo(girlName: string, imageSet: GirlImageSetInfo): GirlInfo {
   let girlInfo: GirlInfo = Object.fromEntries(
-    Object.entries(MAX_GIRL_STAT).map(([key, maxValue]) => [
+    Object.entries(getMaxGirlStat(() => "")).map(([key, { max }]) => [
       key,
-      Math.floor(randomInt(maxValue) / 2),
+      Math.floor(randomInt(max) / 2),
     ]),
   ) as any
   girlInfo.name = girlName

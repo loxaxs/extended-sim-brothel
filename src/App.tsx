@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useLayoutEffect, useState } from "react"
 
 import * as packageInfo from "../package.json"
 import { Game } from "./Game"
@@ -7,6 +7,7 @@ import { Config } from "./type"
 
 import "./ambient.d"
 import { girlImageList } from "./asset/girlAsset"
+import { useT } from "./i18n/useT"
 import { PreloadImageSet } from "./imageSet/PreloadImageSet"
 
 export interface AppProp {
@@ -17,10 +18,15 @@ export interface AppProp {
 
 export function App(prop: AppProp) {
   let { baseHeight, baseWidth, config } = prop
+  let { t, setLanguage } = useT()
   let saveCount = 5
   let size = Math.min(baseHeight * 3, baseWidth * 2)
   let [saveIndex, setSaveIndex] = useState(config.save)
-  let save = loadGame(saveIndex)
+  let save = loadGame(saveIndex, t)
+
+  useLayoutEffect(() => {
+    setLanguage(config.language)
+  }, [config.language])
 
   return (
     <div

@@ -3,10 +3,10 @@
 node_modules/
 dist/
 
+!/esbpic/
+!/locale/
 !/src/
 !/script/
-!/asset/
-!/esbpic/
 
 !.gitignore
 !.gitmodules

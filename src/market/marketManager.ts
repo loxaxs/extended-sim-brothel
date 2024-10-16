@@ -22,7 +22,7 @@ export function createMarketManager(initialGirlArray: GirlInfo[], config: Config
       const girlLeavingMarketCount = 1
       let girlEnteringMarketCount =
         Math.ceil(girlArray.length / 2) + girlLeavingMarketCount - girlInMarketArray.length
-      // The girl which can enter the market are the girls which are not already
+      // The girls which can enter the market are the girls which are not already
       // in it.
       let girlEnteringOptionArray = girlArray.filter((g) => !girlInMarketArray.includes(g))
       let girlEnteringMarketArray = randomExtract(girlEnteringMarketCount, girlEnteringOptionArray)

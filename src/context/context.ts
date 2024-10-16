@@ -7,4 +7,5 @@ export let gameContext = createContext<GameContext>({
   },
   devMode: false,
   safeMode: false,
+  setFooterContent: () => {},
 })

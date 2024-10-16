@@ -1,7 +1,8 @@
+import { useT } from "src/i18n/useT"
 import { AutonomousSmartEntry } from "src/ui/smartEntry/smartEntry"
 import { capitalize } from "../lib/text"
 import { GirlInfo, GirlStatChange } from "../type"
-import { MAX_GIRL_STAT } from "./girl"
+import { getMaxGirlStat } from "./girl"
 
 export interface GirlStatProp {
   girl: GirlInfo
@@ -10,13 +11,14 @@ export interface GirlStatProp {
 
 export function GirlStat(prop: GirlStatProp) {
   let { girl, statChange } = prop
+  let { t } = useT()
   return (
     <table className="m-auto text-xl">
       <tbody>
-        {Object.keys(MAX_GIRL_STAT).map((statName) =>
+        {Object.entries(getMaxGirlStat(t)).map(([statName, { name: textualName }]) =>
           statName === "acquisitionPrice" ? null : (
             <tr key={statName}>
-              <td className="px-3 py-1">{capitalize(statName)}</td>
+              <td className="px-3 py-1">{capitalize(textualName)}</td>
               <td className="border-l-2 border-black px-3 text-right">
                 <AutonomousSmartEntry
                   className="w-full text-right"

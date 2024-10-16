@@ -1,3 +1,4 @@
+import { useT } from "src/i18n/useT"
 import { tw } from "src/lib/tw"
 import { GirlInfo } from "../type"
 import { GirlListCard } from "./GirlCard"
@@ -14,6 +15,7 @@ export type GirlListAct = {
 
 export function GirlList(prop: GirlListProp) {
   let { act, girlArray, onClick } = prop
+  let { t } = useT()
 
   return (
     <div className="flex h-[500px] flex-wrap overflow-auto">
@@ -35,7 +37,7 @@ export function GirlList(prop: GirlListProp) {
           </div>
         )
       })}
-      {girlArray.length === 0 && act.kind === "market" && "The market is empty."}
+      {girlArray.length === 0 && act.kind === "market" && t("The market is empty.")}
     </div>
   )
 }

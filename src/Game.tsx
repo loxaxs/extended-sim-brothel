@@ -4,6 +4,7 @@ import { gameContext } from "./context/context"
 import { GirlDetailView } from "./girl/GirlDetailView"
 import { getGirlArray } from "./girl/girlGroup"
 import { Home } from "./home/Home"
+import { useT } from "./i18n/useT"
 import { access } from "./lib/access"
 import { formatBigNumber } from "./lib/number"
 import { randRange } from "./lib/random"
@@ -56,6 +57,7 @@ export interface GameProp {
 export function Game(prop: GameProp) {
   let { devMode, safeMode } = prop.config
   let initialState = prop.save.hasData ? prop.save : newGameState(prop.config)
+  let { t } = useT()
   let [gold, setGold] = React.useState(initialState.gold)
   let [day, setDay] = React.useState(initialState.day)
   let [footerContent, setFooterContent] = React.useState("")
@@ -100,10 +102,10 @@ export function Game(prop: GameProp) {
       })
       return [mapping, ownedMapping, marketMapping, ownedArray, marketArray]
     }, [girlArray])
-  let buildingByName = React.useMemo(() => {
+  let buildingById = React.useMemo(() => {
     let mapping: Record<string, Building> = {}
     buildingArray.forEach((building) => {
-      mapping[building.name] = building
+      mapping[building.id] = building
     })
     return mapping
   }, [buildingArray])
@@ -167,14 +169,14 @@ export function Game(prop: GameProp) {
           </>
         )}
         <span className="text-xl">
-          Gold:{" "}
+          {t("Gold")}:{" "}
           <ControlledSmartEntry
             className="w-16 text-right"
             formatter={(s) => String(formatBigNumber(Number(s)))}
             setter={(value) => setGold(Number(value))}
             value={String(gold)}
           />
-          {" - Day: "}
+          {` - ${t("Day")}: `}
           {formatBigNumber(day)}
         </span>
       </div>
@@ -192,7 +194,8 @@ export function Game(prop: GameProp) {
               handleNewDay={() => {
                 let report = nextDayReport({
                   girlArray: girlArray.filter((g) => g.owned),
-                  buildingByName,
+                  buildingById: buildingById,
+                  t,
                 })
                 if (report.length === 0) {
                   console.error("The report is empty")
@@ -204,7 +207,7 @@ export function Game(prop: GameProp) {
               }}
               handleSave={() => {
                 prop.saveGame(getSaveData())
-                setFooterContent("Saved!")
+                setFooterContent(t("Saved!"))
               }}
               girlArray={girlArray}
             />
@@ -236,9 +239,9 @@ export function Game(prop: GameProp) {
           ),
           ".buybuilding.confirm": () => (
             <BuyBuildingConfirm
-              building={buildingByName[getName(1)]}
-              buy={(buildingName: string) => {
-                let building = buildingByName[buildingName]
+              building={buildingById[getName(1)]}
+              buy={(buildingId: string) => {
+                let building = buildingById[buildingId]
                 building.owned = true
                 setGold((g) => g - building.price)
                 changePath({ pathLevelRemovalCount: 2 })

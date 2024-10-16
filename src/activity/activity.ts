@@ -1,5 +1,5 @@
 import { randomInt } from "../lib/random"
-import { GirlInfo, GirlStatChange, OtherActivity } from "../type"
+import { Activity, GirlInfo, GirlStatChange, OtherActivity, TFunction } from "../type"
 
 export let otherActivityArray: OtherActivity["kind"][] = [
   "rest",
@@ -10,14 +10,15 @@ export let otherActivityArray: OtherActivity["kind"][] = [
   "bondageSchool",
 ]
 
-export let otherActivityNameMapping: Record<OtherActivity["kind"], string> = {
-  rest: "Rest",
-  ceremony: "Ceremony",
-  poetrySchool: "Poetry School",
-  danceSchool: "Dance School",
-  sexSchool: "Sex School",
-  bondageSchool: "Bondage School",
-}
+export let getOtherActivityName = (activityName: Activity["kind"], t: TFunction) =>
+  ({
+    rest: t("Rest"),
+    ceremony: t("Ceremony"),
+    poetrySchool: t("Poetry School"),
+    danceSchool: t("Dance School"),
+    sexSchool: t("Sex School"),
+    bondageSchool: t("Bondage School"),
+  })[activityName]
 
 export function getParaActivityStatChange(girl: GirlInfo): GirlStatChange {
   let stat: GirlStatChange = {
@@ -61,12 +62,12 @@ export function getParaActivityStatChange(girl: GirlInfo): GirlStatChange {
   return stat
 }
 
-export function getParaActivityMessage(girl: GirlInfo, statChange: GirlStatChange) {
+export function getParaActivityMessage(girl: GirlInfo, statChange: GirlStatChange, t: TFunction) {
   let statChangeMessage = Object.entries(statChange)
     .filter(([k, v]) => v !== 0)
     .map(([name, diff]) => `${name} (${diff})`)
     .join(", ")
-  let activityName = otherActivityNameMapping[girl.activity.kind]
+  let activityName = getOtherActivityName(girl.activity.kind, t)
   if (statChangeMessage) {
     statChangeMessage = ` and gained or loss ${statChangeMessage}`
   } else {

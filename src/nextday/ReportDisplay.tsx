@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import { gameContext } from "src/context/context"
+import { useT } from "src/i18n/useT"
 import { createGirl } from "../girl/girl"
 import { GirlDisplay } from "../girl/GirlDisplay"
 import { GirlStat } from "../girl/GirlStat"
@@ -15,6 +16,7 @@ export interface ReportDisplayProp {
 
 export function ReportDisplay(prop: ReportDisplayProp) {
   let { report, girlByName, handleExitReport, setGold } = prop
+  let { t } = useT()
   let { setFooterContent } = useContext(gameContext)
   let [page, setPage] = React.useState(0)
   let line = report[page]
@@ -49,7 +51,7 @@ export function ReportDisplay(prop: ReportDisplayProp) {
           setPage((p) => p - 1)
         }}
       >
-        Previous
+        {t("Previous")}
       </Button>
       <Button
         onClick={() => {
@@ -61,7 +63,7 @@ export function ReportDisplay(prop: ReportDisplayProp) {
           setPage((p) => p + 1)
         }}
       >
-        {page + 1 >= report.length ? "Exit report" : "Next"}
+        {page + 1 >= report.length ? t("Exit report") : t("Next")}
       </Button>
     </>
   )

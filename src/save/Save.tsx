@@ -1,15 +1,16 @@
 import React, { SetStateAction } from "react"
+import { useT } from "src/i18n/useT"
 import { tw } from "../lib/tw"
-import { GameState, SaveExtraData } from "../type"
+import { GameState, SaveExtraData, TFunction } from "../type"
 import { Button } from "../ui/button/Button"
 import { Card } from "../ui/card/Card"
 import { Section } from "../ui/section/Section"
 
-export function loadGame(saveIndex: number): GameState & SaveExtraData {
+export function loadGame(saveIndex: number, t: TFunction): GameState & SaveExtraData {
   let saveName = `save${saveIndex}`
   let save = JSON.parse(localStorage.getItem(saveName) ?? "{}")
   save.index = saveIndex
-  save.title = `Save file #${saveIndex}`
+  save.title = t(`Save file #{index}`, { index: saveIndex })
   save.name = saveName
   save.hasData = save.day !== undefined
   return save
@@ -32,7 +33,8 @@ export interface SelectSaveFileProp {
 
 export function SelectSaveFile(prop: SelectSaveFileProp) {
   let { saveCount, saveData, setSaveIndex } = prop
-  let saveArray = Array.from({ length: saveCount }, (_, k) => loadGame(k + 1))
+  let { t } = useT()
+  let saveArray = Array.from({ length: saveCount }, (_, k) => loadGame(k + 1, t))
   let emptySaveArray = saveArray.filter((baseSave) => !baseSave.hasData)
 
   let [_, reload] = React.useReducer((x) => !x, false)
@@ -46,18 +48,20 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
       setDeleteSaveIndex(0)
     }
 
+    let girlCount = save.girlArray.filter((g) => g.owned).length
+
     return (
       <>
-        <p>Are you sure you want to delete save file {deleteSaveIndex}?</p>
+        <p>{t("Are you sure you want to delete save file {index}?", { index: deleteSaveIndex })}</p>
         <p>
           {" "}
-          Day: {save.day} Gold: {save.gold}
+          {t("Day")}: {save.day} {t("Girls")}: {girlCount} {t("Gold")}: {save.gold}
         </p>
         <Button ml3 onClick={handleYes}>
-          Yes
+          {t("Yes")}
         </Button>
         <Button ml3 onClick={() => setDeleteSaveIndex(0)}>
-          No
+          {t("No")}
         </Button>
       </>
     )
@@ -70,6 +74,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
         if (isInUse) {
           baseSave = saveData!
         }
+        let girlCount = baseSave.hasData ? baseSave.girlArray.filter((g) => g.owned).length : 0
         return (
           <Card key={baseSave.name} className="m-3">
             <Section
@@ -82,7 +87,8 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                 {baseSave.hasData ? (
                   <p>
                     {" "}
-                    Day: {baseSave.day} Gold: {baseSave.gold}
+                    {t("Day")}: {baseSave.day} {t("Girls")}: {girlCount} {t("Gold")}:{" "}
+                    {baseSave.gold}
                   </p>
                 ) : (
                   ""
@@ -91,11 +97,11 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
               {!isInUse && (
                 <span className="inline-block">
                   <Button ml3 onClick={() => setSaveIndex(baseSave.index)}>
-                    {baseSave.hasData ? "Load" : "Use"}
+                    {baseSave.hasData ? t("Load") : t("Use")}
                   </Button>
                   {baseSave.hasData && (
                     <Button ml3 onClick={() => setDeleteSaveIndex(baseSave.index)}>
-                      Delete
+                      {t("Delete")}
                     </Button>
                   )}
                 </span>
@@ -123,7 +129,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                         reload()
                       }}
                     >
-                      Duplicate to save {targetSave.index}
+                      {t("Duplicate to save {index}", { index: targetSave.index })}
                     </Button>
                   ))}
               </div>
