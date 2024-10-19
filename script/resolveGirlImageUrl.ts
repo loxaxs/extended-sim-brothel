@@ -28,7 +28,37 @@ async function walkPath(
   )
 }
 
+function getFetcher({ waitDurationMs }: { waitDurationMs: number }) {
+  let lastPromise = Promise.resolve(null as unknown as Response)
+  let queue: [(value: Response) => void, string][] = []
+  async function addUrl(url: string): Promise<Response> {
+    let resolver: (value: Response) => void
+    let promise = new Promise<Response>((resolve) => (resolver = resolve))
+    queue.push([resolver!, url])
+    run()
+    return promise
+  }
+  let running = false
+  async function run() {
+    if (running) {
+      return
+    }
+    running = true
+    while (queue.length) {
+      let [resolver, url] = queue.shift()!
+      console.log("Fetching", Date.now(), url)
+      await new Promise((resolve) => setTimeout(resolve, waitDurationMs))
+      let response = await fetch(url)
+      resolver(response)
+    }
+    running = false
+  }
+  return { addUrl }
+}
+
 function main() {
+  let fetcher = getFetcher({ waitDurationMs: 0 })
+
   walkPath(__dirname + "/../esbpic", async ({ file, fullPath }) => {
     let fileNameParts = file.split(".")
     let [extA, extB] = fileNameParts.slice(-2)
@@ -51,9 +81,15 @@ function main() {
         existingResultContent = {}
       }
       let directory = fullPath.slice(0, -file.length) + girlName
-      await fsp.mkdir(directory, { recursive: true })
 
-      let directoryContent = await fsp.readdir(directory)
+      if (process.argv.includes("--download")) {
+        await fsp.mkdir(directory, { recursive: true })
+      }
+
+      let directoryContent: string[] = []
+      try {
+        directoryContent = await fsp.readdir(directory)
+      } catch {}
       directoryContent.filter((name) => {
         let m = name.match(/^([^-]*--[^-]*)(--([^.]*))?\.picture\.pic\.([^.]+)$/)
         if (!m) {
@@ -64,7 +100,7 @@ function main() {
 
       let skipDownloadCount = 0
       let namePool: Record<string, true> = {}
-      let entryList = await Promise.all(
+      let entryListPromise = Promise.all(
         content
           .split("\n")
           .filter((x) => x)
@@ -88,7 +124,7 @@ function main() {
                   return [pageUrl, existing]
                 }
               }
-              let response = await fetch(pageUrl + ".json")
+              let response = await fetcher.addUrl(pageUrl + ".json")
               let textdata = ""
               try {
                 textdata = await response.text()
@@ -100,8 +136,8 @@ function main() {
               try {
                 data = JSON.parse(textdata)
               } catch (e) {
-                console.error(
-                  `Failed to parse data as json for page "${pageUrl}" (${e}):`,
+                console.log(
+                  `ERROR: Failed to parse data as json for page "${pageUrl}" (${e}):`,
                   textdata,
                 )
                 process.exit(1)
@@ -143,13 +179,14 @@ function main() {
               let response = await fetch(media)
               let blob = await response.blob()
               let arrayBuffer = await blob.arrayBuffer()
-              await fsp.writeFile(mediaPath(), Buffer.from(arrayBuffer))
+              await fsp.writeFile(mediaPath(), Buffer.from(arrayBuffer) as any)
               console.log("Downloaded", media, "to", mediaPath())
               return null
             }
             return [pageUrl, { media, tags: tagList.join(" ") }]
           }),
       )
+      let entryList = await entryListPromise
       let filteredEntryList: [string, { media: string; tags: string }][] = entryList.filter(
         (x) => x,
       ) as any
