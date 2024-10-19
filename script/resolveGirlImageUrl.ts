@@ -89,17 +89,24 @@ function main() {
                 }
               }
               let response = await fetch(pageUrl + ".json")
+              let textdata = ""
+              try {
+                textdata = await response.text()
+              } catch (e) {
+                console.error(`Failed to get text data for page "${pageUrl}" (${e})`)
+                process.exit(1)
+              }
               let data: any
               try {
-                data = await response.json()
+                data = JSON.parse(textdata)
               } catch (e) {
                 console.error(
-                  `Failed to get json data for page "${pageUrl}" (${e}):`,
-                  await response.text(),
+                  `Failed to parse data as json for page "${pageUrl}" (${e}):`,
+                  textdata,
                 )
                 process.exit(1)
               }
-              artist = data.tag_string_artist.replace(/ /g, ",")
+              artist = data.tag_string_artist?.replace(/ /g, ",") ?? ""
               if (artist) {
                 artist = `--${artist}`
               }
