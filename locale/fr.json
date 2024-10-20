@@ -1,38 +1,38 @@
 {
   "Rest": {
-    "reference": ["src/activity/activity.ts:16:11"],
+    "reference": ["src/activity/activity.ts:17:11"],
     "msgstr": "Repo"
   },
   "Ceremony": {
-    "reference": ["src/activity/activity.ts:17:15"],
+    "reference": ["src/activity/activity.ts:18:15"],
     "msgstr": "Cérémonie"
   },
   "Poetry School": {
-    "reference": ["src/activity/activity.ts:18:19"],
+    "reference": ["src/activity/activity.ts:19:19"],
     "msgstr": "École de poésie"
   },
   "Dance School": {
-    "reference": ["src/activity/activity.ts:19:18"],
+    "reference": ["src/activity/activity.ts:20:18"],
     "msgstr": "École de dance"
   },
   "Sex School": {
-    "reference": ["src/activity/activity.ts:20:16"],
+    "reference": ["src/activity/activity.ts:21:16"],
     "msgstr": "École de sexe"
   },
   "Bondage School": {
-    "reference": ["src/activity/activity.ts:21:20"],
+    "reference": ["src/activity/activity.ts:22:20"],
     "msgstr": "École de bondage"
   },
   "{statName} ({delta})": {
-    "reference": ["src/activity/activity.ts:70:28"],
+    "reference": ["src/activity/activity.ts:72:7"],
     "msgstr": "{statName} ({delta})"
   },
   "{name} went to {activityName} and gained/lost {statChangeMessage}.": {
-    "reference": ["src/activity/activity.ts:74:12"],
+    "reference": ["src/activity/activity.ts:77:12"],
     "msgstr": "{name} est allée à {activityName} et a gagné/perdu {statChangeMessage}."
   },
   "{name} went to {activityName} and nothing happened.": {
-    "reference": ["src/activity/activity.ts:80:10"],
+    "reference": ["src/activity/activity.ts:83:10"],
     "msgstr": "{name} est allée à {activityName} et il ne s'est rien passé."
   },
   "Old shack far away": {
@@ -100,7 +100,7 @@
     "msgstr": "Jour"
   },
   "Saved!": {
-    "reference": ["src/Game.tsx:217:34"],
+    "reference": ["src/Game.tsx:218:34"],
     "msgstr": "Sauvegardé!"
   },
   "beauty": {
@@ -183,36 +183,59 @@
     "reference": ["src/market/Market.tsx:18:33"],
     "msgstr": "Marché"
   },
+  "{buildingCustomerCount} customer came to {buildingName}.": {
+    "reference": ["src/nextday/report.ts:152:19"],
+    "msgstr": "{buildingCustomerCount} client est venu à {buildingName}."
+  },
   "{buildingCustomerCount} customers came to {buildingName}.": {
-    "reference": ["src/nextday/report.ts:151:19"],
     "msgstr": "{buildingCustomerCount} clients sont venus à {buildingName}."
   },
   " {leavingCustomerCount} left because of the prices.": {
-    "reference": ["src/nextday/report.ts:156:18"],
+    "reference": ["src/nextday/report.ts:162:18"],
     "msgstr": " {leavingCustomerCount} sont partis à cause des prix."
   },
   " {extraCustomerCount} could not be serviced.": {
-    "reference": ["src/nextday/report.ts:159:18"],
+    "reference": ["src/nextday/report.ts:165:18"],
     "msgstr": " {extraCustomerCount} n'ont pas pu être servis."
   },
-  ". {redirectedCustomerCount} of them were redirected to the next building.": {
-    "reference": ["src/nextday/report.ts:161:20"],
-    "msgstr": ". {redirectedCustomerCount} d'entre eux ont été redirigés vers le bâtiment suivant."
+  " {redirectedCustomerCount} of them was redirected to the next building.": {
+    "reference": ["src/nextday/report.ts:167:20"],
+    "msgstr": " {redirectedCustomerCount} d'entre eux a été redirigé vers le bâtiment suivant."
   },
-  "{name} can work with {maximum} customers. She received {count} customers today, earning {goldChange} gold.": {
-    "reference": ["src/nextday/report.ts:180:18"],
-    "msgstr": "{name} peut travailler avec {maximum} clients. Elle a reçu {count} clients aujourd'hui, gagnant {goldChange} or."
+  " {redirectedCustomerCount} of them were redirected to the next building.": {
+    "msgstr": " {redirectedCustomerCount} d'entre eux ont été redirigés vers le bâtiment suivant."
+  },
+  "{name} can work with {maximum} customer. ": {
+    "reference": ["src/nextday/report.ts:192:11"],
+    "msgstr": "{name} peut travailler avec {maximum} client."
+  },
+  "{name} can work with {maximum} customers. ": {
+    "msgstr": "{name} peut travailler avec {maximum} clients."
+  },
+  "She received {count} customer today, ": {
+    "reference": ["src/nextday/report.ts:198:11"],
+    "msgstr": "Elle a reçu {count} client aujourd'hui, "
+  },
+  "She received {count} customers today, ": {
+    "msgstr": "Elle a reçu {count} clients aujourd'hui, "
+  },
+  "earning {goldChange} gold.": {
+    "reference": ["src/nextday/report.ts:204:11"],
+    "msgstr": "gagnant {goldChange} pièce d'or."
+  },
+  "earning {goldChange} golds.": {
+    "msgstr": "gagnant {goldChange} pièces d'or."
   },
   "In total you {earnedOrLost} {goldChange} gold today.": {
-    "reference": ["src/nextday/report.ts:223:14"],
+    "reference": ["src/nextday/report.ts:247:14"],
     "msgstr": "Au total, vous avez {earnedOrLost} {goldChange} or aujourd'hui."
   },
   "earned": {
-    "reference": ["src/nextday/report.ts:224:44"],
+    "reference": ["src/nextday/report.ts:248:44"],
     "msgstr": "gagné"
   },
   "lost": {
-    "reference": ["src/nextday/report.ts:224:58"],
+    "reference": ["src/nextday/report.ts:248:58"],
     "msgstr": "perdu"
   },
   "Previous": {

@@ -64,7 +64,7 @@ export function Game(prop: GameProp) {
     initialState.buildingArray.forEach((g) => (g.owned = true))
   }
 
-  let { t } = useT()
+  let { t, nt } = useT()
   let [gold, setGold] = React.useState(initialState.gold)
   let [day, setDay] = React.useState(initialState.day)
   let [footerContent, setFooterContent] = React.useState("")
@@ -203,6 +203,7 @@ export function Game(prop: GameProp) {
                   girlArray: girlArray.filter((g) => g.owned),
                   buildingById: buildingById,
                   t,
+                  nt,
                 })
                 if (report.length === 0) {
                   console.error("The report is empty")

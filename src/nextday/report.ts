@@ -1,16 +1,17 @@
 import { getBuildingName } from "src/activity/Building"
 import { getParaActivityMessage, getParaActivityStatChange } from "../activity/activity"
 import { createGirl, healthTag } from "../girl/girl"
-import { Building, Girl, GirlInfo, Report, TFunction } from "../type"
+import { Building, Girl, GirlInfo, NTFunction, Report, TFunction } from "../type"
 
 export interface NextDayReportParam {
   girlArray: GirlInfo[]
   buildingById: Record<string, Building>
   t: TFunction
+  nt: NTFunction
 }
 
 export function nextDayReport(param: NextDayReportParam): Report {
-  let { girlArray, buildingById, t } = param
+  let { girlArray, buildingById, t, nt } = param
   let report: Report = []
 
   //
@@ -148,19 +149,29 @@ export function nextDayReport(param: NextDayReportParam): Report {
       () => Math.random() < 0.5,
     ).length
 
-    let message = t(`{buildingCustomerCount} customers came to {buildingName}.`, {
+    let message = nt(
+      `{buildingCustomerCount} customer came to {buildingName}.`,
+      `{buildingCustomerCount} customers came to {buildingName}.`,
       buildingCustomerCount,
-      buildingName: getBuildingName(building, t),
-    })
+      {
+        buildingCustomerCount,
+        buildingName: getBuildingName(building, t),
+      },
+    )
     if (leavingCustomerCount) {
       message += t(` {leavingCustomerCount} left because of the prices.`, { leavingCustomerCount })
     }
     if (extraCustomerCount) {
       message += t(` {extraCustomerCount} could not be serviced.`, { extraCustomerCount })
       if (redirectedCustomerCount) {
-        message += t(`. {redirectedCustomerCount} of them were redirected to the next building.`, {
+        message += nt(
+          ` {redirectedCustomerCount} of them was redirected to the next building.`,
+          ` {redirectedCustomerCount} of them were redirected to the next building.`,
           redirectedCustomerCount,
-        })
+          {
+            redirectedCustomerCount,
+          },
+        )
       }
     }
 
@@ -177,10 +188,23 @@ export function nextDayReport(param: NextDayReportParam): Report {
       report.push({
         kind: "girl",
         girlName: name,
-        message: t(
-          `{name} can work with {maximum} customers. She received {count} customers today, earning {goldChange} gold.`,
-          { name, maximum: girl.getMaxiumumCustomerCount(), count, goldChange },
-        ),
+        message: [
+          nt(
+            `{name} can work with {maximum} customer. `,
+            `{name} can work with {maximum} customers. `,
+            girl.getMaxiumumCustomerCount(),
+            { name, maximum: girl.getMaxiumumCustomerCount() },
+          ),
+          nt(
+            `She received {count} customer today, `,
+            `She received {count} customers today, `,
+            count,
+            { count },
+          ),
+          nt(`earning {goldChange} gold.`, `earning {goldChange} golds.`, goldChange, {
+            goldChange,
+          }),
+        ].join(""),
         statChange: {
           prominence: 0,
           libido: 0,

@@ -1,6 +1,12 @@
 import { SetStateAction } from "react"
 
 export type TFunction = (key: string, interpolation?: Record<string, string | number>) => string
+export type NTFunction = (
+  key: string,
+  pluralKey: string,
+  count: number,
+  interpolation?: Record<string, string | number>,
+) => string
 
 export interface Config {
   devMode: boolean

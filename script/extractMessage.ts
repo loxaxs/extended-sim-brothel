@@ -18,12 +18,18 @@ interface Unit {
 
 function mergeAndFormat(messages: any, existing: Record<string, Unit>): Record<string, Unit> {
   let content = {}
-  messages.forEach(({ msgid, msgstr, comments }) => {
+  messages.forEach(({ msgid, msgid_plural, msgstr, comments }) => {
     content[msgid] = {
       reference: comments.reference.map(
         ({ filename, line, column }) => `${filename.replace(/\\/g, "/")}:${line}:${column + 1}`,
       ),
       msgstr: msgstr[0] || existing[msgid]?.msgstr || "",
+    }
+
+    if (msgid_plural) {
+      content[msgid_plural] = {
+        msgstr: existing[msgid_plural]?.msgstr || "",
+      }
     }
   })
   return content

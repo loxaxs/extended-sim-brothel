@@ -1,6 +1,6 @@
 import frTranslationContent from "locale/fr.json"
 import { createContext, ReactNode, SetStateAction, useContext, useMemo, useState } from "react"
-import { TFunction } from "src/type"
+import { NTFunction, TFunction } from "src/type"
 
 let enTranslationContent = {}
 Object.entries(frTranslationContent).forEach(([key, unit]) => {
@@ -14,10 +14,17 @@ let translationSet = {
 
 let i18nContext = createContext<{
   t: TFunction
+  nt: NTFunction
   language: string
   setLanguage: (value: SetStateAction<string>) => void
 }>({
   t: (key: string, interpolation?: Record<string, string | number>) => "",
+  nt: (
+    key: string,
+    pluralKey: string,
+    count: number,
+    interpolation?: Record<string, string | number>,
+  ) => "",
   language: "",
   setLanguage: (value: SetStateAction<string>) => {},
 })
@@ -36,6 +43,19 @@ export function ProvideT(prop: ProvideTProp) {
     () => ({
       t: (key: string, interpolation: Record<string, string | number> = {}) => {
         let text = translationSet[language][key]?.msgstr ?? `‽${key}`
+        Object.entries(interpolation).forEach(([key, value]) => {
+          text = text.replaceAll(`{${key}}`, value)
+        })
+        return text
+      },
+      nt: (
+        key: string,
+        pluralKey: string,
+        count: number,
+        interpolation: Record<string, string | number> = {},
+      ) => {
+        let text =
+          translationSet[language][Math.abs(count) > 1 ? pluralKey : key]?.msgstr ?? `‽${key}`
         Object.entries(interpolation).forEach(([key, value]) => {
           text = text.replaceAll(`{${key}}`, value)
         })
