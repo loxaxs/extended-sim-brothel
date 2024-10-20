@@ -222,7 +222,13 @@ export function Game(prop: GameProp) {
           ".buybuilding": () => (
             <BuildingList buildingArray={buildingArray} act={{ kind: "buy", gold }} />
           ),
-          ".girl": () => <GirlDetailView girl={girlByName[getName(0)]} navigation={navigation} />,
+          ".girl": () => (
+            <GirlDetailView
+              key={getName(0)}
+              girl={girlByName[getName(0)]}
+              navigation={navigation}
+            />
+          ),
           ".girl.setActivity": () => (
             <BuildingList
               buildingArray={buildingArray}
