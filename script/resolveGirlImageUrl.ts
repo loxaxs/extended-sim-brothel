@@ -46,7 +46,7 @@ function getFetcher({ waitDurationMs }: { waitDurationMs: number }) {
     running = true
     while (queue.length) {
       let [resolver, url] = queue.shift()!
-      console.log("Fetching", Date.now(), url)
+      console.log(`ts=${Date.now() % 3_600_000}`, "Fetching", url)
       await new Promise((resolve) => setTimeout(resolve, waitDurationMs))
       let response = await fetch(url)
       resolver(response)
@@ -57,7 +57,7 @@ function getFetcher({ waitDurationMs }: { waitDurationMs: number }) {
 }
 
 function main() {
-  let fetcher = getFetcher({ waitDurationMs: 0 })
+  let fetcher = getFetcher({ waitDurationMs: 500 })
 
   walkPath(__dirname + "/../esbpic", async ({ file, fullPath }) => {
     let fileNameParts = file.split(".")
