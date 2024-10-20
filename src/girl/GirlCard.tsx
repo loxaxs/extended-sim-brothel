@@ -29,11 +29,12 @@ export function GirlListCard(prop: GirlListCardProp) {
       <div style={{ height: 100 }}>
         <GirlDisplay className="m-auto" girl={cGirl} tag="mini" maxSize={100} />
       </div>
-      <div>
-        {girl.name}{" "}
-        {act.kind === "home" &&
-          `♥ ${girl.health} : ${girl.sessionPrice} x ${cGirl.getMaxiumumCustomerCount()}`}
-      </div>
+      <div>{girl.name}</div>
+      {act.kind === "home" && (
+        <div>
+          {`♥ ${girl.health} : ${girl.sessionPrice} x ${cGirl.getMaxiumumCustomerCount()}`}
+        </div>
+      )}
       {act.kind === "home" && (
         <>
           <ShowActivity girl={girl} />
