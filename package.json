@@ -11,16 +11,24 @@
     "dev": "parcel src/index.html",
     "build": "parcel build src/index.html",
     "vercelbuild": "wireit",
-    "resolveGirlImageUrl": "ts-node script/resolveGirlImageUrl.ts",
-    "generateAssetLoader": "ts-node script/generateAssetLoader.ts"
+    "resolveGirlImageUrl": "wireit",
+    "generateAssetLoader": "wireit"
   },
   "wireit": {
     "vercelbuild": {
       "command": "yarn build",
       "dependencies": [
-        "resolveGirlImageUrl",
         "generateAssetLoader"
       ]
+    },
+    "generateAssetLoader": {
+      "command": "ts-node script/generateAssetLoader.ts",
+      "dependencies": [
+        "resolveGirlImageUrl"
+      ]
+    },
+    "resolveGirlImageUrl": {
+      "command": "ts-node script/resolveGirlImageUrl.ts"
     }
   },
   "dependencies": {
