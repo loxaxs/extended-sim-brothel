@@ -51,16 +51,44 @@
     "reference": ["src/activity/Building.tsx:64:8"],
     "msgstr": "Palais central"
   },
+  "{capacity} free room{s} / {total}": {
+    "reference": ["src/activity/Building.tsx:117:25"],
+    "msgstr": "{capacity} chambre{s} libre{s} / {total}"
+  },
+  "{capacity} room{s}": {
+    "reference": ["src/activity/Building.tsx:122:25"],
+    "msgstr": "{capacity} chambre{s}"
+  },
+  "Buy for {price} gold": {
+    "reference": ["src/activity/Building.tsx:133:28", "src/girl/GirlDetailView.tsx:69:14"],
+    "msgstr": "Acheter pour {price} or"
+  },
+  "You own all the buildings": {
+    "reference": ["src/activity/Building.tsx:162:15"],
+    "msgstr": "Vous possédez tous les bâtiments"
+  },
+  "Are you sure you want to buy the {building} for {price} gold?": {
+    "reference": ["src/activity/Building.tsx:179:10"],
+    "msgstr": "Êtes-vous sûr de vouloir acheter le {building} pour {price} or ?"
+  },
+  "Yes": {
+    "reference": ["src/activity/Building.tsx:184:59", "src/save/Save.tsx:61:12"],
+    "msgstr": "Oui"
+  },
+  "No": {
+    "reference": ["src/activity/Building.tsx:186:10", "src/save/Save.tsx:64:12"],
+    "msgstr": "Non"
+  },
   "Gold": {
-    "reference": ["src/Game.tsx:172:12", "src/save/Save.tsx:58:61", "src/save/Save.tsx:90:75"],
+    "reference": ["src/Game.tsx:179:12", "src/save/Save.tsx:58:61", "src/save/Save.tsx:90:75"],
     "msgstr": "Or"
   },
   "Day": {
-    "reference": ["src/Game.tsx:179:18", "src/save/Save.tsx:58:12", "src/save/Save.tsx:90:22"],
+    "reference": ["src/Game.tsx:186:18", "src/save/Save.tsx:58:12", "src/save/Save.tsx:90:22"],
     "msgstr": "Jour"
   },
   "Saved!": {
-    "reference": ["src/Game.tsx:210:34"],
+    "reference": ["src/Game.tsx:217:34"],
     "msgstr": "Sauvegardé!"
   },
   "beauty": {
@@ -107,9 +135,21 @@
     "reference": ["src/girl/girl.ts:56:42"],
     "msgstr": "prix d'acquisition"
   },
+  "Set activity": {
+    "reference": ["src/girl/GirlDetailView.tsx:92:19"],
+    "msgstr": "Définir l'activité"
+  },
   "The market is empty.": {
     "reference": ["src/girl/GirlList.tsx:40:59"],
     "msgstr": "Le marché est vide."
+  },
+  "Session price": {
+    "reference": ["src/girl/SessionPriceSelector.tsx:18:13"],
+    "msgstr": "Prix de la séance"
+  },
+  "g": {
+    "reference": ["src/girl/SessionPriceSelector.tsx:27:10"],
+    "msgstr": "or"
   },
   "Girl market": {
     "reference": ["src/home/Home.tsx:38:14"],
@@ -126,6 +166,10 @@
   "New Day": {
     "reference": ["src/home/Home.tsx:53:47"],
     "msgstr": "Nouveau jour"
+  },
+  "Market": {
+    "reference": ["src/market/Market.tsx:18:33"],
+    "msgstr": "Marché"
   },
   "{buildingCustomerCount} customers came to {buildingName}.": {
     "reference": ["src/nextday/report.ts:151:19"],
@@ -183,14 +227,6 @@
     "reference": ["src/save/Save.tsx:58:35", "src/save/Save.tsx:90:49"],
     "msgstr": "Filles"
   },
-  "Yes": {
-    "reference": ["src/save/Save.tsx:61:12"],
-    "msgstr": "Oui"
-  },
-  "No": {
-    "reference": ["src/save/Save.tsx:64:12"],
-    "msgstr": "Non"
-  },
   "Load": {
     "reference": ["src/save/Save.tsx:100:41"],
     "msgstr": "Charger"
@@ -202,6 +238,10 @@
   "Delete": {
     "reference": ["src/save/Save.tsx:104:24"],
     "msgstr": "Supprimer"
+  },
+  "Save and unload": {
+    "reference": ["src/save/Save.tsx:117:20"],
+    "msgstr": "Sauvegarder et fermer"
   },
   "Duplicate to save {index}": {
     "reference": ["src/save/Save.tsx:132:24"],

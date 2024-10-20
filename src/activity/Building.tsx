@@ -28,7 +28,7 @@ export function getBuildingArray() {
     createBuilding("A", 1, 50, 0),
     createBuilding("B", 2, 250, 10),
     createBuilding("C", 3, 1000, 30),
-    createBuilding("D", 3, 5000, 50),
+    createBuilding("D", 3, 5000, 60),
     createBuilding("E", 5, 15000, 65),
     createBuilding("F", 7, 25000, 80),
     createBuilding("G", 10, 45000, 110),
@@ -63,11 +63,6 @@ export function getBuildingName(building: Building, t: TFunction): string {
     F: t("Palace on central road"),
     G: t("Central palace"),
   }[building.id]!
-}
-
-export function BuildingName(prop: { building: Building }): string {
-  let { t } = useT()
-  return getBuildingName(prop.building, t)
 }
 
 export function BuildingList(prop: BuildingListProp) {
@@ -118,8 +113,13 @@ export function BuildingList(prop: BuildingListProp) {
                 >
                   <div>{getBuildingName(building, t)}</div>
                   <p className="mb-3">
-                    {capacity}
-                    {act.kind === "setActivity" && " free"} room{s}
+                    {act.kind === "setActivity"
+                      ? t("{capacity} free room{s} / {total}", {
+                          capacity,
+                          s,
+                          total: building.capacity,
+                        })
+                      : t("{capacity} room{s}", { capacity, s })}
                     {act.kind === "buy" && (
                       <span className="float-right">
                         <Button
@@ -130,7 +130,7 @@ export function BuildingList(prop: BuildingListProp) {
                             })
                           }}
                         >
-                          Buy for {building.price} gold
+                          {t("Buy for {price} gold", { price: building.price })}
                         </Button>
                       </span>
                     )}
@@ -159,7 +159,7 @@ export function BuildingList(prop: BuildingListProp) {
         </div>
       )}
       {act.kind === "buy" && buildingArray.every((b) => b.owned) && (
-        <div>You own all the buildings</div>
+        <div>{t("You own all the buildings")}</div>
       )}
     </div>
   )
@@ -172,15 +172,18 @@ export interface BuyBuildingConfirmProp {
 }
 
 export function BuyBuildingConfirm(prop: BuyBuildingConfirmProp) {
+  let { t } = useT()
   return (
     <div>
       <div>
-        Are you sure you want to buy the <BuildingName building={prop.building} /> for{" "}
-        {prop.building.price} gold?
+        {t("Are you sure you want to buy the {building} for {price} gold?", {
+          building: getBuildingName(prop.building, t),
+          price: prop.building.price,
+        })}
       </div>
-      <Button onClick={() => prop.buy(prop.building.id)}>Yes</Button>
+      <Button onClick={() => prop.buy(prop.building.id)}>{t("Yes")}</Button>
       <Button onClick={prop.cancel} ml3>
-        No
+        {t("No")}
       </Button>
     </div>
   )

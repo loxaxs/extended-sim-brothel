@@ -28,6 +28,28 @@ async function walkPath(
   )
 }
 
+async function getPageData(
+  fetcher: { addUrl: (url: string) => Promise<Response> },
+  pageUrl: string,
+) {
+  let response = await fetcher.addUrl(pageUrl + ".json")
+  let textdata = ""
+  try {
+    textdata = await response.text()
+  } catch (e) {
+    console.error(`Failed to get text data for page "${pageUrl}" (${e})`)
+    process.exit(1)
+  }
+  let data: any
+  try {
+    data = JSON.parse(textdata)
+  } catch (e) {
+    console.log(`ERROR: Failed to parse data as json for page "${pageUrl}" (${e}):`, textdata)
+    process.exit(1)
+  }
+  return data
+}
+
 function getFetcher({ waitDurationMs }: { waitDurationMs: number }) {
   let lastPromise = Promise.resolve(null as unknown as Response)
   let queue: [(value: Response) => void, string][] = []
@@ -54,6 +76,39 @@ function getFetcher({ waitDurationMs }: { waitDurationMs: number }) {
     running = false
   }
   return { addUrl }
+}
+
+async function getLocalImagePath(
+  media: string,
+  directory: string,
+  girlName: string,
+  tagList: string[],
+  artist: string,
+  namePool: Record<string, true>,
+) {
+  let extension = media.split(".").slice(-1)[0]
+  let suffix = ""
+  let mediaPath = () =>
+    `${directory}/${girlName}--${tagList.join(",")}${artist}${suffix}.picture.pic.${extension}`
+
+  let infiniteLoop = 0
+  while ((await fsp.stat(mediaPath()).catch(() => false)) || namePool[mediaPath()]) {
+    suffix = `--${Number(suffix.slice(2) || 0) + 1}`
+    if (infiniteLoop++ > 100) {
+      console.error("Infinite loop detected")
+      process.exit(255)
+    }
+  }
+  namePool[mediaPath()] = true
+  return mediaPath()
+}
+
+async function downloadImage(url: string, path: string) {
+  let response = await fetch(url)
+  let blob = await response.blob()
+  let arrayBuffer = await blob.arrayBuffer()
+  await fsp.writeFile(path, Buffer.from(arrayBuffer) as any)
+  console.log("Downloaded", url, "to", path)
 }
 
 function main() {
@@ -100,7 +155,7 @@ function main() {
 
       let skipDownloadCount = 0
       let namePool: Record<string, true> = {}
-      let entryListPromise = Promise.all(
+      let entryList = await Promise.all(
         content
           .split("\n")
           .filter((x) => x)
@@ -124,24 +179,7 @@ function main() {
                   return [pageUrl, existing]
                 }
               }
-              let response = await fetcher.addUrl(pageUrl + ".json")
-              let textdata = ""
-              try {
-                textdata = await response.text()
-              } catch (e) {
-                console.error(`Failed to get text data for page "${pageUrl}" (${e})`)
-                process.exit(1)
-              }
-              let data: any
-              try {
-                data = JSON.parse(textdata)
-              } catch (e) {
-                console.log(
-                  `ERROR: Failed to parse data as json for page "${pageUrl}" (${e}):`,
-                  textdata,
-                )
-                process.exit(1)
-              }
+              let data: any = await getPageData(fetcher, pageUrl)
               artist = data.tag_string_artist?.replace(/ /g, ",") ?? ""
               if (artist) {
                 artist = `--${artist}`
@@ -161,32 +199,22 @@ function main() {
               }
             }
             if (process.argv.includes("--download")) {
-              let extension = media.split(".").slice(-1)[0]
-              let suffix = ""
-              let mediaPath = () =>
-                `${directory}/${girlName}--${tagList.join(",")}${artist}${suffix}.picture.pic.${extension}`
+              let path = await getLocalImagePath(
+                media,
+                directory,
+                girlName,
+                tagList,
+                artist,
+                namePool,
+              )
 
-              let infiniteLoop = 0
-              while ((await fsp.stat(mediaPath()).catch(() => false)) || namePool[mediaPath()]) {
-                suffix = `--${Number(suffix.slice(2) || 0) + 1}`
-                if (infiniteLoop++ > 100) {
-                  console.error("Infinite loop detected")
-                  process.exit(255)
-                }
-              }
-              namePool[mediaPath()] = true
-
-              let response = await fetch(media)
-              let blob = await response.blob()
-              let arrayBuffer = await blob.arrayBuffer()
-              await fsp.writeFile(mediaPath(), Buffer.from(arrayBuffer) as any)
-              console.log("Downloaded", media, "to", mediaPath())
+              downloadImage(media, path)
               return null
             }
             return [pageUrl, { media, tags: tagList.join(" ") }]
           }),
       )
-      let entryList = await entryListPromise
+
       let filteredEntryList: [string, { media: string; tags: string }][] = entryList.filter(
         (x) => x,
       ) as any

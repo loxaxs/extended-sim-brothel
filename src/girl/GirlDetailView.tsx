@@ -1,6 +1,7 @@
 import React, { useReducer, useRef } from "react"
 import { ShowActivity } from "src/activity/ShowActivity"
 import { gameContext } from "src/context/context"
+import { useT } from "src/i18n/useT"
 import { GirlInfo, SizeArray } from "../type"
 import { Button } from "../ui/button/Button"
 import { createGirl } from "./girl"
@@ -33,10 +34,17 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
     tag = "unhealthy"
   }
 
+  let { t } = useT()
   let sizeRef = useRef<SizeArray>([])
   let [, rerender] = useReducer((x) => !x, false)
-  let [sessionPrice, setSessionPrice] = React.useState(girl.sessionPrice)
-  girl.sessionPrice = sessionPrice
+  let [sessionPrice, updateSessionPrice] = React.useReducer(
+    (oldPrice: number, act: { action: "delta"; delta: number }) => {
+      let price = act.delta + oldPrice
+      girl.sessionPrice = price
+      return price
+    },
+    girl.sessionPrice,
+  )
   let { changePath } = React.useContext(gameContext)
 
   return (
@@ -58,7 +66,7 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
             onClick={() => mi.buy(girl.name)}
             disabled={girl.acquisitionPrice > mi.gold}
           >
-            Buy for {girl.acquisitionPrice} gold
+            {t("Buy for {price} gold", { price: girl.acquisitionPrice })}
           </Button>
         )}
         <span className="flex justify-between gap-2">
@@ -70,7 +78,10 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
         <GirlStat girl={girl} />
         {!mi && (
           <>
-            <SessionPriceSelector sessionPrice={sessionPrice} setSessionPrice={setSessionPrice} />
+            <SessionPriceSelector
+              sessionPrice={sessionPrice}
+              updateSessionPrice={updateSessionPrice}
+            />
             <ShowActivity girl={girl} />
             <Button
               className="mx-auto block hover:bg-amber-50"
@@ -78,7 +89,7 @@ export function GirlDetailView(prop: GirlDetailViewProp) {
                 changePath({ pathAddition: [`setActivity:${girl.name}`] })
               }}
             >
-              🏠 Set activity
+              🏠 {t("Set activity")}
             </Button>
           </>
         )}

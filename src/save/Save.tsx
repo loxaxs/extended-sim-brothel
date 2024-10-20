@@ -114,7 +114,7 @@ export function SelectSaveFile(prop: SelectSaveFileProp) {
                     setSaveIndex(0)
                   }}
                 >
-                  Save and unload
+                  {t("Save and unload")}
                 </Button>
               )}
               <div>

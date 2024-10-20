@@ -260,6 +260,7 @@ export function Game(prop: GameProp) {
           ),
           ".market.girl": () => (
             <GirlDetailView
+              key={getName(1)}
               girl={girlByName[getName(1)]}
               navigation={navigation}
               marketInfo={{
