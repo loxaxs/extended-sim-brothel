@@ -57,6 +57,13 @@ export interface GameProp {
 export function Game(prop: GameProp) {
   let { devMode, safeMode } = prop.config
   let initialState = prop.save.hasData ? prop.save : newGameState(prop.config)
+  if (prop.config.achieve.includes("allGirl")) {
+    initialState.girlArray.forEach((g) => (g.owned = true))
+  }
+  if (prop.config.achieve.includes("allBuilding")) {
+    initialState.buildingArray.forEach((g) => (g.owned = true))
+  }
+
   let { t } = useT()
   let [gold, setGold] = React.useState(initialState.gold)
   let [day, setDay] = React.useState(initialState.day)

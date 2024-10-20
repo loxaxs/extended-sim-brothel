@@ -16,6 +16,7 @@ function getConfig() {
     safeMode: [() => false],
     save: [() => 0],
     allGirlMode: [() => false],
+    achieve: [() => "", (value) => value.split(",")],
     language: [() => "en"],
   })
 }

@@ -8,8 +8,11 @@ export interface Config {
   safeMode: boolean
   save: number
   allGirlMode: boolean
+  achieve: Achievable[]
   language: "en" | "fr"
 }
+
+export type Achievable = "allGirl" | "allBuilding"
 
 export interface SaveExtraData {
   index: number
