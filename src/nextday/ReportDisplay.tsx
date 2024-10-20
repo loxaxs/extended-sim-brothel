@@ -63,7 +63,7 @@ export function ReportDisplay(prop: ReportDisplayProp) {
           setPage((p) => p + 1)
         }}
       >
-        {page + 1 >= report.length ? t("Exit report") : t("Next")}
+        {page + 1 >= report.length ? t("Close report") : t("Next")}
       </Button>
     </>
   )

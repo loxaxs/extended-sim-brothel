@@ -5,3 +5,7 @@ export function formatBigNumber(num: number): string {
   }
   return t.reverse().join("")
 }
+
+export function signed(num: number): string {
+  return num >= 0 ? `+${num}` : `${num}`
+}

@@ -1,27 +1,39 @@
 {
   "Rest": {
-    "reference": ["src/activity/activity.ts:15:11"],
+    "reference": ["src/activity/activity.ts:16:11"],
     "msgstr": "Repo"
   },
   "Ceremony": {
-    "reference": ["src/activity/activity.ts:16:15"],
+    "reference": ["src/activity/activity.ts:17:15"],
     "msgstr": "Cérémonie"
   },
   "Poetry School": {
-    "reference": ["src/activity/activity.ts:17:19"],
+    "reference": ["src/activity/activity.ts:18:19"],
     "msgstr": "École de poésie"
   },
   "Dance School": {
-    "reference": ["src/activity/activity.ts:18:18"],
+    "reference": ["src/activity/activity.ts:19:18"],
     "msgstr": "École de dance"
   },
   "Sex School": {
-    "reference": ["src/activity/activity.ts:19:16"],
+    "reference": ["src/activity/activity.ts:20:16"],
     "msgstr": "École de sexe"
   },
   "Bondage School": {
-    "reference": ["src/activity/activity.ts:20:20"],
+    "reference": ["src/activity/activity.ts:21:20"],
     "msgstr": "École de bondage"
+  },
+  "{statName} ({delta})": {
+    "reference": ["src/activity/activity.ts:70:28"],
+    "msgstr": "{statName} ({delta})"
+  },
+  "{name} went to {activityName} and gained/lost {statChangeMessage}.": {
+    "reference": ["src/activity/activity.ts:74:12"],
+    "msgstr": "{name} est allée à {activityName} et a gagné/perdu {statChangeMessage}."
+  },
+  "{name} went to {activityName} and nothing happened.": {
+    "reference": ["src/activity/activity.ts:80:10"],
+    "msgstr": "{name} est allée à {activityName} et il ne s'est rien passé."
   },
   "Old shack far away": {
     "reference": ["src/activity/Building.tsx:58:8"],
@@ -207,12 +219,12 @@
     "reference": ["src/nextday/ReportDisplay.tsx:54:10"],
     "msgstr": "Précédent"
   },
-  "Exit report": {
+  "Close report": {
     "reference": ["src/nextday/ReportDisplay.tsx:66:38"],
-    "msgstr": "Quitter le rapport"
+    "msgstr": "Fermer le rapport"
   },
   "Next": {
-    "reference": ["src/nextday/ReportDisplay.tsx:66:57"],
+    "reference": ["src/nextday/ReportDisplay.tsx:66:58"],
     "msgstr": "Suivant"
   },
   "Save file #{index}": {

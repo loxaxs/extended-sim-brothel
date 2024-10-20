@@ -130,10 +130,10 @@ export function nextDayReport(param: NextDayReportParam): Report {
     setGirlIndex(0)
     Array.from({ length: buildingCustomerCount - distributedCustomerCount }).some(() => {
       if (customerCountByGirl[name] >= max) {
-        setGirlIndex(girlIndex + 1)
-        if (girlIndex >= girlList.length) {
+        if (girlIndex + 1 >= girlList.length) {
           return true
         }
+        setGirlIndex(girlIndex + 1)
       }
       if (bargain + Math.random() > 1) {
         customerCountByGirl[name]++

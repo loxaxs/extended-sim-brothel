@@ -1,3 +1,5 @@
+import { getMaxGirlStat } from "src/girl/girl"
+import { signed } from "src/lib/number"
 import { randomInt } from "../lib/random"
 import { Activity, GirlInfo, GirlStatChange, OtherActivity, TFunction } from "../type"
 
@@ -63,15 +65,23 @@ export function getParaActivityStatChange(girl: GirlInfo): GirlStatChange {
 }
 
 export function getParaActivityMessage(girl: GirlInfo, statChange: GirlStatChange, t: TFunction) {
+  let maxGirlStat = getMaxGirlStat(t)
   let statChangeMessage = Object.entries(statChange)
     .filter(([k, v]) => v !== 0)
-    .map(([name, diff]) => `${name} (${diff})`)
+    .map(([name, diff]) =>
+      t(`{statName} ({delta})`, { statName: maxGirlStat[name].name, delta: signed(diff) }),
+    )
     .join(", ")
   let activityName = getOtherActivityName(girl.activity.kind, t)
   if (statChangeMessage) {
-    statChangeMessage = ` and gained or loss ${statChangeMessage}`
-  } else {
-    statChangeMessage = " and nothing happened"
+    return t(`{name} went to {activityName} and gained/lost {statChangeMessage}.`, {
+      name: girl.name,
+      activityName,
+      statChangeMessage,
+    })
   }
-  return `Girl ${girl.name} went to ${activityName}${statChangeMessage}.`
+  return t(`{name} went to {activityName} and nothing happened.`, {
+    name: girl.name,
+    activityName,
+  })
 }
