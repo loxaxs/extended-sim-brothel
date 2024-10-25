@@ -146,7 +146,7 @@ function main() {
         directoryContent = await fsp.readdir(directory)
       } catch {}
       directoryContent.filter((name) => {
-        let m = name.match(/^([^-]*--[^-]*)(--([^.]*))?\.picture\.pic\.([^.]+)$/)
+        let m = name.match(/^([^-]*--[^-]*)(--([^.]*))?\.picture(\.pic\.([^.]+)|\.([^.]+)\.pic)$/)
         if (!m) {
           return null
         }
