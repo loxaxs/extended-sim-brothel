@@ -189,10 +189,10 @@ It lists 31 different girls in total. Four more of them can be found in the mark
 - +Motoko
 - Mikuru (suzumiya_haruhi_no_yuuutsu)
 - Nami
-- Naru
+- Naru ??
 - Nico Robin
 - Orihime
-- Osaka
+- Osaka / kasuga_ayumu
 - Ranma
 - Rei
 - Rikku
